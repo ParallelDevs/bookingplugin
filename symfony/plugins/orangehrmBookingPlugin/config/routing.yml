@@ -1,0 +1,45 @@
+configure_booking:
+   url: /booking/configureBooking
+   param: { module: booking, action: configureBooking }
+   with_wildcard_routes: false
+
+bookable_list:
+   url:   /booking/viewBookableResources/*
+   param: { module: booking, action: viewBookableResources }
+   with_wildcard_routes: true
+
+add_bookable:
+   url: /booking/addBookableResource
+   param: { module: booking, action: addBookableResource }
+   with_wildcard_routes: false
+
+view_bookable:
+   url: /booking/viewBookableResource/*
+   param: { module: booking, action: viewBookableResource }
+   with_wildcard_routes: false
+   
+add_booking:
+   url: /booking/addBooking
+   param: { module: booking, action: addBooking }
+   with_wildcard_routes: false
+
+bookables_json:
+   url:   /booking/bookables.json
+   param: { module: booking, action: getBookables, sf_format: json }
+
+bookings_json:
+   url:   /booking/bookings.json
+   param: { module: booking, action: getBookings, sf_format: json }
+      
+customer_projects: 
+   url:   /booking/customerProjects.json
+   param: { module: booking, action: getCustomerProjects, sf_format: json }
+
+bookable_workshifts:
+   url:   /booking/bookableWorkShifts.json
+   param: { module: booking, action: getBookableWorkShift, sf_format: json }
+    
+add_booking_ajax:
+   url: /booking/addBookingModal
+   param: { module: booking, action: addBookingModal , sf_format: json}   
+
