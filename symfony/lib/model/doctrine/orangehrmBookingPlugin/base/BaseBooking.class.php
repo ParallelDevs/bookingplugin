@@ -9,7 +9,7 @@
  * @property integer $bookableId
  * @property integer $projectId
  * @property integer $customerId
- * @property datetime $startAT
+ * @property datetime $startAt
  * @property datetime $endAt
  * @property smallint $allDay
  * @property clob $availableOn
@@ -68,7 +68,7 @@ abstract class BaseBooking extends sfDoctrineRecord {
       'notnull' => true,
       'length' => 4,
     ));
-    $this->hasColumn('start_at as startAT', 'datetime', null, array(
+    $this->hasColumn('start_at as startAt', 'datetime', null, array(
       'type' => 'datetime',
       'notnull' => true,
     ));

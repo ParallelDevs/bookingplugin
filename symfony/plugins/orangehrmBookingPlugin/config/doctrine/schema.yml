@@ -45,7 +45,7 @@ Booking:
       type: integer(4)
       notnull: true
      start_at:
-       name: start_at as startAT
+       name: start_at as startAt
        type: datetime
        notnull: true
      end_at:

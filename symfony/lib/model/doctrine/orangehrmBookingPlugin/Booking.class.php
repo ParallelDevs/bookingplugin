@@ -22,7 +22,7 @@ class Booking extends PluginBooking {
    * @return type
    */
   public function getEventStart() {
-    $time = strtotime($this->startAT);
+    $time = strtotime($this->startAt);
     $date = date('c', $time);
     return $date;
   }
@@ -66,7 +66,7 @@ class Booking extends PluginBooking {
    * @return type
    */
   public function getDuration() {
-    $start = strtotime($this->startAT);
+    $start = strtotime($this->startAt);
     $end = strtotime($this->endAt);
     $startDate = date('Y-m-d', $start);
     $endDate = date('Y-m-d', $end);
