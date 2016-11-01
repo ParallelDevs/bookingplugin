@@ -13,8 +13,8 @@ class getBookingsAction extends baseBookingAction {
    */
   public function execute($request) {
 
-    $start = $request->hasParameter('start') ? $request->getParameter('start') : '';
-    $end = $request->hasParameter('end') ? $request->getParameter('end') : '';
+    $start = $request->hasParameter('start') ? $request->getParameter('start') : date('Y-m-d');
+    $end = $request->hasParameter('end') ? $request->getParameter('end') : date('Y-m-d');
     $bookableId = $request->hasParameter('bookableId') ? $request->getParameter('bookableId') : '';
     $mode = $request->hasParameter('mode') ? $request->getParameter('mode') : '';
 
