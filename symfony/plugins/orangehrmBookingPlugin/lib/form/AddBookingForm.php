@@ -69,14 +69,16 @@ class AddBookingForm extends sfForm {
    */
   public function getBooking() {
     $posts = $this->getValues();
+    $startDate = date('Y-m-d', strtotime($posts['startAt']));
+    $endDate = date('Y-m-d', strtotime($posts['endAt']));
     $booking = new Booking();
     $booking->bookableId = $posts['bookableId'];
     $booking->projectId = $posts['projectId'];
     $booking->customerId = $posts['customerId'];
-    $booking->startat = $posts['startDate'];
-    $booking->endAt = $posts['endDate'];
+    $booking->startAt = $posts['startAt'];
+    $booking->endAt = $posts['endAt'];
     $booking->allDay = isset($posts['allDay']) && !empty($posts['allDay']) ? Booking::ALL_DAY_ON : Booking::ALL_DAY_OFF;
-    $booking->availableOn = Booking::calculateAvailibity($posts['startDate'], $posts['endDate']);
+    $booking->availableOn = Booking::calculateAvailibity($startDate, $endDate);
     return $booking;
   }
 
@@ -144,7 +146,7 @@ class AddBookingForm extends sfForm {
       'bookableId' => __('Resource'),
       'customerId' => __('Customer'),
       'projectId' => __('Project'),
-      'startAt' => __('From Date'),
+      'startAt' => __('From'),
       'endAt' => __('To'),
       'allDay' => __('All Day'),
     );
