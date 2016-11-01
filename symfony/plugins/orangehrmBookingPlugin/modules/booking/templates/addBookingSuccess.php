@@ -1,6 +1,8 @@
 <?php use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/jquery.datetimepicker.min.css')); ?>
 <?php use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/addBooking.css')); ?>
+<?php use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/moment.min.js')); ?>
 <?php use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/jquery.datetimepicker.full.min.js')); ?>
+<?php use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/booking.common.js')); ?>
 <?php use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/addBooking.js')); ?>
 
 <div class="box">
@@ -30,53 +32,47 @@
 <script type="text/javascript">
   jQuery(document).ready(function () {
       $("#customerId").change(function () {
-	  var id = $(this).val();
-	  if (id != '') {
-	      $.ajax({
-		  type: "GET",
-		  url: '<?php echo url_for('@customer_projects'); ?>' + '?customerId=' + id,
-		  cache: false,
-		  success: function (data)
-		  {
-		      fillProjectSelect('#projectId', data);
-		  }
-	      });
-	  }
+    var id = $(this).val();
+    if (id != '') {
+        $.ajax({
+      type: "POST",
+      url: '<?= url_for('@customer_projects'); ?>',
+      data: {customerId: id},
+      cache: false,
+      success: function (data)
+      {
+          fillProjectSelect('#projectId', data);
+      }
+        });
+    }
       });
 
       $("#bookableId").change(function () {
-	  var id = $(this).val();
-	  if (id != '') {
-	      $.ajax({
-		  type: "GET",
-		  url: '<?php echo url_for('@bookable_workshifts'); ?>' + '?bookableId=' + id,
-		  cache: false,
-		  success: function (data)
-		  {
-		      setBookableWorkShift(data);
-		  }
-	      });
-	  }
+    var id = $(this).val();
+    if (id != '') {
+        $.ajax({
+      type: "POST",
+      url: '<?= url_for('@bookable_workshifts'); ?>',
+      data: {bookableId: id},
+      cache: false,
+      success: function (data)
+      {
+          setBookableWorkShift(data);
+      }
+        });
+    }
       });
 
 
       if ($("#bookableId").val() !== '') {
-	  $("#bookableId").change();
+    $("#bookableId").change();
       }
 
       if ($("#customerId").val() !== '') {
-	  $("#customerId").change();
+    $("#customerId").change();
       }
 
-      $('#startAt').datetimepicker({
-	  format: '<?= sfContext::getInstance()->getUser()->getDateFormat() ?> H:i',
-	  step: 30,
-	  minTime: '02:00',
-      });
-      $('#endAt').datetimepicker({
-	  format: '<?= sfContext::getInstance()->getUser()->getDateFormat() ?> H:i',
-	  step: 30,
-      });
-  });
+  }
+  );
 
 </script>
