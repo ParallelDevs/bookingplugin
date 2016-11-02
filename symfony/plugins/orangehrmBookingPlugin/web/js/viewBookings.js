@@ -42,7 +42,13 @@ function selectAllowHandler(selectInfo) {
     if (selectInfo.resourceId) {
 	resource = $('#calendar').fullCalendar('getResourceById', selectInfo.resourceId);
 	if (resource) {
-	    if (jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0) {
+	    var momentMinTime = new moment(bookableMinTime, 'HH:m');
+	    var momentMaxTime = new moment(bookableMaxTime, 'HH:m');
+
+	    if (jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0 ||
+		    start.hours() < momentMinTime.hours() ||
+		    start.hours() > momentMaxTime.hours()
+		    ) {
 		flag = false;
 	    }
 	}
@@ -69,7 +75,6 @@ function selectHandler(start, end, jsEvent, view, resource) {
     if (resource) {
 	bookableId = resource.id;
 	bookableName = resource.title;
-	console.log(bookableMinTime);
 	bookableMinTime = bookableMinTime !== '' ? bookableMinTime : resource.businessHours[0].start;
 	bookableMaxTime = resource.businessHours[0].end;
     } else {
@@ -83,6 +88,8 @@ function selectHandler(start, end, jsEvent, view, resource) {
     selectedStart = start.format('YYYY-MM-DD');
     if (start.hours() < momentMinTime.hours()) {
 	selectedStart += ' ' + bookableMinTime;
+    } else {
+	selectedStart += ' ' + start.format('HH:mm');
     }
 
     var selectedEndDate = end.subtract(1, 'days');
@@ -144,24 +151,12 @@ function fillBookingForm() {
     $('#bookableId').val(bookableId);
     $('#bookableName').val(bookableName);
 
-    jQuery('#startAt').datetimepicker({
-	datepicker: true,
-	timepicker: true,
-	format: 'Y-m-d H:i',
-	formatDate: 'Y-m-d',
-	formatTime: 'H:i',
-	step: 30,
+    jQuery('#startAt').datetimepicker({	
 	minTime: momentMinTime.toDate(),
 	maxTime: momentMaxTime.toDate(),
 	value: bookingStart.toDate()
     });
-    jQuery('#endAt').datetimepicker({
-	datepicker: true,
-	timepicker: true,
-	format: 'Y-m-d H:i',
-	formatDate: 'Y-m-d',
-	formatTime: 'H:i',
-	step: 30,
+    jQuery('#endAt').datetimepicker({	
 	minTime: momentMinTime.toDate(),
 	maxTime: momentMaxTime.toDate(),
 	value: bookingEnd.toDate()
@@ -181,4 +176,18 @@ function cleanBookingForm() {
     bookingEnd = moment();
     bookableMinTime = '';
     bookableMaxTime = '';
+}
+
+function successBookingForm(data) {
+    if (data.success) {
+	$('#bookingDialog').modal('hide');
+	cleanBookingForm();
+	$('#calendar').fullCalendar('refetchEvents');
+    } else {
+	var length = data.errors.length;
+	for (var i = 0; i < length; i++) {
+	    console.log(data.errors[i]);
+	    // Show error
+	}
+    }
 }
