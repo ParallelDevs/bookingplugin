@@ -17,7 +17,7 @@ view_bookable:
    url: /booking/viewBookableResource/*
    param: { module: booking, action: viewBookableResource }
    with_wildcard_routes: false
-   
+
 add_booking:
    url: /booking/addBooking
    param: { module: booking, action: addBooking }
@@ -30,16 +30,16 @@ bookables_json:
 bookings_json:
    url:   /booking/bookings.json
    param: { module: booking, action: getBookings, sf_format: json }
-      
-customer_projects: 
+
+customer_projects:
    url:   /booking/customerProjects.json
    param: { module: booking, action: getCustomerProjects, sf_format: json }
 
 bookable_workshifts:
    url:   /booking/bookableWorkShifts.json
    param: { module: booking, action: getBookableWorkShift, sf_format: json }
-    
-add_booking_ajax:
-   url: /booking/addBookingModal
-   param: { module: booking, action: addBookingModal , sf_format: json}   
+
+booking_ajax:
+   url: /booking/handleBookingModal
+   param: { module: booking, action: handleBookingModal , sf_format: json}
 
