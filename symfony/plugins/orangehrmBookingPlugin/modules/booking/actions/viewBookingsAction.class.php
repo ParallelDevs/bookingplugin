@@ -20,7 +20,7 @@ class viewBookingsAction extends baseBookingAction {
   }
 
   public function execute($request) {
-    $this->setBookingForm(new AddBookingFormModal(array(), array(), true));
+    $this->setBookingForm(new BookingForm(array(), array(), true));
   }
 
 }
