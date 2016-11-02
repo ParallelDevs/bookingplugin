@@ -40,6 +40,15 @@ function eventMouseoutHandler(event, jsEvent, view) {
 function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
     var start = event.start;
     var end = event.end;
+
+    if (holidayObj !== '' && (
+	    start.isSame(holidayObj.start, 'day') ||
+	    end.isSame(holidayObj.start, 'day'))
+	    ) {
+	revertFunc();
+	return;
+    }
+
     var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
     if (resource) {
 	var momentMinTime = new moment(resource.businessHours[0].start, 'HH:mm');
@@ -69,6 +78,15 @@ function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
     }
 }
 
+function eventOverlapHandler(stillEvent, movingEvent) {
+    holidayObj = '';
+    if (stillEvent.isHoliday) {
+	holidayObj = stillEvent;
+	return true;
+    }
+    return true;
+}
+
 function selectAllowHandler(selectInfo) {
     var resource = null;
     var flag = true;
@@ -77,12 +95,7 @@ function selectAllowHandler(selectInfo) {
     if (selectInfo.resourceId) {
 	resource = $('#calendar').fullCalendar('getResourceById', selectInfo.resourceId);
 	if (resource) {
-	    var momentMinTime = new moment(bookableMinTime, 'HH:mm');
-	    var momentMaxTime = new moment(bookableMaxTime, 'HH:mm');
-
 	    if (jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0 ||
-		    start.hours() < momentMinTime.hours() ||
-		    start.hours() > momentMaxTime.hours() ||
 		    (holidayObj !== '' && start.isSame(holidayObj.start, 'day'))
 		    ) {
 		flag = false;
