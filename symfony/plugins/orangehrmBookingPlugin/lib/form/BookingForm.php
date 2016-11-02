@@ -43,15 +43,23 @@ class BookingForm extends sfForm {
   public function getBooking() {
     $posts = $this->getValues();
     $allDay = isset($posts['allDay']) && !empty($posts['allDay']) ? Booking::ALL_DAY_ON : Booking::ALL_DAY_OFF;
-    $availableOn = Booking::calculateAvailibity($posts['startDate'], $posts['endDate']);
+    $startDate = date('Y-m-d', strtotime($posts['startAt']));
+    $endDate = date('Y-m-d', strtotime($posts['endAt']));
+    $availableOn = Booking::calculateAvailibity($startDate, $endDate);
 
-    $booking = $this->getBookingService()->getBooking($posts['bookingId']);
+    try {
+      $booking = !empty($posts['bookingId']) ? $this->getBookingService()->getBooking($posts['bookingId']) : new Booking();
+    }
+    catch (Exception $e) {
+      $booking = new Booking();
+      sfContext::getInstance()->getLogger()->err($e->getMessage());
+    }
+
+    $booking->setBookableId($posts['bookableId']);
     $booking->setProjectId($posts['projectId']);
     $booking->setCustomerId($posts['customerId']);
-    $booking->setStartDate($posts['startDate']);
-    $booking->setEndDate($posts['endDate']);
-    $booking->setStartTime($posts['startTime']);
-    $booking->setEndTime($posts['endTime']);
+    $booking->setStartAt($posts['startAt']);
+    $booking->setEndAt($posts['endAt']);
     $booking->setAllDay($allDay);
     $booking->setAvailableOn($availableOn);
     return $booking;
@@ -86,12 +94,11 @@ class BookingForm extends sfForm {
     $labels = array(
       'bookingId' => __('Booking'),
       'bookableId' => __('Resource'),
+      'bookableName' => __('Resource'),
       'customerId' => __('Customer'),
       'projectId' => __('Project'),
-      'startDate' => __('From Date'),
-      'endDate' => __('To'),
-      'startTime' => __('Starts At'),
-      'endTime' => __('To'),
+      'startAt' => __('From'),
+      'endAt' => __('To'),
       'allDay' => __('All Day'),
     );
     return $labels;
@@ -108,29 +115,22 @@ class BookingForm extends sfForm {
       'bookableName' => new sfWidgetFormInputText(array(), array('readonly' => true)),
       'customerId' => new sfWidgetFormDoctrineChoice($this->getCustomerOptions(), array()),
       'projectId' => new sfWidgetFormChoice(array('choices' => array()), array()),
-      'startDate' => new ohrmWidgetDatePicker(array(), array()),
-      'endDate' => new ohrmWidgetDatePicker(array(), array()),
+      'startAt' => new sfWidgetFormInputText(array(), array()),
+      'endAt' => new sfWidgetFormInputText(array(), array()),
       'allDay' => new sfWidgetFormInputCheckbox(array(), array('value' => 1)),
-      'startTime' => new sfWidgetFormInputText(array(), array()),
-      'endTime' => new sfWidgetFormInputText(array(), array()),
     );
   }
 
   protected function getValidators() {
-    $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-
-
     return array(
-      'bookingId' => new sfValidatorDoctrineChoice(array('model' => 'Booking')),
-      'bookableId' => new sfValidatorDoctrineChoice(array('model' => 'BookableResource')),
-      'customerId' => new sfValidatorDoctrineChoice(array('model' => 'Customer')),
-      'projectId' => new sfValidatorDoctrineChoice(array('model' => 'Project')),
-      //'startDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true), array('invalid' => "Date format should be $inputDatePattern")),
-      'endDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true), array('invalid' => "Date format should be $inputDatePattern")),
-      'startTime' => new sfValidatorTime(array('required' => true)),
-      'endTime' => new sfValidatorTime(array('required' => true)),
+      'bookingId' => new sfValidatorString(array('required' => false)),
+      'bookableId' => new sfValidatorDoctrineChoice(array('model' => 'BookableResource', 'required' => true)),
+      'bookableName' => new sfValidatorString(array('required' => false)),
+      'customerId' => new sfValidatorDoctrineChoice(array('model' => 'Customer', 'required' => true)),
+      'projectId' => new sfValidatorDoctrineChoice(array('model' => 'Project', 'required' => true)),
+      'startAt' => new sfValidatorDateTime(array('required' => true), array()),
+      'endAt' => new sfValidatorDateTime(array('required' => true), array()),
       'allDay' => new sfValidatorBoolean(array(), array()),
-      'startDate' => new sfValidatorDateTime(array())
     );
   }
 
@@ -140,15 +140,23 @@ class BookingForm extends sfForm {
    */
   protected function getPostValidator() {
     return new sfValidatorAnd(array(
-      new sfValidatorSchemaCompare('startDate', sfValidatorSchemaCompare::LESS_THAN_EQUAL, 'endDate', array(
+      new sfValidatorSchemaCompare('startAt', sfValidatorSchemaCompare::LESS_THAN_EQUAL, 'endAt', array(
           ), array(
-        'invalid' => 'The start date ("%left_field%") must be before the end date ("%right_field%")',
-          )),
-      new sfValidatorSchemaCompare('startTime', sfValidatorSchemaCompare::LESS_THAN_EQUAL, 'endTime', array(
-          ), array(
-        'invalid' => 'The start time ("%left_field%") must be before the end time ("%right_field%")',
+        'invalid' => 'The start ("%left_field%") must be before the end  ("%right_field%")',
           )),
     ));
+  }
+
+  /**
+   *
+   * @return type
+   */
+  protected function getCustomerOptions() {
+    return array(
+      'model' => 'Customer',
+      'add_empty' => true,
+      'method' => 'getName',
+    );
   }
 
 }
