@@ -1,6 +1,8 @@
 var bookingId = '';
 var bookableId = 0;
 var bookableName = '';
+var customerId = '';
+var projectId = '';
 var bookingStart = moment();
 var bookingEnd = moment();
 var bookingAllDay = false;
@@ -21,7 +23,7 @@ function renderEventHandler(event, element) {
 	    element.addClass('fc-nonbusiness holiday');
 	} else {
 	    element.tipTip({
-		content: event.customer + ' - ' + event.title,
+		content: event.customerName + ' - ' + event.title,
 	    });
 	}
     }
@@ -35,6 +37,38 @@ function eventMouseoutHandler(event, jsEvent, view) {
     $(this).removeClass('fc-highlighted');
 }
 
+function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
+    var start = event.start;
+    var end = event.end;
+    var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
+    if (resource) {
+	var momentMinTime = new moment(resource.businessHours[0].start, 'HH:mm');
+	var momentMaxTime = new moment(resource.businessHours[0].end, 'HH:mm');
+
+	if (jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 &&
+		jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0 &&
+		start.hours() >= momentMinTime.hours() &&
+		start.hours() <= momentMaxTime.hours() &&
+		end.hours() >= momentMinTime.hours() &&
+		end.hours() <= momentMaxTime.hours()
+		) {
+
+	    loadDataFromEvent(event);
+	    fillBookingForm();
+	    showEditBookingForm();
+
+	    $("#dialogCancel").click(function () {
+		cleanBookingForm();
+		revertFunc();
+	    });
+	} else {
+	    revertFunc();
+	}
+    } else {
+	revertFunc();
+    }
+}
+
 function selectAllowHandler(selectInfo) {
     var resource = null;
     var flag = true;
@@ -43,8 +77,8 @@ function selectAllowHandler(selectInfo) {
     if (selectInfo.resourceId) {
 	resource = $('#calendar').fullCalendar('getResourceById', selectInfo.resourceId);
 	if (resource) {
-	    var momentMinTime = new moment(bookableMinTime, 'HH:m');
-	    var momentMaxTime = new moment(bookableMaxTime, 'HH:m');
+	    var momentMinTime = new moment(bookableMinTime, 'HH:mm');
+	    var momentMaxTime = new moment(bookableMaxTime, 'HH:mm');
 
 	    if (jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0 ||
 		    start.hours() < momentMinTime.hours() ||
@@ -112,13 +146,13 @@ function selectHandler(start, end, jsEvent, view, resource) {
 
     bookingStart = moment(selectedStart);
     bookingEnd = moment(selectedEnd);
-    
+
     if (bookingEnd.isSame(bookingStart, 'minutes')) {
 	bookingEnd.add(30, 'minutes');
     }
 
     if (holidayObj !== '') {
-	var holidayStart = holidayObj.start.format('YYYY-MM-DD');	
+	var holidayStart = holidayObj.start.format('YYYY-MM-DD');
 	if (bookingEnd.isSame(holidayStart, 'day')) {
 	    showNewBookingHolidayCollision(holidayObj.title);
 	    return false;
@@ -152,7 +186,28 @@ function showAddBookingForm() {
     $('#bookingDialog').modal('show');
 }
 
+function showEditBookingForm() {
+    $("#bookingDialogTitle").empty().append(editBookingTitle);
+    $('#bookingDialog').modal('show');
+}
+
+
 /* helper functions */
+
+function loadDataFromEvent(event) {
+    var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
+    if (resource) {
+	bookableId = resource.id;
+	bookableName = resource.title;
+	bookableMinTime = resource.businessHours[0].start;
+	bookableMaxTime = resource.businessHours[0].end;
+    }
+    bookingId = event.id ? event.id : '';
+    customerId = event.customerId ? event.customerId : '';
+    projectId = event.projectId ? event.projectId : '';
+    bookingStart = moment(event.start.format('YYYY-MM-DD HH:mm'));
+    bookingEnd = moment(event.end.format('YYYY-MM-DD HH:mm'));
+}
 
 function fillBookingForm() {
     var momentMinTime = new moment(bookableMinTime, 'HH:mm');
@@ -163,11 +218,20 @@ function fillBookingForm() {
     $('#bookableId').val(bookableId);
     $('#bookableName').val(bookableName);
 
+    if (customerId !== '') {
+	$("#customerId").val(customerId).change();
+    }
+
+    if (projectId !== '') {
+	$("#projectId").val(projectId).change();
+    }
+
     jQuery('#startAt').datetimepicker({
 	minTime: momentMinTime.toDate(),
 	maxTime: momentMaxTime.toDate(),
 	value: bookingStart.toDate()
     });
+
     jQuery('#endAt').datetimepicker({
 	minTime: momentMinTime.toDate(),
 	maxTime: momentMaxTime.toDate(),
@@ -184,6 +248,8 @@ function cleanBookingForm() {
     bookingId = '';
     bookableId = 0;
     bookableName = '';
+    customerId = '';
+    projectId = '';
     bookingStart = moment();
     bookingEnd = moment();
     bookableMinTime = '';
@@ -195,6 +261,9 @@ function successBookingForm(data) {
     if (data.success) {
 	$('#bookingDialog').modal('hide');
 	cleanBookingForm();
+	$("#dialogCancel").click(function () {
+	    cleanBookingForm();
+	});
 	$('#calendar').fullCalendar('refetchEvents');
     } else {
 	var length = data.errors.length;
