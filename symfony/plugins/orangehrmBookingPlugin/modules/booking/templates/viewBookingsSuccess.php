@@ -47,15 +47,15 @@
 	  eventRender: renderEventHandler,
 	  eventMouseover: eventMouseoverHandler,
 	  eventMouseout: eventMouseoutHandler,
+	  eventResize: eventResizeHandler,
 	  selectAllow: selectAllowHandler,
 	  selectOverlap: selectOverlapHandler,
 	  select: selectHandler,
 	  unselect: unselectHandler,
 	  /*
+     eventOverlap: eventOverlapHandler,
      eventClick: eventClickHandler,
 
-     eventOverlap: eventOverlapHandler,
-     eventResize: eventResizeHandler,
      */
       });
 
