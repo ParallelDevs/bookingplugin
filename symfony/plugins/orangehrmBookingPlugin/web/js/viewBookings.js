@@ -59,7 +59,7 @@ function selectOverlapHandler(event) {
 	showNewBookingAllDayCollision(event.title);
 	return false;
     }
-    bookableMinTime = event.end.format('H:mm');
+    bookableMinTime = event.end.format('HH:mm');
     return true;
 }
 
@@ -72,24 +72,40 @@ function selectHandler(start, end, jsEvent, view, resource) {
 	console.log(bookableMinTime);
 	bookableMinTime = bookableMinTime !== '' ? bookableMinTime : resource.businessHours[0].start;
 	bookableMaxTime = resource.businessHours[0].end;
-
     } else {
 	bookableMinTime = '00:00';
 	bookableMaxTime = '23:00';
     }
 
-    var momentMinTime = new moment(bookableMinTime, 'H:m');
-    var momentMaxTime = new moment(bookableMaxTime, 'H:m');
+    var momentMinTime = new moment(bookableMinTime, 'HH:m');
+    var momentMaxTime = new moment(bookableMaxTime, 'HH:m');
 
     selectedStart = start.format('YYYY-MM-DD');
     if (start.hours() < momentMinTime.hours()) {
 	selectedStart += ' ' + bookableMinTime;
     }
 
-    
+    var selectedEndDate = end.subtract(1, 'days');
+    if (selectedEndDate.isBefore(selectedStart)) {
+	selectedEndDate = start.clone();
+	selectedEndDate.set({hour: end.hours(), minute: end.minutes()});
+    }
+
+    selectedEnd = selectedEndDate.format('YYYY-MM-DD');
+    if (selectedEndDate.hours() < momentMinTime.hours()) {
+	selectedEnd += ' ' + bookableMinTime;
+    } else if (selectedEndDate.hours() > momentMaxTime.hours()) {
+	selectedEnd += ' ' + bookableMaxTime;
+    } else {
+	selectedEnd += ' ' + end.format('HH:mm');
+    }
+
     bookingStart = moment(selectedStart);
     bookingEnd = moment(selectedEnd);
-    console.log(bookingStart.format('YYYY-MM-DD H:mm'), bookingEnd.format('YYYY-MM-DD H:mm'));
+
+    if (bookingEnd.isSame(bookingStart, 'minutes')) {
+	bookingEnd.add(30, 'minutes');
+    }
 
     fillBookingForm();
     showAddBookingForm();
@@ -120,8 +136,8 @@ function showAddBookingForm() {
 /* helper functions */
 
 function fillBookingForm() {
-    var momentMinTime = new moment(bookableMinTime, 'hh:mm');
-    var momentMaxTime = new moment(bookableMaxTime, 'hh:mm');
+    var momentMinTime = new moment(bookableMinTime, 'HH:mm');
+    var momentMaxTime = new moment(bookableMaxTime, 'HH:mm');
     momentMaxTime.add(30, 'minutes');
 
     $('#bookingId').val(bookingId);
@@ -129,11 +145,23 @@ function fillBookingForm() {
     $('#bookableName').val(bookableName);
 
     jQuery('#startAt').datetimepicker({
+	datepicker: true,
+	timepicker: true,
+	format: 'Y-m-d H:i',
+	formatDate: 'Y-m-d',
+	formatTime: 'H:i',
+	step: 30,
 	minTime: momentMinTime.toDate(),
 	maxTime: momentMaxTime.toDate(),
 	value: bookingStart.toDate()
     });
     jQuery('#endAt').datetimepicker({
+	datepicker: true,
+	timepicker: true,
+	format: 'Y-m-d H:i',
+	formatDate: 'Y-m-d',
+	formatTime: 'H:i',
+	step: 30,
 	minTime: momentMinTime.toDate(),
 	maxTime: momentMaxTime.toDate(),
 	value: bookingEnd.toDate()
