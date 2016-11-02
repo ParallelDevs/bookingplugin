@@ -64,7 +64,6 @@ function selectOverlapHandler(event) {
 }
 
 function selectHandler(start, end, jsEvent, view, resource) {
-    console.log(view);
     var selectedStart, selectedEnd;
 
     if (resource) {
@@ -83,8 +82,8 @@ function selectHandler(start, end, jsEvent, view, resource) {
     var momentMaxTime = new moment(bookableMaxTime, 'H:m');
 
     selectedStart = start.format('YYYY-MM-DD');
-    if(start.hours()<momentMinTime.hours()){
-	selectedStart+=' '+bookableMinTime;
+    if (start.hours() < momentMinTime.hours()) {
+	selectedStart += ' ' + bookableMinTime;
     }
 
     

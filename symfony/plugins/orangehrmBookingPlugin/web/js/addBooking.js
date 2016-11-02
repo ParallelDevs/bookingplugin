@@ -38,7 +38,7 @@ $(document).ready(function () {
 	format: 'Y-m-d H:i',
 	formatDate: 'Y-m-d',
 	formatTime: 'H:i',
-	step: 30,
+	step: 30
     });
 
     $('#endAt').datetimepicker({
@@ -47,7 +47,7 @@ $(document).ready(function () {
 	format: 'Y-m-d H:i',
 	formatDate: 'Y-m-d',
 	formatTime: 'H:i',
-	step: 30,
+	step: 30
     });
 
 
@@ -79,7 +79,7 @@ $(document).ready(function () {
 		minTime: momentMinTime.toDate(),
 		maxTime: momentMaxTime.toDate(),
 		value: startVal.toDate(),
-	    });
+});
 
 	    jQuery('#endAt').datetimepicker({
 		timepicker: false,
