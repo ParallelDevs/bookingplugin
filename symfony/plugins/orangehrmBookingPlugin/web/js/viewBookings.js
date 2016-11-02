@@ -83,6 +83,12 @@ function eventOverlapHandler(stillEvent, movingEvent) {
     if (stillEvent.isHoliday) {
 	holidayObj = stillEvent;
 	return true;
+    } else if (movingEvent.allday || stillEvent.allday) {
+	showAllDayCollisionDialog(movingEvent.customerName + '-' + movingEvent.title, stillEvent.customerName + '-' + stillEvent.title);
+	return false;
+    } else if (movingEvent.start.hours() === stillEvent.start.hours() || movingEvent.end.hours() === stillEvent.end.hours()) {
+	showTimeCollisionDialog(movingEvent.customerName + '-' + movingEvent.title, stillEvent.customerName + '-' + stillEvent.title);
+	return false;
     }
     return true;
 }
@@ -192,6 +198,18 @@ function showNewBookingAllDayCollision(name) {
 function showNewBookingHolidayCollision(name) {
     $("#holidayCollisionName").empty().append(name);
     $('#newBookingHolidayCollisionDialog').modal('show');
+}
+
+function showAllDayCollisionDialog(name1, name2) {
+    $("#bookingColl1").empty().append(name1);
+    $("#bookingColl2").empty().append(name2);
+    $('#bookingAllDayCollisionDialog').modal('show');
+}
+
+function showTimeCollisionDialog(name1, name2) {
+    $("#bookingTimeColl1").empty().append(name1);
+    $("#bookingTimeColl2").empty().append(name2);
+    $('#bookingTimeCollisionDialog').modal('show');
 }
 
 function showAddBookingForm() {
