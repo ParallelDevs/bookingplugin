@@ -4,6 +4,7 @@ var bookableName = '';
 var bookingStart = moment();
 var bookingEnd = moment();
 var bookingAllDay = false;
+var holidayObj = '';
 
 /* handlers for calendar */
 
@@ -47,7 +48,8 @@ function selectAllowHandler(selectInfo) {
 
 	    if (jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0 ||
 		    start.hours() < momentMinTime.hours() ||
-		    start.hours() > momentMaxTime.hours()
+		    start.hours() > momentMaxTime.hours() ||
+		    (holidayObj !== '' && start.isSame(holidayObj.start, 'day'))
 		    ) {
 		flag = false;
 	    }
@@ -58,9 +60,10 @@ function selectAllowHandler(selectInfo) {
 
 function selectOverlapHandler(event) {
     bookableMinTime = '';
+    holidayObj = '';
     if (event.isHoliday) {
-	showNewBookingHolidayCollision(event.title);
-	return false;
+	holidayObj = event;
+	return true;
     } else if (event.allday) {
 	showNewBookingAllDayCollision(event.title);
 	return false;
@@ -109,9 +112,17 @@ function selectHandler(start, end, jsEvent, view, resource) {
 
     bookingStart = moment(selectedStart);
     bookingEnd = moment(selectedEnd);
-
+    
     if (bookingEnd.isSame(bookingStart, 'minutes')) {
 	bookingEnd.add(30, 'minutes');
+    }
+
+    if (holidayObj !== '') {
+	var holidayStart = holidayObj.start.format('YYYY-MM-DD');	
+	if (bookingEnd.isSame(holidayStart, 'day')) {
+	    showNewBookingHolidayCollision(holidayObj.title);
+	    return false;
+	}
     }
 
     fillBookingForm();
@@ -121,6 +132,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
 function unselectHandler(view, jsEvent) {
     bookableMinTime = '';
     bookableMaxTime = '';
+    holidayObj = '';
 }
 
 /* notification functions*/
@@ -151,12 +163,12 @@ function fillBookingForm() {
     $('#bookableId').val(bookableId);
     $('#bookableName').val(bookableName);
 
-    jQuery('#startAt').datetimepicker({	
+    jQuery('#startAt').datetimepicker({
 	minTime: momentMinTime.toDate(),
 	maxTime: momentMaxTime.toDate(),
 	value: bookingStart.toDate()
     });
-    jQuery('#endAt').datetimepicker({	
+    jQuery('#endAt').datetimepicker({
 	minTime: momentMinTime.toDate(),
 	maxTime: momentMaxTime.toDate(),
 	value: bookingEnd.toDate()
@@ -176,6 +188,7 @@ function cleanBookingForm() {
     bookingEnd = moment();
     bookableMinTime = '';
     bookableMaxTime = '';
+    holidayObj = '';
 }
 
 function successBookingForm(data) {
