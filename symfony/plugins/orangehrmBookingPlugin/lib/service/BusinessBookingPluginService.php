@@ -61,6 +61,43 @@ class BusinessBookingPluginService extends BaseService {
 
   /**
    *
+   * @return array
+   */
+  public function getCompanyBusinessLimitHoursForCalendar() {
+    $hours = array();
+    $workShifts = self::getWorkShiftService()->getWorkShiftList();
+    $iterWorkShift = $workShifts->getIterator();
+    foreach ($iterWorkShift as $workShift) {
+
+      if (!array_key_exists('minHour', $hours)) {
+        $hours['minHour'] = self::getLowestHour('', $workShift->start_time);
+      }
+      else {
+        $hours['minHour'] = self::getLowestHour($hours['minHour'], $workShift->start_time);
+      }
+
+      if (!array_key_exists('maxHour', $hours)) {
+        $hours['maxHour'] = self::getGreatestHour('', $workShift->end_time);
+      }
+      else {
+        $hours['maxHour'] = self::getGreatestHour($hours['maxHour'], $workShift->end_time);
+      }
+    }
+
+    if (!empty($hours)) {
+      $minHour = strtotime(date('Y-m-d') . ' ' . $hours['minHour'] . ' -30 minutes');
+      $maxHour = strtotime(date('Y-m-d') . ' ' . $hours['maxHour'] . ' +30 minutes');
+      $hours = array(
+        'minHour' => date('H:i:s', $minHour),
+        'maxHour' => date('H:i:s', $maxHour),
+      );
+    }
+
+    return $hours;
+  }
+
+  /**
+   *
    * @param Employee $employee
    * @return array
    */
@@ -173,6 +210,54 @@ class BusinessBookingPluginService extends BaseService {
     }
 
     return $holidays;
+  }
+
+  /**
+   *
+   * @param type $hour1
+   * @param type $hour2
+   * @return type
+   */
+  public static function getLowestHour($hour1, $hour2) {
+    if (empty($hour1) && !empty($hour2)) {
+      return $hour2;
+    }
+
+    if (!empty($hour1) && empty($hour2)) {
+      return $hour1;
+    }
+
+    $today = date('Y-m-d');
+    $current = strtotime($today . ' ' . $hour1);
+    $new = strtotime($today . ' ' . $hour2);
+    if ($new < $current) {
+      return $hour2;
+    }
+    return $hour1;
+  }
+
+  /**
+   *
+   * @param type $hour1
+   * @param type $hour2
+   * @return type
+   */
+  public static function getGreatestHour($hour1, $hour2) {
+    if (empty($hour1) && !empty($hour2)) {
+      return $hour2;
+    }
+
+    if (!empty($hour1) && empty($hour2)) {
+      return $hour1;
+    }
+
+    $today = date('Y-m-d');
+    $current = strtotime($today . ' ' . $hour1);
+    $new = strtotime($today . ' ' . $hour2);
+    if ($new > $current) {
+      return $hour2;
+    }
+    return $hour1;
   }
 
 }
