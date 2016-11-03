@@ -53,15 +53,11 @@
 	  eventMouseout: eventMouseoutHandler,
 	  eventResize: eventResizeHandler,
 	  eventOverlap: eventOverlapHandler,
+	  eventClick: eventClickHandler,
 	  selectAllow: selectAllowHandler,
 	  selectOverlap: selectOverlapHandler,
 	  select: selectHandler,
 	  unselect: unselectHandler,
-	  /*
-
-     eventClick: eventClickHandler,
-
-     */
       });
 
       $('#startAt').datetimepicker({

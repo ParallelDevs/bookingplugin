@@ -93,6 +93,15 @@ function eventOverlapHandler(stillEvent, movingEvent) {
     return true;
 }
 
+function eventClickHandler(event, jsEvent, view) {
+    $("#dialogCancel").click(function () {
+	cleanBookingForm();
+    });
+    loadDataFromEvent(event);
+    fillBookingForm();
+    showEditBookingForm();
+}
+
 function selectAllowHandler(selectInfo) {
     var resource = null;
     var flag = true;
