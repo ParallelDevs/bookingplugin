@@ -48,12 +48,13 @@
 	  eventMouseover: eventMouseoverHandler,
 	  eventMouseout: eventMouseoutHandler,
 	  eventResize: eventResizeHandler,
+	  eventOverlap: eventOverlapHandler,
 	  selectAllow: selectAllowHandler,
 	  selectOverlap: selectOverlapHandler,
 	  select: selectHandler,
 	  unselect: unselectHandler,
 	  /*
-     eventOverlap: eventOverlapHandler,
+
      eventClick: eventClickHandler,
 
      */
