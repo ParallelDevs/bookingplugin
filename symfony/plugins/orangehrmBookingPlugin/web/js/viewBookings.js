@@ -54,7 +54,8 @@ function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
 	var momentMinTime = new moment(resource.businessHours[0].start, 'HH:mm');
 	var momentMaxTime = new moment(resource.businessHours[0].end, 'HH:mm');
 
-	if (jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 &&
+	if (resource.isActive &&
+		jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 &&
 		jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0 &&
 		start.hours() >= momentMinTime.hours() &&
 		start.hours() <= momentMaxTime.hours() &&
@@ -94,6 +95,10 @@ function eventOverlapHandler(stillEvent, movingEvent) {
 }
 
 function eventClickHandler(event, jsEvent, view) {
+    var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
+    if (resource && !resource.isActive) {
+	return false;
+    }
     $("#dialogCancel").click(function () {
 	cleanBookingForm();
     });
@@ -110,7 +115,8 @@ function selectAllowHandler(selectInfo) {
     if (selectInfo.resourceId) {
 	resource = $('#calendar').fullCalendar('getResourceById', selectInfo.resourceId);
 	if (resource) {
-	    if (jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0 ||
+	    if (!resource.isActive ||
+		    jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0 ||
 		    (holidayObj !== '' && start.isSame(holidayObj.start, 'day'))
 		    ) {
 		flag = false;
@@ -123,14 +129,21 @@ function selectAllowHandler(selectInfo) {
 function selectOverlapHandler(event) {
     bookableMinTime = '';
     holidayObj = '';
+    var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
+    if (resource && !resource.isActive) {
+	return false;
+    }
     if (event.isHoliday) {
 	holidayObj = event;
+	enableBookingAllDay = true;
 	return true;
     } else if (event.allday) {
 	showNewBookingAllDayCollision(event.title);
+	enableBookingAllDay = true;
 	return false;
     }
     bookableMinTime = event.end.format('HH:mm');
+    enableBookingAllDay = false;
     return true;
 }
 
@@ -138,6 +151,9 @@ function selectHandler(start, end, jsEvent, view, resource) {
     var selectedStart, selectedEnd;
 
     if (resource) {
+	if (!resource.isActive) {
+	    return false;
+	}
 	bookableId = resource.id;
 	bookableName = resource.title;
 	bookableMinTime = bookableMinTime !== '' ? bookableMinTime : resource.businessHours[0].start;
@@ -182,6 +198,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
     if (holidayObj !== '') {
 	var holidayStart = holidayObj.start.format('YYYY-MM-DD');
 	if (bookingEnd.isSame(holidayStart, 'day')) {
+	    cleanBookingForm();
 	    showNewBookingHolidayCollision(holidayObj.title);
 	    return false;
 	}
@@ -192,30 +209,32 @@ function selectHandler(start, end, jsEvent, view, resource) {
 }
 
 function unselectHandler(view, jsEvent) {
-    bookableMinTime = '';
-    bookableMaxTime = '';
-    holidayObj = '';
+    cleanBookingForm();
 }
 
 /* notification functions*/
 
 function showNewBookingAllDayCollision(name) {
+    cleanBookingForm();
     $("#bookingCollisionName").empty().append(name);
     $('#newBookingAllDayCollisionDialog').modal('show');
 }
 
 function showNewBookingHolidayCollision(name) {
+    cleanBookingForm();
     $("#holidayCollisionName").empty().append(name);
     $('#newBookingHolidayCollisionDialog').modal('show');
 }
 
 function showAllDayCollisionDialog(name1, name2) {
+    cleanBookingForm();
     $("#bookingColl1").empty().append(name1);
     $("#bookingColl2").empty().append(name2);
     $('#bookingAllDayCollisionDialog').modal('show');
 }
 
 function showTimeCollisionDialog(name1, name2) {
+    cleanBookingForm();
     $("#bookingTimeColl1").empty().append(name1);
     $("#bookingTimeColl2").empty().append(name2);
     $('#bookingTimeCollisionDialog').modal('show');
@@ -247,6 +266,7 @@ function loadDataFromEvent(event) {
     projectId = event.projectId ? event.projectId : '';
     bookingStart = moment(event.start.format('YYYY-MM-DD HH:mm'));
     bookingEnd = moment(event.end.format('YYYY-MM-DD HH:mm'));
+    bookingAllDay = event.allday;
 }
 
 function fillBookingForm() {
@@ -277,6 +297,8 @@ function fillBookingForm() {
 	maxTime: momentMaxTime.toDate(),
 	value: bookingEnd.toDate()
     });
+
+    $('#allDay').prop('checked', bookingAllDay);    
 }
 
 function cleanBookingForm() {
@@ -354,11 +376,11 @@ $(function () {
 	eventMouseout: eventMouseoutHandler,
 	eventResize: eventResizeHandler,
 	eventOverlap: eventOverlapHandler,
-	eventClick: eventClickHandler,
+	eventClick: eventClickHandler,	
 	selectAllow: selectAllowHandler,
 	selectOverlap: selectOverlapHandler,
 	select: selectHandler,
-	unselect: unselectHandler,
+	unselect: unselectHandler,	
     });
 
     $('#startAt').datetimepicker({
