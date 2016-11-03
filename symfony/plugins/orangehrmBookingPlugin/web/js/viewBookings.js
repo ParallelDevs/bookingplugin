@@ -10,13 +10,16 @@ var holidayObj = '';
 
 /* handlers for calendar */
 
-function resourceRenderHandler(resourceObj, labelTds, bodyTds){
+function resourceRenderHandler(resourceObj, labelTds, bodyTds) {
     console.log(resourceObj, labelTds, bodyTds);
-    if(!resourceObj.isActive){
+    if (!resourceObj.isActive) {
 	labelTds.addClass('fc-nonbusiness inactive-resource');
-	labelTds.tipTip({ 
-	    content: inactiveResourceLabel
+	labelTds.tipTip({
+	    content: inactiveResourceTooltip
 	});
+	if(!jQuery.isEmptyObject( bodyTds )){
+	    bodyTds.addClass('fc-nonbusiness');
+	}
     }
 }
 
@@ -29,7 +32,9 @@ function errorEventHandler() {
 function renderEventHandler(event, element) {
     if (event && element) {
 	if (event.isHoliday) {
-	    element.tipTip({content: event.title});
+	    element.tipTip({
+		content: holidayLabel+' '+event.title
+	    });
 	    element.addClass('fc-nonbusiness holiday');
 	} else {
 	    element.tipTip({
@@ -308,7 +313,7 @@ function fillBookingForm() {
 	value: bookingEnd.toDate()
     });
 
-    $('#allDay').prop('checked', bookingAllDay);    
+    $('#allDay').prop('checked', bookingAllDay);
 }
 
 function cleanBookingForm() {
@@ -387,11 +392,11 @@ $(function () {
 	eventMouseout: eventMouseoutHandler,
 	eventResize: eventResizeHandler,
 	eventOverlap: eventOverlapHandler,
-	eventClick: eventClickHandler,	
+	eventClick: eventClickHandler,
 	selectAllow: selectAllowHandler,
 	selectOverlap: selectOverlapHandler,
 	select: selectHandler,
-	unselect: unselectHandler,	
+	unselect: unselectHandler,
     });
 
     $('#startAt').datetimepicker({
