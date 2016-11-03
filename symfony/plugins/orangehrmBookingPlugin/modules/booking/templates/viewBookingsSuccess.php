@@ -23,6 +23,10 @@
 	  editable: true,
 	  aspectRatio: 4.0,
 	  firstDay: 1,
+	  weekNumbers: true,
+	  slotEventOverlap: false,
+	  minTime: '<?= $minTime ?>',
+	  maxTime: '<?= $maxTime ?>',
 	  header: {
 	      left: 'today prev,next',
 	      center: 'title',
