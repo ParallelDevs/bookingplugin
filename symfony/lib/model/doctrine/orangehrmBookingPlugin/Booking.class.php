@@ -63,34 +63,6 @@ class Booking extends PluginBooking {
 
   /**
    *
-   * @return type
-   */
-  public function getDuration() {
-    $start = strtotime($this->startAt);
-    $end = strtotime($this->endAt);
-    $startDate = date('Y-m-d', $start);
-    $endDate = date('Y-m-d', $end);
-    if ($startDate == $endDate) {
-      $diff = $end - $start;
-      $hours = $diff / 3600;
-    }
-    else {
-      $bookableWorkShifts = $this->getBookableResource()->getWorkShifts();
-      $workShift = reset($bookableWorkShifts);
-      $endDay = strtotime($startDate . ' ' . $workShift['end']);
-      $hours = ($endDay - $start ) / 3600;
-      $startDay = strtotime($endDate . ' ' . $workShift['start']);
-      $hours += ($end - $startDay) / 3600;
-    }
-
-    if ($this->getEventAllDay()) {
-      $hours -= $this->getConfigBookingService()->getCompanyBreaksTime();
-    }
-    return round($hours, 2);
-  }
-
-  /**
-   *
    * @param type $startDate
    * @param type $endDate
    * @return string
@@ -162,8 +134,6 @@ class Booking extends PluginBooking {
       'customerId' => $this->getCustomerId(),
       'customerName' => $this->getCustomerName(),
       'projectId' => $this->getProjectId(),
-      'duration' => $this->getDuration(),
-      'timeUnit' => __('Hour(s)'),
       'isHoliday' => false,
     );
   }
