@@ -12,72 +12,12 @@
 <script type="text/javascript">
   var addBookingTitle = '<?= __('Add Booking') ?>';
   var editBookingTitle = '<?= __('Edit Booking') ?>';
-
-  $(function () { // document ready
-
-      $('#calendar').fullCalendar({
-	  schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-	  now: '<?= date('Y-m-d') ?>',
-	  selectable: true,
-	  selectHelper: true,
-	  editable: true,
-	  aspectRatio: 4.0,
-	  firstDay: 1,
-	  weekNumbers: true,
-	  slotEventOverlap: false,
-	  minTime: '<?= $minTime ?>',
-	  maxTime: '<?= $maxTime ?>',
-	  header: {
-	      left: 'today prev,next',
-	      center: 'title',
-	      right: 'timelineDay,timelineWeek,timelineMonth'
-	  },
-	  defaultView: 'timelineMonth',
-	  resourceAreaWidth: '25%',
-	  resourceLabelText: '<?= __("Resources") ?>',
-	  resources: {
-	      url: '<?= url_for('@bookables_json') ?>',
-	      type: 'POST',
-	      error: errorResourceHandler,
-	  },
-	  events: {
-	      url: '<?= url_for('@bookings_json') ?>',
-	      data: {
-		  mode: 'timeline',
-	      },
-	      type: 'POST',
-	      error: errorEventHandler,
-	  },
-	  eventRender: renderEventHandler,
-	  eventMouseover: eventMouseoverHandler,
-	  eventMouseout: eventMouseoutHandler,
-	  eventResize: eventResizeHandler,
-	  eventOverlap: eventOverlapHandler,
-	  eventClick: eventClickHandler,
-	  selectAllow: selectAllowHandler,
-	  selectOverlap: selectOverlapHandler,
-	  select: selectHandler,
-	  unselect: unselectHandler,
-      });
-
-      $('#startAt').datetimepicker({
-	  datepicker: true,
-	  timepicker: true,
-	  format: 'Y-m-d H:i',
-	  formatDate: 'Y-m-d',
-	  formatTime: 'H:i',
-	  step: 30,
-      });
-
-      $('#endAt').datetimepicker({
-	  datepicker: true,
-	  timepicker: true,
-	  format: 'Y-m-d H:i',
-	  formatDate: 'Y-m-d',
-	  formatTime: 'H:i',
-	  step: 30,
-      });
-  });
+  var currentDate = '<?= date('Y-m-d') ?>';
+  var calendarMinTime = '<?= $minTime ?>';
+  var calendarMaxTime = '<?= $maxTime ?>';
+  var bookableResourceTitle = '<?= __("Resources") ?>';
+  var bookableResourcesUrl = '<?= url_for('@bookables_json') ?>';
+  var bookingResourcesUrl = '<?= url_for('@bookings_json') ?>';
 
 </script>
 
