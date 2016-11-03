@@ -10,6 +10,16 @@ var holidayObj = '';
 
 /* handlers for calendar */
 
+function resourceRenderHandler(resourceObj, labelTds, bodyTds){
+    console.log(resourceObj, labelTds, bodyTds);
+    if(!resourceObj.isActive){
+	labelTds.addClass('fc-nonbusiness inactive-resource');
+	labelTds.tipTip({ 
+	    content: inactiveResourceLabel
+	});
+    }
+}
+
 function errorResourceHandler() {
 }
 
@@ -371,6 +381,7 @@ $(function () {
 	    type: 'POST',
 	    error: errorEventHandler,
 	},
+	resourceRender: resourceRenderHandler,
 	eventRender: renderEventHandler,
 	eventMouseover: eventMouseoverHandler,
 	eventMouseout: eventMouseoutHandler,

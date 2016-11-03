@@ -18,6 +18,7 @@
   var bookableResourceTitle = '<?= __("Resources") ?>';
   var bookableResourcesUrl = '<?= url_for('@bookables_json') ?>';
   var bookingResourcesUrl = '<?= url_for('@bookings_json') ?>';
+  var inactiveResourceLabel = '<?= __('Resource is inactive') ?>';
 
 </script>
 
