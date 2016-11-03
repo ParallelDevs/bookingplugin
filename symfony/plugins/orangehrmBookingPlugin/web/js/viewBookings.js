@@ -10,14 +10,13 @@ var holidayObj = '';
 
 /* handlers for calendar */
 
-function resourceRenderHandler(resourceObj, labelTds, bodyTds) {
-    console.log(resourceObj, labelTds, bodyTds);
+function resourceRenderHandler(resourceObj, labelTds, bodyTds) {   
     if (!resourceObj.isActive) {
 	labelTds.addClass('fc-nonbusiness inactive-resource');
 	labelTds.tipTip({
 	    content: inactiveResourceTooltip
 	});
-	if(!jQuery.isEmptyObject( bodyTds )){
+	if (!jQuery.isEmptyObject(bodyTds)) {
 	    bodyTds.addClass('fc-nonbusiness');
 	}
     }
@@ -33,7 +32,7 @@ function renderEventHandler(event, element) {
     if (event && element) {
 	if (event.isHoliday) {
 	    element.tipTip({
-		content: holidayLabel+' '+event.title
+		content: holidayLabel + ' ' + event.title
 	    });
 	    element.addClass('fc-nonbusiness holiday');
 	} else {
@@ -120,6 +119,10 @@ function eventClickHandler(event, jsEvent, view) {
     loadDataFromEvent(event);
     fillBookingForm();
     showEditBookingForm();
+}
+
+function eventAllowHandler(dropLocation, draggedEvent) {    
+    return false;
 }
 
 function selectAllowHandler(selectInfo) {
@@ -393,6 +396,7 @@ $(function () {
 	eventResize: eventResizeHandler,
 	eventOverlap: eventOverlapHandler,
 	eventClick: eventClickHandler,
+	eventAllow: eventAllowHandler,
 	selectAllow: selectAllowHandler,
 	selectOverlap: selectOverlapHandler,
 	select: selectHandler,
