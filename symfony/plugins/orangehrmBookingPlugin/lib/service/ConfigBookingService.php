@@ -14,7 +14,6 @@
 class ConfigBookingService extends BaseService {
 
   const COMPANY_BREAKS_TIME = 'booking.company_breaks_time';
-  const COMPANY_WORK_DAY_DURATION = 'booking.company_work_day_duration';
 
   private $configDao;
 
@@ -52,23 +51,6 @@ class ConfigBookingService extends BaseService {
    */
   public function setCompanyBreaksTime($breaksTime) {
     return $this->getConfigDao()->setValue(self::COMPANY_BREAKS_TIME, $breaksTime);
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getCompanyWorkDayDuration() {
-    return $this->getConfigDao()->getValue(self::COMPANY_WORK_DAY_DURATION);
-  }
-
-  /**
-   *
-   * @param type $duration
-   * @return type
-   */
-  public function setCompanyWorkDayDuration($duration) {
-    return $this->getConfigDao()->setValue(self::COMPANY_WORK_DAY_DURATION, $duration);
   }
 
 }
