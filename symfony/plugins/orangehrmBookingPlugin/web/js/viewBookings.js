@@ -7,49 +7,9 @@ var bookingStart = moment();
 var bookingEnd = moment();
 var bookingAllDay = false;
 var holidayObj = '';
+var bookingMinStart = '';
 
 /* handlers for calendar */
-
-function resourceRenderHandler(resourceObj, labelTds, bodyTds) {   
-    if (!resourceObj.isActive) {
-	labelTds.addClass('fc-nonbusiness inactive-resource');
-	labelTds.tipTip({
-	    content: inactiveResourceTooltip
-	});
-	if (!jQuery.isEmptyObject(bodyTds)) {
-	    bodyTds.addClass('fc-nonbusiness');
-	}
-    }
-}
-
-function errorResourceHandler() {
-}
-
-function errorEventHandler() {
-}
-
-function renderEventHandler(event, element) {
-    if (event && element) {
-	if (event.isHoliday) {
-	    element.tipTip({
-		content: holidayLabel + ' ' + event.title
-	    });
-	    element.addClass('fc-nonbusiness holiday');
-	} else {
-	    element.tipTip({
-		content: event.customerName + ' - ' + event.title,
-	    });
-	}
-    }
-}
-
-function eventMouseoverHandler(event, jsEvent, view) {
-    $(this).addClass('fc-highlighted');
-}
-
-function eventMouseoutHandler(event, jsEvent, view) {
-    $(this).removeClass('fc-highlighted');
-}
 
 function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
     var start = event.start;
@@ -121,7 +81,7 @@ function eventClickHandler(event, jsEvent, view) {
     showEditBookingForm();
 }
 
-function eventAllowHandler(dropLocation, draggedEvent) {    
+function eventAllowHandler(dropLocation, draggedEvent) {
     return false;
 }
 
@@ -145,7 +105,7 @@ function selectAllowHandler(selectInfo) {
 }
 
 function selectOverlapHandler(event) {
-    bookableMinTime = '';
+    bookingMinStart = '';
     holidayObj = '';
     var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
     if (resource && !resource.isActive) {
@@ -160,8 +120,7 @@ function selectOverlapHandler(event) {
 	enableBookingAllDay = true;
 	return false;
     }
-    bookableMinTime = event.end.format('HH:mm');
-    enableBookingAllDay = false;
+    bookingMinStart = event.end.format('HH:mm');
     return true;
 }
 
@@ -174,7 +133,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
 	}
 	bookableId = resource.id;
 	bookableName = resource.title;
-	bookableMinTime = bookableMinTime !== '' ? bookableMinTime : resource.businessHours[0].start;
+	bookableMinTime = bookingMinStart !== '' ? bookingMinStart : resource.businessHours[0].start;
 	bookableMaxTime = resource.businessHours[0].end;
     } else {
 	bookableMinTime = '00:00';
@@ -198,10 +157,8 @@ function selectHandler(start, end, jsEvent, view, resource) {
     }
 
     selectedEnd = selectedEndDate.format('YYYY-MM-DD');
-    if (selectedEndDate.hours() < momentMinTime.hours()) {
+    if (selectedEndDate.hours() < momentMaxTime.hours() || selectedEndDate.hours() > momentMaxTime.hours()) {
 	selectedEnd += ' ' + bookableMinTime;
-    } else if (selectedEndDate.hours() > momentMaxTime.hours()) {
-	selectedEnd += ' ' + bookableMaxTime;
     } else {
 	selectedEnd += ' ' + end.format('HH:mm');
     }
@@ -209,7 +166,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
     bookingStart = moment(selectedStart);
     bookingEnd = moment(selectedEnd);
 
-    if (bookingEnd.isSame(bookingStart, 'minutes')) {
+    if (bookingEnd.isSame(bookingStart, 'minutes') || bookingStart.hours() === bookingEnd.hours()) {
 	bookingEnd.add(30, 'minutes');
     }
 
@@ -227,7 +184,10 @@ function selectHandler(start, end, jsEvent, view, resource) {
 }
 
 function unselectHandler(view, jsEvent) {
-    cleanBookingForm();
+    bookableMinTime = '';
+    bookableMaxTime = '';
+    holidayObj = '';
+    bookingMinStart = '';
 }
 
 /* notification functions*/
@@ -316,7 +276,7 @@ function fillBookingForm() {
 	value: bookingEnd.toDate()
     });
 
-    $('#allDay').prop('checked', bookingAllDay);
+
 }
 
 function cleanBookingForm() {
@@ -335,6 +295,7 @@ function cleanBookingForm() {
     bookableMinTime = '';
     bookableMaxTime = '';
     holidayObj = '';
+    enableBookingAllDay = true;
 }
 
 function successBookingForm(data) {
