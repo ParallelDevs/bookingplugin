@@ -1,6 +1,7 @@
 <?php use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/fullcalendar.min.css')); ?>
 <?php use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/scheduler.min.css')); ?>
 <?php use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/jquery.datetimepicker.min.css')); ?>
+<?php use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/booking.common.css')); ?>
 <?php use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/viewBookings.css')); ?>
 <?php use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/moment.min.js')); ?>
 <?php use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/fullcalendar.min.js')); ?>
