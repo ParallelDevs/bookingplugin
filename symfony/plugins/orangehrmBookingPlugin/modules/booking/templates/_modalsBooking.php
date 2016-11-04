@@ -7,7 +7,39 @@
         <form id="bookingForm" method="post" action="">
             <fieldset>
                 <ol>
-                    <?php echo $form->render() ?>
+                    <?php //echo $form->render() ?>
+                    <li>
+                        <?= $form['bookingId']->render() ?>
+                        <?= $form['bookableId']->render() ?>
+                        <?= $form['startAt']->render() ?>
+                        <?= $form['endAt']->render() ?>
+                    </li>
+                    <li>
+                        <?= $form['bookableName']->renderLabel() ?>
+                        <?= $form['bookableName']->render() ?>
+                    </li>
+                    <li>
+                        <?= $form['customerId']->renderLabel() ?>
+                        <?= $form['customerId']->render() ?>
+                    </li>
+                    <li>
+                        <?= $form['projectId']->renderLabel() ?>
+                        <?= $form['projectId']->render() ?>
+                    </li>
+                    <li class="inline-inputs">
+                        <?= $form['startDate']->renderLabel() ?>
+                        <?= $form['startDate']->render() ?>
+                        <?= $form['startTime']->render() ?>
+                    </li>
+                    <li class="inline-inputs">
+                        <?= $form['endDate']->renderLabel() ?>
+                        <?= $form['endDate']->render() ?>
+                        <?= $form['endTime']->render() ?>
+                    </li>
+                    <li>
+                        <?= $form['allDay']->renderLabel() ?>
+                        <?= $form['allDay']->render() ?>
+                    </li>
                     <li class="required">
                         <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
                     </li>
@@ -18,6 +50,7 @@
     </div>
     <div class="modal-footer">
         <input type="button"  id="dialogSave" name="dialogSave" class="btn" value="<?php echo __('Save'); ?>" />
+        <input type="button"  id="dialogDelete" name="dialogDelete" class="btn delete" value="<?php echo __('Delete'); ?>" />
         <input type="button"  id="dialogCancel" name="dialogCancel" class="btn reset" data-dismiss="modal"
                value="<?php echo __('Cancel'); ?>" />
     </div>
@@ -108,34 +141,34 @@
 <script type="text/javascript">
   jQuery(document).ready(function () {
       $("#customerId").change(function () {
-	  var id = $(this).val();
-	  if (id != '') {
-	      $.ajax({
-		  type: "POST",
-		  url: '<?= url_for('@customer_projects'); ?>',
-		  data: {customerId: escape(id)},
-		  cache: false,
-		  success: function (data)
-		  {
-		      fillProjectSelect('#projectId', data);
-		  }
-	      });
-	  }
+    var id = $(this).val();
+    if (id != '') {
+        $.ajax({
+      type: "POST",
+      url: '<?= url_for('@customer_projects'); ?>',
+      data: {customerId: escape(id)},
+      cache: false,
+      success: function (data)
+      {
+          fillProjectSelect('#projectId', data);
+      }
+        });
+    }
       });
 
       $("#dialogSave").click(function () {
-	  $.ajax({
-	      type: "POST",
-	      url: '<?= url_for('@booking_ajax'); ?>',
-	      data: $('#bookingForm').serialize(),
-	      cache: false,
-	      success: successBookingForm,
-	      dataType: "json"
-	  });
+    $.ajax({
+        type: "POST",
+        url: '<?= url_for('@save_booking'); ?>',
+        data: $('#bookingForm').serialize(),
+        cache: false,
+        success: successBookingForm,
+        dataType: "json"
+    });
       });
 
       $("#dialogCancel").click(function () {
-	  cleanBookingForm();
+    cleanBookingForm();
       });
   });
 
