@@ -60,7 +60,7 @@ class BookingForm extends sfForm {
     $booking->setCustomerId($posts['customerId']);
     $booking->setStartAt($posts['startAt']);
     $booking->setEndAt($posts['endAt']);
-    $booking->setFullDayDay($allDay);
+    $booking->setFullDay($allDay);
     $booking->setAvailableOn($availableOn);
     return $booking;
   }
@@ -99,7 +99,7 @@ class BookingForm extends sfForm {
       'projectId' => __('Project'),
       'startAt' => __('From'),
       'endAt' => __('To'),
-      'allDay' => __('All Day'),
+      'allDay' => __('Duration'),
     );
     return $labels;
   }
@@ -109,15 +109,24 @@ class BookingForm extends sfForm {
    * @return type
    */
   protected function getWidgets() {
+    $choices = array(
+      Booking::ALL_DAY_OFF => __('Hours'),
+      Booking::ALL_DAY_ON => __('All Day')
+    );
     return array(
       'bookingId' => new sfWidgetFormInputHidden(array(), array()),
       'bookableId' => new sfWidgetFormInputHidden(array(), array()),
       'bookableName' => new sfWidgetFormInputText(array(), array('readonly' => true)),
       'customerId' => new sfWidgetFormDoctrineChoice($this->getCustomerOptions(), array()),
       'projectId' => new sfWidgetFormChoice(array('choices' => array()), array()),
-      'startAt' => new sfWidgetFormInputText(array(), array()),
-      'endAt' => new sfWidgetFormInputText(array(), array()),
-      'allDay' => new sfWidgetFormInputCheckbox(array(), array('value' => 0)),
+      'startAt' => new sfWidgetFormInputHidden(array(), array()),
+      'endAt' => new sfWidgetFormInputHidden(array(), array()),
+      'startDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date')),
+      'startTime' => new sfWidgetFormInputText(array(), array('class' => 'input-time')),
+      'endDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date')),
+      'endTime' => new sfWidgetFormInputText(array(), array('class' => 'input-time')),
+      'allDay' => new sfWidgetFormChoice(array('choices' => $choices,
+        'expanded' => true, 'multiple' => false,), array('class' => 'inline-options')),
     );
   }
 
