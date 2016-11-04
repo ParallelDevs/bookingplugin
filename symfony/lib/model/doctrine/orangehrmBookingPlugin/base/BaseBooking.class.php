@@ -11,7 +11,7 @@
  * @property integer $customerId
  * @property datetime $startAt
  * @property datetime $endAt
- * @property smallint $allDay
+ * @property smallint $fullDay
  * @property clob $availableOn
  * @property BookableResource $BookableResource
  * @property Project $Project
@@ -23,7 +23,7 @@
  * @method integer          getCustomerId()       Returns the current record's "customerId" value
  * @method datetime         getStartAt()          Returns the current record's "startAt" value
  * @method datetime         getEndAt()            Returns the current record's "endAt" value
- * @method smallint         getAllDay()           Returns the current record's "allDay" value
+ * @method smallint         getFullDay()          Returns the current record's "fullDay" value
  * @method clob             getAvailableOn()      Returns the current record's "availableOn" value
  * @method BookableResource getBookableResource() Returns the current record's "BookableResource" value
  * @method Project          getProject()          Returns the current record's "Project" value
@@ -34,7 +34,7 @@
  * @method Booking          setCustomerId()       Sets the current record's "customerId" value
  * @method Booking          setStartAt()          Sets the current record's "startAt" value
  * @method Booking          setEndAt()            Sets the current record's "endAt" value
- * @method Booking          setAllDay()           Sets the current record's "allDay" value
+ * @method Booking          setFullDay()          Sets the current record's "fullDay" value
  * @method Booking          setAvailableOn()      Sets the current record's "availableOn" value
  * @method Booking          setBookableResource() Sets the current record's "BookableResource" value
  * @method Booking          setProject()          Sets the current record's "Project" value
@@ -76,7 +76,7 @@ abstract class BaseBooking extends sfDoctrineRecord {
       'type' => 'datetime',
       'notnull' => true,
     ));
-    $this->hasColumn('all_day as allDay', 'smallint', null, array(
+    $this->hasColumn('full_day as fullDay', 'smallint', null, array(
       'type' => 'smallint',
       'notnull' => true,
     ));

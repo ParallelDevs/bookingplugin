@@ -52,8 +52,8 @@ Booking:
        name: end_at as endAt
        type: datetime
        notnull: true    
-     all_day:
-       name: all_day as allDay
+     full_day:
+       name: full_day as fullDay
        type: smallint
        notnull: true
      available_on:

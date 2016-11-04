@@ -100,7 +100,7 @@ class BookingDao extends BaseDao {
    */
   private function _getBookingListQuery(&$select, &$query, array &$bindParams, &$orderBy, $sortField = null, $sortOrder = null, array $filters = null) {
     $select = ' SELECT DISTINCT b.booking_id AS bookingId, b.bookable_id AS bookableId, b.project_id AS projectId, b.customer_id AS customerId, ';
-    $select .= ' b.start_at AS startDate, b.end_at AS endDate, b.all_day AS allDay ';
+    $select .= ' b.start_at AS startAt, b.end_at AS endAt, b.full_day AS fullDay ';
     $query = ' FROM hs_hr_booking b ';
     $query .= ' LEFT JOIN hs_hr_bookable_resource br ON br.bookable_id = b.booking_id ';
     $query .= ' LEFT JOIN ohrm_project p ON p.project_id = b.project_id ';
@@ -294,9 +294,9 @@ class BookingDao extends BaseDao {
         $booking->setBookableResource($bookable);
         $booking->setProject($project);
         $booking->setCustomer($customer);
-        $booking->setStartAt($row['startDate']);
-        $booking->setEndAt($row['endDate']);
-        $booking->setAllDay($row['allDay']);
+        $booking->setStartAt($row['startAt']);
+        $booking->setEndAt($row['endAt']);
+        $booking->setFullDay($row['fullDay']);
         $resources[] = $booking;
       }
     }

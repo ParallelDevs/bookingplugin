@@ -19,7 +19,7 @@ CREATE TABLE `hs_hr_booking` (
     `customer_id` int(11) NOT NULL,
     `start_at` datetime NOT NULL,
     `end_at` datetime NOT NULL,
-    `all_day` smallint NOT NULL,
+    `full_day` smallint NOT NULL,
     `available_on` LONGTEXT NOT NULL,
     PRIMARY KEY(`booking_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;

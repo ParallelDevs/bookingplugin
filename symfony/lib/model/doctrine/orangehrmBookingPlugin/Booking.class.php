@@ -41,8 +41,8 @@ class Booking extends PluginBooking {
    *
    * @return type
    */
-  public function getEventAllDay() {
-    return $this->allDay == self::ALL_DAY_ON ? true : false;
+  public function getIsFullDay() {
+    return $this->fullDay == self::ALL_DAY_ON ? true : false;
   }
 
   /**
@@ -130,11 +130,12 @@ class Booking extends PluginBooking {
       'title' => $this->getTitle(),
       'start' => $this->getEventStart(),
       'end' => $this->getEventEnd(),
-      'allday' => $this->getEventAllDay(),
+      'allday' => false,
       'customerId' => $this->getCustomerId(),
       'customerName' => $this->getCustomerName(),
       'projectId' => $this->getProjectId(),
       'isHoliday' => false,
+      'fullDay' => $this->getIsFullDay(),
     );
   }
 
