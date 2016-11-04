@@ -39,7 +39,7 @@ bookable_workshifts:
    url:   /booking/bookableWorkShifts.json
    param: { module: booking, action: getBookableWorkShift, sf_format: json }
 
-booking_ajax:
-   url: /booking/handleBookingModal
-   param: { module: booking, action: handleBookingModal , sf_format: json}
+save_booking:
+   url: /booking/saveBooking
+   param: { module: booking, action: saveBooking , sf_format: json}
 
