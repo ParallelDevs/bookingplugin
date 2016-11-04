@@ -58,7 +58,7 @@ function eventOverlapHandler(stillEvent, movingEvent) {
     if (stillEvent.isHoliday) {
 	holidayObj = stillEvent;
 	return true;
-    } else if (movingEvent.allday || stillEvent.allday) {
+    } else if (movingEvent.fullDay || stillEvent.fullDay) {
 	showAllDayCollisionDialog(movingEvent.customerName + '-' + movingEvent.title, stillEvent.customerName + '-' + stillEvent.title);
 	return false;
     } else if (movingEvent.start.hours() === stillEvent.start.hours() || movingEvent.end.hours() === stillEvent.end.hours()) {
@@ -115,7 +115,7 @@ function selectOverlapHandler(event) {
 	holidayObj = event;
 	enableBookingAllDay = true;
 	return true;
-    } else if (event.allday) {
+    } else if (event.fullDay) {
 	showNewBookingAllDayCollision(event.title);
 	enableBookingAllDay = true;
 	return false;
@@ -244,7 +244,7 @@ function loadDataFromEvent(event) {
     projectId = event.projectId ? event.projectId : '';
     bookingStart = moment(event.start.format('YYYY-MM-DD HH:mm'));
     bookingEnd = moment(event.end.format('YYYY-MM-DD HH:mm'));
-    bookingAllDay = event.allday;
+    bookingAllDay = event.fullDay;
 }
 
 function fillBookingForm() {
