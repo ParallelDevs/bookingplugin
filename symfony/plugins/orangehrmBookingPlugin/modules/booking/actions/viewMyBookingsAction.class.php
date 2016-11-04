@@ -23,7 +23,17 @@ class viewMyBookingsAction extends baseBookingAction {
       }
     }
     catch (Exception $e) {
+      $this->bookableId = '';
       print_r($e);
+    }
+
+    if (empty($this->bookableId)) {
+      $this->forward('booking', 'viewNoBookableResource');
+    }
+    else {
+      $limitHours = BusinessBookingPluginService::getCompanyBusinessLimitHoursForCalendar();
+      $this->minTime = (!empty($limitHours) && isset($limitHours['minHour'])) ? $limitHours['minHour'] : "00:00:00";
+      $this->maxTime = (!empty($limitHours) && isset($limitHours['maxHour'])) ? $limitHours['maxHour'] : "24:00:00";
     }
   }
 
