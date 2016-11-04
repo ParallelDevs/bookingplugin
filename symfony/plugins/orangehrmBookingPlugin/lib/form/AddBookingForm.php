@@ -77,7 +77,7 @@ class AddBookingForm extends sfForm {
     $booking->customerId = $posts['customerId'];
     $booking->startAt = $posts['startAt'];
     $booking->endAt = $posts['endAt'];
-    $booking->allDay = isset($posts['allDay']) && !empty($posts['allDay']) ? Booking::ALL_DAY_ON : Booking::ALL_DAY_OFF;
+    $booking->fullDay = isset($posts['allDay']) && !empty($posts['allDay']) ? Booking::ALL_DAY_ON : Booking::ALL_DAY_OFF;
     $booking->availableOn = Booking::calculateAvailibity($startDate, $endDate);
     return $booking;
   }

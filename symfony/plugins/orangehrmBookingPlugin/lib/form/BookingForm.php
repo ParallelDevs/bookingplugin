@@ -60,7 +60,7 @@ class BookingForm extends sfForm {
     $booking->setCustomerId($posts['customerId']);
     $booking->setStartAt($posts['startAt']);
     $booking->setEndAt($posts['endAt']);
-    $booking->setAllDay($allDay);
+    $booking->setFullDayDay($allDay);
     $booking->setAvailableOn($availableOn);
     return $booking;
   }
@@ -117,7 +117,7 @@ class BookingForm extends sfForm {
       'projectId' => new sfWidgetFormChoice(array('choices' => array()), array()),
       'startAt' => new sfWidgetFormInputText(array(), array()),
       'endAt' => new sfWidgetFormInputText(array(), array()),
-      'allDay' => new sfWidgetFormInputCheckbox(array(), array('value' => 1)),
+      'allDay' => new sfWidgetFormInputCheckbox(array(), array('value' => 0)),
     );
   }
 
