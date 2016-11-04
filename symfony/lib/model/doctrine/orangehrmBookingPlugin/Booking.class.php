@@ -130,7 +130,6 @@ class Booking extends PluginBooking {
       'title' => $this->getTitle(),
       'start' => $this->getEventStart(),
       'end' => $this->getEventEnd(),
-      'allday' => false,
       'customerId' => $this->getCustomerId(),
       'customerName' => $this->getCustomerName(),
       'projectId' => $this->getProjectId(),
