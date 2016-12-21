@@ -1,4 +1,4 @@
-BookableResource:    
+BookableResource:
    tableName: hs_hr_bookable_resource
    columns:
      bookable_id:
@@ -7,7 +7,7 @@ BookableResource:
        primary: true
      emp_number:
        name: emp_number as empNumber
-       type: integer(7)       
+       type: integer(7)
        notnull: true
      is_active:
        name: is_active as isActive
@@ -22,7 +22,7 @@ BookableResource:
      Employee:
        class: Employee
        local: emp_number
-       foreign: emp_number               
+       foreign: emp_number
        foreignType: one
        type: one
 Booking:
@@ -51,20 +51,20 @@ Booking:
      end_at:
        name: end_at as endAt
        type: datetime
-       notnull: true    
+       notnull: true
      full_day:
        name: full_day as fullDay
        type: smallint
        notnull: true
      available_on:
        name: available_on as availableOn
-       type: clob       
+       type: clob
        notnull: true
     relations:
      BookableResource:
        class: BookableResource
        local: bookableId
-       foreign: bookable_id               
+       foreign: bookable_id
        foreignType: one
        type: one
      Project:
