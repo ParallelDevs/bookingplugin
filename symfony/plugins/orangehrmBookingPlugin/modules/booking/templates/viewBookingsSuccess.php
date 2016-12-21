@@ -16,6 +16,7 @@
   var currentDate = '<?= date('Y-m-d') ?>';
   var calendarMinTime = '<?= $minTime ?>';
   var calendarMaxTime = '<?= $maxTime ?>';
+  var calendarFirstDay = '<?= $firstDay ?>';
   var bookableResourceTitle = '<?= __("Resources") ?>';
   var bookableResourcesUrl = '<?= url_for('@bookables_json') ?>';
   var bookingResourcesUrl = '<?= url_for('@bookings_json') ?>';

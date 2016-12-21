@@ -324,7 +324,7 @@ $(function () {
 	selectHelper: true,
 	editable: true,
 	aspectRatio: 4.0,
-	firstDay: 1,
+	firstDay: calendarFirstDay,
 	weekNumbers: true,
 	slotEventOverlap: false,
 	minTime: calendarMinTime,

@@ -41,6 +41,16 @@ class BusinessBookingPluginService extends BaseService {
   }
 
   /**
+   * 
+   * @return \TimesheetPeriodService
+   */
+  public static function getTimesheetPeriodService() {
+    $timesheetService = new TimesheetPeriodService();
+    $timesheetService->setTimesheetPeriodDao(new TimesheetPeriodDao());
+    return $timesheetService;
+  }
+
+  /**
    *
    * @return array
    */
@@ -258,6 +268,24 @@ class BusinessBookingPluginService extends BaseService {
       return $hour2;
     }
     return $hour1;
+  }
+
+  /**
+   * 
+   * @return int
+   */
+  public static function getCompanyFirstBusinessDay() {
+    $timesheetService = self::getTimesheetPeriodService();
+    $startDay = 1;
+    try {
+      $xmlConfig = $timesheetService->getTimesheetPeriodDao()->getDefinedTimesheetPeriod();
+      $xml = simplexml_load_String($xmlConfig);
+      $startDay = $xml->StartDate;
+    }
+    catch (Exception $e) {
+      $startDay = 1;
+    }
+    return $startDay;
   }
 
 }
