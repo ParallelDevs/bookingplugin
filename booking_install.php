@@ -85,7 +85,7 @@ CODE;
 else {
 	$content = <<< CODE
 <h1>Welcome to Booking Plugin Installer for OrangeHRM</h1>
-				<p>You are about to install the Booking Plugin, please make sure that you have made all neccesary backups of your site.</p>
+				<p>You are about to install the Booking Plugin, please make sure that you have made all necessary backups of your site.</p>
 				<p>Click on the "Install" button to proceed.</p>
 				<form method='post' name="install-booking" id="install-booking">
 						<input type="hidden" name="accept_install" value="1">
