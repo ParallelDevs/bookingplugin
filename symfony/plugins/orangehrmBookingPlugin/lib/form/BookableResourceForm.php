@@ -9,6 +9,7 @@ class BookableResourceForm extends sfForm {
 
   private $bookableService;
   private $bookableResource;
+  private $bookableIsNew = true;
 
   /**
    *
@@ -34,6 +35,7 @@ class BookableResourceForm extends sfForm {
     $bookableId = $this->getOption('bookableId');
     if (!empty($bookableId)) {
       $this->bookableResource = $this->getBookableService()->getBookableResourceById($bookableId);
+      $this->bookableIsNew = false;
     }
     else {
       $this->bookableResource = new BookableResource();
@@ -91,13 +93,19 @@ class BookableResourceForm extends sfForm {
       BookableResource::STATUS_ACTIVE => __('Active'),
       BookableResource::STATUS_INACTIVE => __('Inactive'),
     );
-    return array(
+
+    $widgets = array(
       'bookableId' => new sfWidgetFormInputHidden(array(), array('value' => $this->bookableResource->bookableId)),
-      'employee' => new ohrmWidgetEmployeeNameAutoFill(array('loadingMethod' => 'ajax')),
+      'employee' => 
+      $this->bookableIsNew ? 
+        new ohrmWidgetEmployeeNameAutoFill(array('loadingMethod' => 'ajax'))
+        : new sfWidgetFormInputText(array(), array('value'=> $this->bookableResource->getEmployeeName(),'readonly'=>true, "class"=>"read-only")),
       'empNum' => new sfWidgetFormInputHidden(array(), array('value' => $this->bookableResource->empNumber)),
       'status' => new sfWidgetFormSelect(array('choices' => $status), array('value' => $this->bookableResource->isActive, "class" => "formInputText editable")),
       'bookableColor' => new sfWidgetFormInputText(array(), array('value' => $this->bookableResource->bookableColor, 'class' => 'editable')),
     );
+
+    return $widgets;
   }
 
   /**
@@ -105,13 +113,14 @@ class BookableResourceForm extends sfForm {
    * @return type
    */
   protected function getValidators() {
-    return array(
+    $validators = array(
       'bookableId' => new sfValidatorDoctrineChoice(array('model' => 'BookableResource', 'required' => false)),
       'employee' => new sfValidatorString(array('required' => false)),
       'empNum' => new sfValidatorString(array('required' => false)),
       'status' => new sfValidatorString(array('required' => false)),
       'bookableColor' => new sfValidatorString(array('required' => false)),
     );
+    return $validators;
   }
 
   /**

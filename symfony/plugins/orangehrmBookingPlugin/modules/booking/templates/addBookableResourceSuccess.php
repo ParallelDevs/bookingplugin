@@ -6,6 +6,7 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/addBookableResource
 $partialParams = array(
   'form' => $form,
   'actionForm' => url_for('@add_bookable'),
+  'buttonValue' => __("Save"),
 );
 ?>
 <div class="box">
