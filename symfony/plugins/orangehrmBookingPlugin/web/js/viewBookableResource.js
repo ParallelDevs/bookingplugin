@@ -20,7 +20,7 @@ $(document).ready(function () {
 	}
 	
 	if($("#btnSave").attr('value') == save) {
-	    $("#bookableform").submit();
+	    $("#frmBookable").submit();
 	}
     });
 
