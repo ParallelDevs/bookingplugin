@@ -51,6 +51,7 @@ class configureBookingAction extends baseBookingAction {
         try {
           $this->getConfigBookingService()->setCompanyBreaksTime($breaks);
           $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
+          $this->redirect('booking/configureBooking');
         }
         catch (Exception $e) {
           print($e->getMessage());
