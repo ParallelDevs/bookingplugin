@@ -39,6 +39,10 @@ class configureBookingAction extends baseBookingAction {
     }
   }
 
+  /**
+   * 
+   * @param type $request
+   */
   public function execute($request) {
     $this->setForm(new ConfigBookingForm(array(), array(), false));
 
