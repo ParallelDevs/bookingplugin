@@ -7,7 +7,7 @@
 CREATE TABLE `hs_hr_bookable_resource` (
     `bookable_id` int(11) UNSIGNED AUTO_INCREMENT,
     `emp_number` int(7) NOT NULL DEFAULT 0,
-    `is_active` smallint DEFAULT '0',
+    `is_active` smallint DEFAULT 0,
     `bookable_color` VARCHAR(8) NOT NULL DEFAULT '#000',
     PRIMARY KEY(`bookable_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
@@ -15,11 +15,13 @@ CREATE TABLE `hs_hr_bookable_resource` (
 CREATE TABLE `hs_hr_booking` (
     `booking_id` int(11) UNSIGNED AUTO_INCREMENT,
     `bookable_id` int(11) UNSIGNED NOT NULL,
-    `project_id` int(11) NOT NULL,
     `customer_id` int(11) NOT NULL,
-    `start_at` datetime NOT NULL,
-    `end_at` datetime NOT NULL,
-    `full_day` smallint NOT NULL,
+    `project_id` int(11) NOT NULL,
+    `duration` int(11) UNSIGNED NOT NULL,    
+    `start_date` DATE NOT NULL,
+    `end_date` DATE NOT NULL,
+    `start_time` TIME NULL DEFAULT NULL,
+    `end_time` TIME NULL DEFAULT NULL,
     `available_on` LONGTEXT NOT NULL,
     PRIMARY KEY(`booking_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
