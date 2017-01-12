@@ -1,81 +1,89 @@
 BookableResource:
-   tableName: hs_hr_bookable_resource
-   columns:
-     bookable_id:
-       name: bookable_id as bookableId
-       type: integer(7)
-       primary: true
-     emp_number:
-       name: emp_number as empNumber
-       type: integer(7)
-       notnull: true
-     is_active:
-       name: is_active as isActive
-       type: smallint
-       default: '0'
-     bookable_color:
-       name: bookable_color as bookableColor
-       type: string(8)
-       notnull: true
-       default: '#000'
-   relations:
-     Employee:
-       class: Employee
-       local: emp_number
-       foreign: emp_number
-       foreignType: one
-       type: one
+  tableName: hs_hr_bookable_resource
+  columns:
+    bookable_id:
+      name: bookable_id as bookableId
+      type: integer(7)
+      primary: true
+    emp_number:
+      name: emp_number as empNumber
+      type: integer(7)
+      notnull: true
+    is_active:
+      name: is_active as isActive
+      type: smallint
+      default: '0'
+    bookable_color:
+      name: bookable_color as bookableColor
+      type: string(8)
+      notnull: true
+      default: '#000'
+  relations:
+    Employee:
+      class: Employee
+      local: emp_number
+      foreign: emp_number
+      foreignType: one
+      type: one
 Booking:
-    tableName: hs_hr_booking
-    columns:
-     booking_id:
-       name: booking_id as bookingId
-       type: integer(7)
-       primary: true
-     bookable_id:
-       name: bookable_id as bookableId
-       type: integer(7)
-       notnull: true
-     project_id:
+  tableName: hs_hr_booking
+  columns:
+    booking_id:
+      name: booking_id as bookingId
+      type: integer(7)
+      primary: true
+    bookable_id:
+      name: bookable_id as bookableId
+      type: integer(7)
+      notnull: true
+    customer_id:
+      name: customer_id as customerId
+      type: integer(4)
+      notnull: true
+    project_id:
       name: project_id as projectId
       type: integer
       notnull: true
-     customer_id:
-      name : customer_id as customerId
-      type: integer(4)
+    duration:
+      name: duration as duration
+      type: integer
       notnull: true
-     start_at:
-       name: start_at as startAt
-       type: datetime
-       notnull: true
-     end_at:
-       name: end_at as endAt
-       type: datetime
-       notnull: true
-     full_day:
-       name: full_day as fullDay
-       type: smallint
-       notnull: true
-     available_on:
-       name: available_on as availableOn
-       type: clob
-       notnull: true
-    relations:
-     BookableResource:
-       class: BookableResource
-       local: bookableId
-       foreign: bookable_id
-       foreignType: one
-       type: one
-     Project:
-       class: Project
-       local: projectId
-       foreign: project_id
-       foreignType: one
-       type: one
-     Customer:
-       class: Customer
-       local: customerId
-       foreign: customer_id
-       foreignType: one
-       type: one
+    start_date:
+      name: start_date as startDate
+      type: date
+      notnull: true
+    end_date:
+      name: end_date as endDate
+      type: date
+      notnull: true
+    start_time:
+      name: start_time as startTime
+      type: time
+      notnull: false
+    end_time:
+      name: end_time as endTime
+      type: time
+      notnull: false    
+    available_on:
+      name: available_on as availableOn
+      type: clob
+      notnull: true
+  relations:
+    BookableResource:
+      class: BookableResource
+      local: bookableId
+      foreign: bookable_id
+      foreignType: one
+      type: one
+    Customer:
+      class: Customer
+      local: customerId
+      foreign: customer_id
+      foreignType: one
+      type: one
+    Project:
+      class: Project
+      local: projectId
+      foreign: project_id
+      foreignType: one
+      type: one
