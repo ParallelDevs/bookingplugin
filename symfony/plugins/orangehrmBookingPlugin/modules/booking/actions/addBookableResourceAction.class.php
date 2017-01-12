@@ -46,6 +46,7 @@ class addBookableResourceAction extends baseBookingAction {
 
         try {
           $empNumber = $this->form->save();
+          $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
           $this->redirect('booking/viewBookableResources');
         }
         catch (Exception $e) {
