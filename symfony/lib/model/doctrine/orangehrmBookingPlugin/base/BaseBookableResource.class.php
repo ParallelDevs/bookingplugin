@@ -12,18 +12,18 @@
  * @property Employee $Employee
  * @property Booking $Booking
  * 
- * @method integer          get()              Returns the current record's "bookableId" value
- * @method integer          get()              Returns the current record's "empNumber" value
- * @method smallint         get()              Returns the current record's "isActive" value
- * @method string           get()              Returns the current record's "bookableColor" value
- * @method Employee         get()              Returns the current record's "Employee" value
- * @method Booking          get()              Returns the current record's "Booking" value
- * @method BookableResource set()              Sets the current record's "bookableId" value
- * @method BookableResource set()              Sets the current record's "empNumber" value
- * @method BookableResource set()              Sets the current record's "isActive" value
- * @method BookableResource set()              Sets the current record's "bookableColor" value
- * @method BookableResource set()              Sets the current record's "Employee" value
- * @method BookableResource set()              Sets the current record's "Booking" value
+ * @method integer          getBookableId()           Returns the current record's "bookableId" value
+ * @method integer          getEmpNumber()            Returns the current record's "empNumber" value
+ * @method smallint         getisActive()             Returns the current record's "isActive" value
+ * @method string           getbookableColor()        Returns the current record's "bookableColor" value
+ * @method Employee         getEmployee()             Returns the current record's "Employee" value
+ * @method Booking          getBooking()              Returns the current record's "Booking" value
+ * @method BookableResource setBookableId()           Sets the current record's "bookableId" value
+ * @method BookableResource setEmpNumber()            Sets the current record's "empNumber" value
+ * @method BookableResource setIsActive()             Sets the current record's "isActive" value
+ * @method BookableResource setBookableColor()        Sets the current record's "bookableColor" value
+ * @method BookableResource setEmployee()             Sets the current record's "Employee" value
+ * @method BookableResource setBooking()              Sets the current record's "Booking" value
  * 
  * @package    orangehrm
  * @subpackage model\booking\base
