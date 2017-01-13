@@ -30,7 +30,7 @@ gulp.task('styles', function () {
 
 
 gulp.task('watch', function () {
-    gulp.watch(config.assetsDir + '/' + config.sassPattern, ['styles']);
+    gulp.watch(config.assetsDir + '/' + config.scssPattern, ['styles']);
 });
 
 gulp.task('default', ['styles', 'watch']);
