@@ -48,6 +48,10 @@ Booking:
       name: duration as duration
       type: integer
       notnull: true
+    full_day:
+       name: full_day as fullDay
+       type: smallint
+       notnull: true
     start_date:
       name: start_date as startDate
       type: date
