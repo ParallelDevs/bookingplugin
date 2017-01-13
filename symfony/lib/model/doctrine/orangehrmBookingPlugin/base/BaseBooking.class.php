@@ -10,6 +10,7 @@
  * @property integer $customerId
  * @property integer $projectId
  * @property integer $duration
+ * @property smallint $fullDay
  * @property date $startDate
  * @property date $endDate
  * @property time $startTime
@@ -19,32 +20,34 @@
  * @property Customer $Customer
  * @property Project $Project
  * 
- * @method integer          get()                 Returns the current record's "bookingId" value
- * @method integer          get()                 Returns the current record's "bookableId" value
- * @method integer          get()                 Returns the current record's "customerId" value
- * @method integer          get()                 Returns the current record's "projectId" value
- * @method integer          get()                 Returns the current record's "duration" value
- * @method date             get()                 Returns the current record's "startDate" value
- * @method date             get()                 Returns the current record's "endDate" value
- * @method time             get()                 Returns the current record's "startTime" value
- * @method time             get()                 Returns the current record's "endTime" value
- * @method clob             get()                 Returns the current record's "availableOn" value
- * @method BookableResource get()                 Returns the current record's "BookableResource" value
- * @method Customer         get()                 Returns the current record's "Customer" value
- * @method Project          get()                 Returns the current record's "Project" value
- * @method Booking          set()                 Sets the current record's "bookingId" value
- * @method Booking          set()                 Sets the current record's "bookableId" value
- * @method Booking          set()                 Sets the current record's "customerId" value
- * @method Booking          set()                 Sets the current record's "projectId" value
- * @method Booking          set()                 Sets the current record's "duration" value
- * @method Booking          set()                 Sets the current record's "startDate" value
- * @method Booking          set()                 Sets the current record's "endDate" value
- * @method Booking          set()                 Sets the current record's "startTime" value
- * @method Booking          set()                 Sets the current record's "endTime" value
- * @method Booking          set()                 Sets the current record's "availableOn" value
- * @method Booking          set()                 Sets the current record's "BookableResource" value
- * @method Booking          set()                 Sets the current record's "Customer" value
- * @method Booking          set()                 Sets the current record's "Project" value
+ * @method integer          getBookingId()               Returns the current record's "bookingId" value
+ * @method integer          getBookableId()              Returns the current record's "bookableId" value
+ * @method integer          getCustomerId()              Returns the current record's "customerId" value
+ * @method integer          getProjectId()               Returns the current record's "projectId" value
+ * @method integer          getDuration()                Returns the current record's "duration" value
+ * @method smallint         getFullDay()                 Returns the current record's "fullDay" value
+ * @method date             getStartDate()               Returns the current record's "startDate" value
+ * @method date             getEndDate()                 Returns the current record's "endDate" value
+ * @method time             getStartTime()               Returns the current record's "startTime" value
+ * @method time             getEndTime()                 Returns the current record's "endTime" value
+ * @method clob             getAvailableOn()             Returns the current record's "availableOn" value
+ * @method BookableResource getBookableResource()        Returns the current record's "BookableResource" value
+ * @method Customer         getCustomer()                Returns the current record's "Customer" value
+ * @method Project          getProject()                 Returns the current record's "Project" value
+ * @method Booking          setBookingId()               Sets the current record's "bookingId" value
+ * @method Booking          setBookableId()              Sets the current record's "bookableId" value
+ * @method Booking          setCustomerId()              Sets the current record's "customerId" value
+ * @method Booking          setProjectId()               Sets the current record's "projectId" value
+ * @method Booking          setDuration()                Sets the current record's "duration" value
+ * @method Booking          setFullDay()                 Sets the current record's "fullDay" value
+ * @method Booking          setStartDate()               Sets the current record's "startDate" value
+ * @method Booking          setEndDate()                 Sets the current record's "endDate" value
+ * @method Booking          setStartTime()               Sets the current record's "startTime" value
+ * @method Booking          setEndTime()                 Sets the current record's "endTime" value
+ * @method Booking          setAvailableOn()             Sets the current record's "availableOn" value
+ * @method Booking          setBookableResource()        Sets the current record's "BookableResource" value
+ * @method Booking          setCustomer()                Sets the current record's "Customer" value
+ * @method Booking          setProject()                 Sets the current record's "Project" value
  * 
  * @package    orangehrm
  * @subpackage model\booking\base
@@ -77,6 +80,10 @@ abstract class BaseBooking extends sfDoctrineRecord
              ));
         $this->hasColumn('duration as duration', 'integer', null, array(
              'type' => 'integer',
+             'notnull' => true,
+             ));
+        $this->hasColumn('full_day as fullDay', 'smallint', null, array(
+             'type' => 'smallint',
              'notnull' => true,
              ));
         $this->hasColumn('start_date as startDate', 'date', null, array(
