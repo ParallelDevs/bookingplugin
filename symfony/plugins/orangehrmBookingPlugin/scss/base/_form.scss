@@ -1,0 +1,30 @@
+.form-booking-plugin {
+    & input {
+        margin-right: 10px;
+    }
+    & .input-date {
+        width: 100px;
+    }
+    & .input-time {
+        width: 80px;
+    }
+    & .input-hours, & .input-minutes {
+        width: 50px;
+    }
+    & .input-group-inline {
+        & label:last-of-type {
+            width: auto;
+            min-width: 50px;
+        }
+    }
+    & .duration {
+        & input {
+            margin-right: 0;
+        }
+        & span {
+            float: left;
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+    }
+}

@@ -1,0 +1,63 @@
+#script-warning, #loading {
+  display: none; }
+
+#loading {
+  position: absolute; }
+
+#script-warning {
+  text-align: center; }
+
+#calendar {
+  width: auto; }
+
+.form-booking-plugin input {
+  margin-right: 10px; }
+
+.form-booking-plugin .input-date {
+  width: 100px; }
+
+.form-booking-plugin .input-time {
+  width: 80px; }
+
+.form-booking-plugin .input-hours, .form-booking-plugin .input-minutes {
+  width: 50px; }
+
+.form-booking-plugin .input-group-inline label:last-of-type {
+  width: auto;
+  min-width: 50px; }
+
+.form-booking-plugin .duration input {
+  margin-right: 0; }
+
+.form-booking-plugin .duration span {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.5em; }
+
+#calendar {
+  max-width: 100%;
+  margin: 50px auto; }
+
+#script-warning {
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  padding: 0 10px;
+  line-height: 40px;
+  font-weight: bold;
+  font-size: 12px;
+  color: #ff0000; }
+
+#loading {
+  top: 10px;
+  right: 10px; }
+
+.fc-nonbusiness {
+  opacity: 0.75; }
+  .fc-nonbusiness.holiday {
+    opacity: 0.65; }
+
+.fc-highlighted {
+  border-color: #ff0000;
+  font-weight: bolder; }
+
+/*# sourceMappingURL=orangeBookingPlugin.css.map */
