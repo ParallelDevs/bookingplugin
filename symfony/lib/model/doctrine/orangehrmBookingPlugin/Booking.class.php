@@ -14,6 +14,8 @@ class Booking extends PluginBooking {
 
   const ALL_DAY_ON = 1;
   const ALL_DAY_OFF = 0;
+  const BOOKING_TYPE_HOURS = 1;
+  const BOOKING_TYPE_SPECIFIC_TIME = 2;
 
   private $configBookingService;
 
