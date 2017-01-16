@@ -34,7 +34,7 @@ abstract class BaseBookableResource extends sfDoctrineRecord
 {
     public function setTableDefinition()
     {
-        $this->setTableName('hs_hr_bookable_resource');
+        $this->setTableName('ohrm_bookable_resource');
         $this->hasColumn('bookable_id as bookableId', 'integer', 7, array(
              'type' => 'integer',
              'primary' => true,

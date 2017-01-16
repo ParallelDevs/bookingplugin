@@ -9,7 +9,7 @@
  * @property integer $bookableId
  * @property integer $customerId
  * @property integer $projectId
- * @property integer $duration
+ * @property float $duration
  * @property integer $bookingType
  * @property date $startDate
  * @property date $endDate
@@ -24,7 +24,7 @@
  * @method integer          getBookableId()              Returns the current record's "bookableId" value
  * @method integer          getCustomerId()              Returns the current record's "customerId" value
  * @method integer          getProjectId()               Returns the current record's "projectId" value
- * @method integer          getDuration()                Returns the current record's "duration" value
+ * @method float            getDuration()                Returns the current record's "duration" value
  * @method smallint         getBookingType()             Returns the current record's "bookingType" value
  * @method date             getStartDate()               Returns the current record's "startDate" value
  * @method date             getEndDate()                 Returns the current record's "endDate" value
@@ -58,7 +58,7 @@ abstract class BaseBooking extends sfDoctrineRecord
 {
     public function setTableDefinition()
     {
-        $this->setTableName('hs_hr_booking');
+        $this->setTableName('ohrm_booking');
         $this->hasColumn('booking_id as bookingId', 'integer', 7, array(
              'type' => 'integer',
              'primary' => true,
@@ -78,8 +78,8 @@ abstract class BaseBooking extends sfDoctrineRecord
              'type' => 'integer',
              'notnull' => true,
              ));
-        $this->hasColumn('duration as duration', 'integer', null, array(
-             'type' => 'integer',
+        $this->hasColumn('duration as duration', 'float', null, array(
+             'type' => 'float',
              'notnull' => true,
              ));
         $this->hasColumn('booking_type as bookingType', 'integer', null, array(
