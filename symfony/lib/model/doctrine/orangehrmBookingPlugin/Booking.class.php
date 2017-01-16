@@ -12,56 +12,10 @@
  */
 class Booking extends PluginBooking {
 
-  const ALL_DAY_ON = 1;
-  const ALL_DAY_OFF = 0;
   const BOOKING_TYPE_HOURS = 1;
   const BOOKING_TYPE_SPECIFIC_TIME = 2;
 
   private $configBookingService;
-
-  /**
-   *
-   * @return type
-   */
-  public function getEventStart() {
-    $time = strtotime($this->startAt);
-    $date = date('c', $time);
-    return $date;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getEventEnd() {
-    $time = strtotime($this->endAt);
-    $date = date('c', $time);
-    return $date;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getIsFullDay() {
-    return $this->fullDay == self::ALL_DAY_ON ? true : false;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getTitle() {
-    return $this->getProject()->getName();
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getCustomerName() {
-    return $this->getCustomer()->getName();
-  }
 
   /**
    *
@@ -102,6 +56,101 @@ class Booking extends PluginBooking {
   }
 
   /**
+   * 
+   * @param int $bookingType
+   * @param array $data
+   * @return float
+   */
+  public static function calculateDuration($bookingType, $data = array()) {
+    if ((
+        self::BOOKING_TYPE_HOURS !== $bookingType &&
+        self::BOOKING_TYPE_SPECIFIC_TIME !== $bookingType) ||
+        !is_array($data) ||
+        empty($data) ||
+        !array_key_exists('hours', $data) ||
+        !array_key_exists('minutes', $data) ||
+        !array_key_exists('startTime', $data) ||
+        !array_key_exists('endTime', $data)) {
+      return 0;
+    }
+
+    switch ($bookingType) {
+      case self::BOOKING_TYPE_HOURS:
+        $hours = floatval($data['hours']);
+        $minutes = floatval($data['minutes']);
+        $minutes /= 60;
+        $duration = $hours + $minutes;
+        break;
+      case self::BOOKING_TYPE_SPECIFIC_TIME:
+        $date = date('Y-m-d');
+        $start = strtotime($date . ' ' . $data['startTime']);
+        $end = strtotime($date . ' ' . $data['endTime']);
+        $duration = floor(($end - $start) / 3600);
+        break;
+      default :
+        $duration = 0;
+    }
+
+    return $duration;
+  }
+
+  /**
+   *
+   * @return type
+   */
+  public function getEventStart() {
+    $time = strtotime($this->startDate . ' ' . $this->startTime);
+    $date = date('c', $time);
+    return $date;
+  }
+
+  /**
+   *
+   * @return type
+   */
+  public function getEventEnd() {
+    $time = strtotime($this->endDate . ' ' . $this->endTime);
+    $date = date('c', $time);
+    return $date;
+  }
+
+  /**
+   *
+   * @return type
+   */
+  public function getTitle() {
+    return $this->getProject()->getName();
+  }
+
+  /**
+   *
+   * @return type
+   */
+  public function getCustomerName() {
+    return $this->getCustomer()->getName();
+  }
+
+  /**
+   *
+   * @return type
+   */
+  public function getHours() {
+    $duration = floor($this->duration);
+    return intval($duration);
+  }
+
+  /**
+   *
+   * @return type
+   */
+  public function getMinutes() {
+    $duration_f = floor($this->duration * 60);
+    $duration = intval($duration_f);
+    $minutes = $duration % 60;
+    return $minutes;
+  }
+
+  /**
    *
    * @param ConfigBookingService $configService
    */
@@ -132,11 +181,11 @@ class Booking extends PluginBooking {
       'title' => $this->getTitle(),
       'start' => $this->getEventStart(),
       'end' => $this->getEventEnd(),
+      'duration' => $this->getDuration(),
       'customerId' => $this->getCustomerId(),
       'customerName' => $this->getCustomerName(),
       'projectId' => $this->getProjectId(),
       'isHoliday' => false,
-      'fullDay' => $this->getIsFullDay(),
     );
   }
 
