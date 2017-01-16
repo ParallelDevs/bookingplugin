@@ -4,7 +4,7 @@
  */
 
 -- DB Schema for plugin
-CREATE TABLE `hs_hr_bookable_resource` (
+CREATE TABLE `ohrm_bookable_resource` (
     `bookable_id` int(11) UNSIGNED AUTO_INCREMENT,
     `emp_number` int(7) NOT NULL DEFAULT 0,
     `is_active` smallint DEFAULT 0,
@@ -12,12 +12,12 @@ CREATE TABLE `hs_hr_bookable_resource` (
     PRIMARY KEY(`bookable_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `hs_hr_booking` (
+CREATE TABLE `ohrm_booking` (
     `booking_id` int(11) UNSIGNED AUTO_INCREMENT,
     `bookable_id` int(11) UNSIGNED NOT NULL,
     `customer_id` int(11) NOT NULL,
     `project_id` int(11) NOT NULL,
-    `duration` int(11) UNSIGNED NOT NULL,
+    `duration` float(18, 2) NOT NULL,
     `booking_type` int(11) NOT NULL,
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
@@ -27,9 +27,9 @@ CREATE TABLE `hs_hr_booking` (
     PRIMARY KEY(`booking_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `hs_hr_bookable_resource` ADD FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee`(`emp_number`);
+ALTER TABLE `ohrm_bookable_resource` ADD FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee`(`emp_number`);
 
-ALTER TABLE `hs_hr_booking`
+ALTER TABLE `ohrm_booking`
     ADD FOREIGN KEY (`bookable_id`) REFERENCES `hs_hr_bookable_resource`(`bookable_id`),
     ADD FOREIGN KEY (`project_id`)  REFERENCES `ohrm_project`(`project_id`),
     ADD FOREIGN KEY (`customer_id`) REFERENCES `ohrm_customer`(`customer_id`);
