@@ -27,7 +27,8 @@ CREATE TABLE `ohrm_booking` (
     PRIMARY KEY(`booking_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `ohrm_bookable_resource` ADD FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee`(`emp_number`);
+ALTER TABLE `ohrm_bookable_resource` 
+    ADD FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee`(`emp_number`);
 
 ALTER TABLE `ohrm_booking`
     ADD FOREIGN KEY (`bookable_id`) REFERENCES `ohrm_bookable_resource`(`bookable_id`),
