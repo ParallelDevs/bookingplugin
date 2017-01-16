@@ -160,7 +160,7 @@ class BookableResourceDao extends BaseDao {
     $select = 'SELECT b.bookable_id as bookableId, b.is_active as isActive, b.emp_number,  b.bookable_color as bookableColor, ';
     $select .= 'e.emp_number AS empNumber, e.employee_id AS employeeId, ';
     $select .= 'e.emp_firstname AS firstName, e.emp_lastname AS lastName ';
-    $query = ' FROM hs_hr_bookable_resource b ';
+    $query = ' FROM ohrm_bookable_resource b ';
     $query .= ' LEFT JOIN hs_hr_employee e ON e.emp_number = b.emp_number ';
 
     $conditions = array();
