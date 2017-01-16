@@ -18,7 +18,7 @@ CREATE TABLE `hs_hr_booking` (
     `customer_id` int(11) NOT NULL,
     `project_id` int(11) NOT NULL,
     `duration` int(11) UNSIGNED NOT NULL,
-    `full_day` smallint NOT NULL,
+    `booking_type` int(11) NOT NULL,
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
     `start_time` TIME NULL DEFAULT NULL,
