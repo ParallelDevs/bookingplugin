@@ -57,41 +57,44 @@ class Booking extends PluginBooking {
 
   /**
    * 
-   * @param int $bookingType
-   * @param array $data
-   * @return float
+   * @param type $hours
+   * @param type $minutes
+   * @return type
    */
-  public static function calculateDuration($bookingType, $data = array()) {
-    if ((
-        self::BOOKING_TYPE_HOURS !== $bookingType &&
-        self::BOOKING_TYPE_SPECIFIC_TIME !== $bookingType) ||
-        !is_array($data) ||
-        empty($data) ||
-        !array_key_exists('hours', $data) ||
-        !array_key_exists('minutes', $data) ||
-        !array_key_exists('startTime', $data) ||
-        !array_key_exists('endTime', $data)) {
-      return 0;
-    }
+  public static function calculateDurationHours($hours, $minutes) {
+    $f_hours = floatval($hours);
+    $f_minutes = floatval($minutes);
+    $f_minutes /= 60;
+    $duration = $f_hours + $f_minutes;
+    return floatval($duration);
+  }
 
-    switch ($bookingType) {
-      case self::BOOKING_TYPE_HOURS:
-        $hours = floatval($data['hours']);
-        $minutes = floatval($data['minutes']);
-        $minutes /= 60;
-        $duration = $hours + $minutes;
-        break;
-      case self::BOOKING_TYPE_SPECIFIC_TIME:
-        $date = date('Y-m-d');
-        $start = strtotime($date . ' ' . $data['startTime']);
-        $end = strtotime($date . ' ' . $data['endTime']);
-        $duration = floor(($end - $start) / 3600);
-        break;
-      default :
-        $duration = 0;
-    }
+  /**
+   * 
+   * @param type $startTime
+   * @param type $endTime
+   * @return type
+   */
+  public static function calculateDurationSpecificTime($startTime, $endTime) {
+    $date = date('Y-m-d');
+    $start = strtotime($date . ' ' . $startTime);
+    $end = strtotime($date . ' ' . $endTime);
+    $duration = floor(($end - $start) / 3600);
+    return floatval($duration);
+  }
 
-    return $duration;
+  /**
+   * 
+   * @param type $startTime
+   * @param type $hours
+   * @param type $minutes
+   * @return type
+   */
+  public static function calculateEndTimeOfHours($startTime, $hours, $minutes) {
+    $start = date('Y-m-d') . ' ' . $startTime;
+    $end = strtotime("+ $hours hours $minutes minutes", $start);
+    $endTime = date('H:i:s', $end);
+    return $endTime;
   }
 
   /**
