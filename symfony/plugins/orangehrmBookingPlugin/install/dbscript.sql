@@ -30,7 +30,7 @@ CREATE TABLE `ohrm_booking` (
 ALTER TABLE `ohrm_bookable_resource` ADD FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee`(`emp_number`);
 
 ALTER TABLE `ohrm_booking`
-    ADD FOREIGN KEY (`bookable_id`) REFERENCES `hs_hr_bookable_resource`(`bookable_id`),
+    ADD FOREIGN KEY (`bookable_id`) REFERENCES `ohrm_bookable_resource`(`bookable_id`),
     ADD FOREIGN KEY (`project_id`)  REFERENCES `ohrm_project`(`project_id`),
     ADD FOREIGN KEY (`customer_id`) REFERENCES `ohrm_customer`(`customer_id`);
 
