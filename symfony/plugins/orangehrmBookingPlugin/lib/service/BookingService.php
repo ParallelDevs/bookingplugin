@@ -62,4 +62,14 @@ class BookingService extends BaseService {
     return $this->getBookingDao()->searchBooking($parameterHolder);
   }
 
+  /**
+   *
+   * @param type $bookableId
+   * @param type $date
+   * @return type
+   */
+  public function getBookableNextAvailableStartTime($bookableId, $date) {
+    return $this->getBookingDao()->getBookableNextAvailableStartTime($bookableId, $date);
+  }
+
 }

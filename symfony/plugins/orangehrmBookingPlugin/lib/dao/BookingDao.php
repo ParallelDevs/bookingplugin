@@ -90,6 +90,29 @@ class BookingDao extends BaseDao {
 
   /**
    *
+   * @param type $bookableId
+   * @param type $date
+   * @return type
+   * @throws DaoException
+   */
+  public function getBookableNextAvailableStartTime($bookableId, $date) {
+    try {
+      $q = Doctrine::getTable('Booking')
+          ->createQuery('b')
+          ->select('MAX(b.end_time) as next_start_time')
+          ->where('b.bookable_id = ?', $bookableId)
+          ->andWhere('? BETWEEN b.start_date AND b.end_date', $date)
+          ->limit(1);
+      $startTime = $q->execute(array(), Doctrine_Core::HYDRATE_SCALAR);
+      return isset($startTime[0]) && isset($startTime[0]['b_next_start_time']) ? $startTime[0]['b_next_start_time'] : null;
+    }
+    catch (Exception $e) {
+      throw new DaoException($e->getMessage(), $e->getCode(), $e);
+    }
+  }
+
+  /**
+   *
    * @param type $select
    * @param type $query
    * @param array $bindParams
@@ -273,7 +296,7 @@ class BookingDao extends BaseDao {
   }
 
   /**
-   * 
+   *
    * @param type $statement
    * @param type $result
    * @return Booking
