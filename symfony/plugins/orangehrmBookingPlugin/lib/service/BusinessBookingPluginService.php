@@ -275,8 +275,7 @@ class BusinessBookingPluginService extends BaseService {
    * @return int
    */
   public static function getCompanyFirstBusinessDay() {
-    $timesheetService = self::getTimesheetPeriodService();
-    $startDay = 1;
+    $timesheetService = self::getTimesheetPeriodService();    
     try {
       $xmlConfig = $timesheetService->getTimesheetPeriodDao()->getDefinedTimesheetPeriod();
       $xml = simplexml_load_String($xmlConfig);
