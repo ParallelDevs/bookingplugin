@@ -56,7 +56,7 @@ class Booking extends PluginBooking {
   }
 
   /**
-   * 
+   *
    * @param type $hours
    * @param type $minutes
    * @return type
@@ -70,7 +70,7 @@ class Booking extends PluginBooking {
   }
 
   /**
-   * 
+   *
    * @param type $startTime
    * @param type $endTime
    * @return type
@@ -84,14 +84,14 @@ class Booking extends PluginBooking {
   }
 
   /**
-   * 
+   *
    * @param type $startTime
    * @param type $hours
    * @param type $minutes
    * @return type
    */
   public static function calculateEndTimeOfHours($startTime, $hours, $minutes) {
-    $start = date('Y-m-d') . ' ' . $startTime;
+    $start = strtotime(date('Y-m-d') . ' ' . $startTime);
     $end = strtotime("+ $hours hours $minutes minutes", $start);
     $endTime = date('H:i:s', $end);
     return $endTime;
