@@ -91,7 +91,6 @@ class BookingForm extends sfForm {
   public function getValues() {
     $values = parent::getValues();
 
-
     switch ($values['bookingType']) {
       case Booking::BOOKING_TYPE_HOURS:
         $values['duration'] = Booking::calculateDurationHours($values['hours'], $values['minutes']);
@@ -128,12 +127,8 @@ class BookingForm extends sfForm {
    */
   protected function loadFromOptions() {
     $bookableSelectable = $this->getOption('bookableSelectable');
-    if (!empty($bookableSelectable) && true === $bookableSelectable) {
-      $this->bookableSelectable = true;
-    }
-    else {
-      $this->bookableSelectable = false;
-    }
+    $this->bookableSelectable = (!empty($bookableSelectable) &&
+        true === $bookableSelectable) ? true : false;
 
     $bookingId = $this->getOption('bookingId');
 
