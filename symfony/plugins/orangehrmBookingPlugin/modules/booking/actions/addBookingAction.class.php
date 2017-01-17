@@ -36,6 +36,9 @@ class AddBookingAction extends baseBookingAction {
       list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
     }
 
+    $firstDay= BusinessBookingPluginService::getCompanyFirstBusinessDay();
+    $this->firstDayOfWeek = $firstDay;
+
     if ($request->isMethod('post')) {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
       if ($this->form->isValid()) {

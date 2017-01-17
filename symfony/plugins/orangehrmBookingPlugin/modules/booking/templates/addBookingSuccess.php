@@ -31,7 +31,8 @@ $partialParams = array(
 
 <script type="text/javascript">
   var customerProjectUrl = '<?= url_for('@customer_projects'); ?>';
-  var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';  
+  var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';
   var BOOKING_HOURS = '<?= Booking::BOOKING_TYPE_HOURS ?>';
   var BOOKING_SPECIFIC_TIME = '<?= Booking::BOOKING_TYPE_SPECIFIC_TIME ?>';
+  var firstDayOfWeek = <?= $firstDayOfWeek; ?>;
 </script>
