@@ -50,10 +50,6 @@ class BookingForm extends sfForm {
    */
   public function getBooking() {
     $posts = $this->getValues();
-    $allDay = isset($posts['allDay']) && !empty($posts['allDay']) ? Booking::ALL_DAY_ON : Booking::ALL_DAY_OFF;
-    $startDate = date('Y-m-d', strtotime($posts['startAt']));
-    $endDate = date('Y-m-d', strtotime($posts['endAt']));
-    $availableOn = Booking::calculateAvailibity($startDate, $endDate);
 
     try {
       $booking = !empty($posts['bookingId']) ? $this->getBookingService()->getBooking($posts['bookingId']) : new Booking();
@@ -64,12 +60,15 @@ class BookingForm extends sfForm {
     }
 
     $booking->setBookableId($posts['bookableId']);
-    $booking->setProjectId($posts['projectId']);
     $booking->setCustomerId($posts['customerId']);
-    $booking->setStartAt($posts['startAt']);
-    $booking->setEndAt($posts['endAt']);
-    $booking->setFullDay($allDay);
-    $booking->setAvailableOn($availableOn);
+    $booking->setProjectId($posts['projectId']);
+    $booking->setDuration($posts['duration']);
+    $booking->setBookingType($posts['bookingType']);
+    $booking->setStartDate($posts['startDate']);
+    $booking->setEndDate($posts['endDate']);
+    $booking->setStartTime($posts['startTime']);
+    $booking->setEndTime($posts['endTime']);
+    $booking->setAvailableOn($posts['availableOn']);
     return $booking;
   }
 
@@ -83,6 +82,34 @@ class BookingForm extends sfForm {
     $savedBooking = $service->saveBooking($booking);
     $bookingId = $savedBooking->getBookingId();
     return $bookingId;
+  }
+
+  /**
+   *
+   * {@inheritDoc}
+   */
+  public function getValues() {
+    $values = parent::getValues();
+
+
+    switch ($values['bookingType']) {
+      case Booking::BOOKING_TYPE_HOURS:
+        $values['duration'] = Booking::calculateDurationHours($values['hours'], $values['minutes']);
+        $startTime = $this->getBookingService()
+            ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
+        $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
+        $values['endTime'] = Booking::calculateEndTimeOfHours($values['startTime'], $values['hours'], $values['minutes']);
+        break;
+      case Booking::BOOKING_TYPE_SPECIFIC_TIME:
+        $values['duration'] = Booking::calculateDurationSpecificTime($values['startTime'], $values['endTime']);
+        break;
+      default :
+        $values['duration'] = 0;
+        $values['startTime'] = $values['endTime'] = date('H:i:s');
+        break;
+    }
+    $values['availableOn'] = Booking::calculateAvailibity($values['starDate'], $values['endDate']);
+    return $values;
   }
 
   /**
@@ -132,7 +159,8 @@ class BookingForm extends sfForm {
     $widgets = array(
       'bookingId' => new sfWidgetFormInputHidden(array(), array('value' => $this->booking->getBookingId())),
       'duration' => new sfWidgetFormInputHidden(array(), array()),
-      'bookingType' => new sfWidgetFormInputHidden(array(), array()),
+      'bookingType' => new sfWidgetFormInputHidden(array(), array('value' => $this->booking->getBookingType())),
+      'minStartTime' => new sfWidgetFormInputHidden(),
       'bookableId' =>
       $this->bookableSelectable ?
       new sfWidgetFormDoctrineChoice($this->getBookableOptions(), array()) :
@@ -157,6 +185,7 @@ class BookingForm extends sfForm {
       'bookingId' => new sfValidatorString(array('required' => false)),
       'duration' => new sfValidatorNumber(array('required' => false), array()),
       'bookingType' => new sfValidatorInteger(array('required' => true), array()),
+      'minStartTime' => new sfValidatorTime(),
       'bookableId' =>
       $this->bookableSelectable ?
       new sfValidatorDoctrineChoice(array('model' => 'BookableResource')) :
@@ -228,6 +257,7 @@ class BookingForm extends sfForm {
       'startTime' => __('Start At'),
       'endTime' => __('Up To'),
       'bookingType' => __('Booking Type'),
+      'minStartTime' => __('Minimum Start Time'),
     );
     return $labels;
   }

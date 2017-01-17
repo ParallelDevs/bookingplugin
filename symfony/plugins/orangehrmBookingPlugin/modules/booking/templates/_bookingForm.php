@@ -1,10 +1,13 @@
 <form id="frmBooking" name="frmBooking" class="form-booking-plugin" method="post" action="<?= $actionForm ?>" >
     <fieldset>
         <ol>
+            <?php if ($form->hasGlobalErrors()): ?>
+              <li>
+                  <?= $form->renderGlobalErrors() ?>
+              </li>
+            <?php endif; ?>
             <li>
-                <?= $form['bookingId']->render() ?>
-                <?= $form['duration']->render() ?>
-                <?= $form['bookingType']->render() ?>
+                <?= $form->renderHiddenFields() ?>
             </li>
             <li>
                 <?= $form['bookableId']->renderLabel() ?>
@@ -19,9 +22,9 @@
             <li class="duration">
                 <?= $form['duration']->renderLabel() ?>
                 <?= $form['hours']->render() ?>
-                <span title="<?= __('Hours')?>">H</span>
+                <span title="<?= __('Hours') ?>">H</span>
                 <?= $form['minutes']->render() ?>
-                <span title="<?= __('Minutes')?>">M</span>
+                <span title="<?= __('Minutes') ?>">M</span>
                 <a id="btn-booking-time" class="">
                     <?= __('Book specific time') ?>
                 </a>
