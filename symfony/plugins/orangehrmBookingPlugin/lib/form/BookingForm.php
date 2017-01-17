@@ -108,7 +108,10 @@ class BookingForm extends sfForm {
         $values['startTime'] = $values['endTime'] = date('H:i:s');
         break;
     }
-    $values['availableOn'] = Booking::calculateAvailibity($values['starDate'], $values['endDate']);
+
+    $start = $values['starDate'] . ' ' . $values['startTime'];
+    $end = $values['endDate'] . ' ' . $values['endTime'];
+    $values['availableOn'] = Booking::calculateAvailibity($start, $end);
     return $values;
   }
 
