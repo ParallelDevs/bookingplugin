@@ -99,8 +99,9 @@ class BookingDao extends BaseDao {
    * @param array $filters
    */
   private function _getBookingListQuery(&$select, &$query, array &$bindParams, &$orderBy, $sortField = null, $sortOrder = null, array $filters = null) {
-    $select = ' SELECT DISTINCT b.booking_id AS bookingId, b.bookable_id AS bookableId, b.project_id AS projectId, b.customer_id AS customerId, ';
-    $select .= ' b.start_at AS startAt, b.end_at AS endAt, b.full_day AS fullDay ';
+    $select = ' SELECT DISTINCT b.booking_id AS bookingId, b.bookable_id AS bookableId, b.customer_id AS customerId, b.project_id AS projectId, ';
+    $select .= ' b.duration as duration, b.booking_type as bookingType, ';
+    $select .= ' b.start_date AS startDate, b.end_date AS endDate, b.start_time AS startTime, b.end_time AS endTime, b.available_on AS availableOn ';
     $query = ' FROM ohrm_booking b ';
     $query .= ' LEFT JOIN hs_hr_bookable_resource br ON br.bookable_id = b.booking_id ';
     $query .= ' LEFT JOIN ohrm_project p ON p.project_id = b.project_id ';
@@ -272,35 +273,21 @@ class BookingDao extends BaseDao {
   }
 
   /**
-   *
+   * 
    * @param type $statement
    * @param type $result
-   * @return \BookableResource
+   * @return Booking
    */
   private function _prepareResultAsObjectCollection(&$statement, &$result) {
-    $resources = new Doctrine_Collection(Doctrine::getTable('BookableResource'));
+    $bookings = new Doctrine_Collection(Doctrine::getTable('Booking'));
 
     if ($result) {
       while ($row = $statement->fetch()) {
-        $bookable = new BookableResource();
-        $project = new Project();
-        $customer = new Customer();
-        $booking = new Booking();
-
-        $bookable->setBookableId($row['bookableId']);
-        $project->setProjectId($row['projectId']);
-        $customer->setCustomerId($row['customerId']);
-        $booking->setBookingId($row['bookingId']);
-        $booking->setBookableResource($bookable);
-        $booking->setProject($project);
-        $booking->setCustomer($customer);
-        $booking->setStartAt($row['startAt']);
-        $booking->setEndAt($row['endAt']);
-        $booking->setFullDay($row['fullDay']);
-        $resources[] = $booking;
+        $booking = $this->getBookingById($row['bookingId']);
+        $bookings[] = $booking;
       }
     }
-    return $resources;
+    return $bookings;
   }
 
   /**
