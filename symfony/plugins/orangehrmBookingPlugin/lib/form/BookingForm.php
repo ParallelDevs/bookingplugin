@@ -165,7 +165,7 @@ class BookingForm extends sfForm {
       new sfWidgetFormInputHidden(array(), array('value' => $this->booking->getBookableId())),
       'bookableName' => $this->bookableSelectable ?
       new sfWidgetFormInputHidden(array(), array()) :
-      new sfWidgetFormInputText(array(), array('readonly' => true, $this->booking->getBookableResource()->getEmployeeName())),
+      new sfWidgetFormInputText(array(), array('class'=>'text-read-only','readonly' => true, $this->booking->getBookableResource()->getEmployeeName())),
       'startDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date', 'value' => $this->booking->getStartDate())),
       'endDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date', 'value' => $this->booking->getEndDate())),
       'customerId' => new sfWidgetFormDoctrineChoice($this->getCustomerOptions(), array('value' => $this->booking->getCustomerId())),
