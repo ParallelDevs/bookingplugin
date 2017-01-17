@@ -58,8 +58,7 @@ class BookableResourceDao extends BaseDao {
    */
   public function getBookableResourceById($id) {
     try {
-      return Doctrine :: getTable('BookableResource')->find($id);
-      // @codeCoverageIgnoreStart
+      return Doctrine::getTable('BookableResource')->find($id);
     }
     catch (Exception $e) {
       throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -75,7 +74,8 @@ class BookableResourceDao extends BaseDao {
   public function getBookableResource($empNumber) {
     try {
 
-      return Doctrine::getTable('BookableResource')->findOneBy('empNumber', $empNumber);
+      return Doctrine::getTable('BookableResource')
+              ->findOneBy('empNumber', $empNumber);
     }
     catch (Exception $e) {
       throw new DaoException($e->getMessage(), $e->getCode(), $e);
