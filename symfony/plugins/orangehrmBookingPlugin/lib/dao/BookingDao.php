@@ -126,7 +126,7 @@ class BookingDao extends BaseDao {
     $select .= ' b.duration as duration, b.booking_type as bookingType, ';
     $select .= ' b.start_date AS startDate, b.end_date AS endDate, b.start_time AS startTime, b.end_time AS endTime, b.available_on AS availableOn ';
     $query = ' FROM ohrm_booking b ';
-    $query .= ' LEFT JOIN hs_hr_bookable_resource br ON br.bookable_id = b.booking_id ';
+    $query .= ' LEFT JOIN ohrm_bookable_resource br ON br.bookable_id = b.booking_id ';
     $query .= ' LEFT JOIN ohrm_project p ON p.project_id = b.project_id ';
     $query .= ' LEFT JOIN ohrm_customer c ON c.customer_id = b.customer_id ';
 
