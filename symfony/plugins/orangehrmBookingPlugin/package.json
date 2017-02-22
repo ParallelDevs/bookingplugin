@@ -19,6 +19,7 @@
     "gulp-sourcemaps": "^2.2.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "gulp-minify-css":"*",
     "plumber": "^0.4.8"
   }
 }
