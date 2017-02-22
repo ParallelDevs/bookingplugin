@@ -28,8 +28,10 @@ app.contactCss = function (paths, dest) {
     gulp.src(paths)
             .pipe(plugins.plumber())
             .pipe(plugins.if(config.sourceMaps, plugins.sourcemaps.init()))
-            .pipe(plugins.concat('orangeBookingPlugin.min.css'))            
+            .pipe(plugins.concat('orangeBookingPlugin.min.css'))
             .pipe(plugins.minifyCss())
+            .pipe(config.prod ? plugins.cleanCss() : plugins.util.noop())
+            .pipe(plugins.if(config.sourceMaps, plugins.sourcemaps.write('.')))
             .pipe(gulp.dest(dest));
 };
 
@@ -37,7 +39,7 @@ gulp.task('styles', function () {
     app.compileSass([
         config.assetsDir + '/' + config.scssPattern
     ], config.assetsDir + '/' + config.cssDir);
-    
+
     app.contactCss([
         config.assetsDir + '/' + config.cssPattern
     ], 'web/css');
