@@ -1,4 +1,7 @@
-<?php ?>
+<?php 
+use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/orangeBookingPlugin.min.css'));
+use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/configureBooking.js'));
+?>
 <div class="box">
 
 
@@ -27,11 +30,3 @@
 
 
 </div> <!-- Box -->
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#btnSave").click(function () {
-            $("#frmConfigBooking").submit();
-        });
-    });
-</script>
