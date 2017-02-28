@@ -9,7 +9,7 @@ var config = {
     scssPattern: 'scss/**/*.scss',
     cssPattern: 'css/**/*.css',
     prod: !!plugins.util.env.prod,
-    sourceMaps: !plugins.util.env.prod
+    sourceMaps: !!plugins.util.env.prod
 };
 
 var app = {};
@@ -24,7 +24,7 @@ app.compileSass = function (paths, dest) {
             .pipe(gulp.dest(dest));
 };
 
-app.contactCss = function (paths, dest) {
+app.minifyCss = function (paths, dest) {
     gulp.src(paths)
             .pipe(plugins.plumber())
             .pipe(plugins.if(config.sourceMaps, plugins.sourcemaps.init()))
@@ -40,7 +40,7 @@ gulp.task('styles', function () {
         config.assetsDir + '/' + config.scssPattern
     ], config.assetsDir + '/' + config.cssDir);
 
-    app.contactCss([
+    app.minifyCss([
         config.assetsDir + '/' + config.cssPattern
     ], 'web/css');
 });
