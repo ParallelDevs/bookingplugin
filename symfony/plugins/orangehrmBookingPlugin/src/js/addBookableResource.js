@@ -1,4 +1,4 @@
-//=require ../lib/spectrum.js
+//=include ../lib/spectrum.js
 
 $(document).ready(function () {
     $("#btnSave").click(function () {
