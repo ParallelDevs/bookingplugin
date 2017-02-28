@@ -38,6 +38,7 @@ app.minifyCss = function (paths, dest) {
 
 app.compileJs = function (paths, dest) {
     gulp.src(paths)
+            .pipe(plugins.ignore('_*.js'))
             .pipe(plugins.plumber())
             .pipe(plugins.include())
             .pipe(plugins.uglify())

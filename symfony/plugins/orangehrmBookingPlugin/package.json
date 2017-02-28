@@ -21,6 +21,7 @@
     "gulp-util": "^3.0.7",
     "gulp-minify-css": "*",
     "gulp-include": "*",
+    "gulp-ignore": "*",
     "plumber": "^0.4.8"
   }
 }
