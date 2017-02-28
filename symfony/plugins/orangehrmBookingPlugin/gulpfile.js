@@ -8,6 +8,7 @@ var config = {
     cssDir: 'css',
     scssPattern: 'scss/**/*.scss',
     cssPattern: 'css/**/*.css',
+    jsPattern: 'js/**/*.js',
     prod: !!plugins.util.env.prod,
     sourceMaps: !!plugins.util.env.prod
 };
@@ -35,6 +36,14 @@ app.minifyCss = function (paths, dest) {
             .pipe(gulp.dest(dest));
 };
 
+app.compileJs = function (paths, dest) {
+    gulp.src(paths)
+            .pipe(plugins.plumber())
+            .pipe(plugins.include())
+            .pipe(plugins.uglify())
+            .pipe(gulp.dest(dest));
+};
+
 gulp.task('styles', function () {
     app.compileSass([
         config.assetsDir + '/' + config.scssPattern
@@ -45,10 +54,17 @@ gulp.task('styles', function () {
     ], 'web/css');
 });
 
+gulp.task('scripts', function () {
+    app.compileJs([
+        config.assetsDir + '/' + config.jsPattern
+    ], 'web/js');
+});
+
 
 gulp.task('watch', function () {
     gulp.watch(config.assetsDir + '/' + config.scssPattern, ['styles']);
     gulp.watch(config.assetsDir + '/' + config.cssPattern, ['styles']);
+    gulp.watch(config.assetsDir + '/' + config.jsPattern, ['scripts']);
 });
 
-gulp.task('default', ['styles', 'watch']);
+gulp.task('default', ['styles','scripts', 'watch']);
