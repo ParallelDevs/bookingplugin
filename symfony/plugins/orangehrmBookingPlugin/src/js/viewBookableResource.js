@@ -1,4 +1,4 @@
-//=include ../lib/spectrum.js
+//=include _spectrum.js
 
 $(document).ready(function () {
     $(".editable").each(function () {

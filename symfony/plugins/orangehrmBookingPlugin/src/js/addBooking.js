@@ -1,6 +1,6 @@
-//=include ../lib/moment.min.js
-//=include ../lib/jquery.datetimepicker.full.min.js
-//=include ../lib/booking.form.js
+//=include _moment.min.js
+//=include _jquery.datetimepicker.full.min.js
+//=include _booking.form.js
 
 jQuery(document).ready(function () {
     $("#bookableId").change(function () {
