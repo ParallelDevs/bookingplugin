@@ -5,6 +5,9 @@
 #script-warning, #loading {
   display: none; }
 
+.form-booking-plugin label {
+  position: relative; }
+
 #loading {
   position: absolute; }
 
@@ -13,6 +16,9 @@
 
 #calendar {
   width: auto; }
+
+.form-booking-plugin label {
+  top: 8px; }
 
 .form-booking-plugin input {
   margin-right: 10px; }
