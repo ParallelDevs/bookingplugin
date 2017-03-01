@@ -1,4 +1,8 @@
 .form-booking-plugin {
+    & label {
+        @extend %position-relative;
+        top: 8px;
+    }
     & input {
         margin-right: 10px;
     }
