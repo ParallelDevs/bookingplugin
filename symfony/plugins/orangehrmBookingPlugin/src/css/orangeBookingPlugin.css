@@ -36,13 +36,24 @@
   width: auto;
   min-width: 50px; }
 
-.form-booking-plugin .duration input {
-  margin-right: 0; }
-
-.form-booking-plugin .duration span {
+.form-booking-plugin .booking-duration span, .form-booking-plugin .booking-specific-time span {
   float: left;
   margin-right: 10px;
   font-size: 1.5em; }
+
+.form-booking-plugin .booking-duration input {
+  margin-right: 0; }
+
+.form-booking-plugin .btn {
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  background-color: #0162b3;
+  color: #eee;
+  padding: 5px 10px;
+  text-decoration: none; }
 
 #calendar {
   max-width: 100%;
