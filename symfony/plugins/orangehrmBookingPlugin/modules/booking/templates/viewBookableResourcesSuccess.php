@@ -1,3 +1,8 @@
+<?php
+use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/orangeBookingPlugin.min.css'));
+use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookableResources.js'));
+?>
+
 <div class="box searchForm toggableForm" id="employee-information">
     <div class="head">
         <h1><?php echo __("Bookable Resources") ?></h1>
@@ -31,5 +36,3 @@
 </div>
 
 <?php include_component('core', 'ohrmList'); ?>
-
-<?php use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookableResources.js')); ?>

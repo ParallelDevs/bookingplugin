@@ -3,8 +3,6 @@ use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/orangeBookingPlugi
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/configureBooking.js'));
 ?>
 <div class="box">
-
-
     <div class="head">
         <h1><?php echo __('Configure Booking'); ?></h1>
     </div>
