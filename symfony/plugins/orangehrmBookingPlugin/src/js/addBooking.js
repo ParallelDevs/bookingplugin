@@ -1,5 +1,3 @@
-//=include _moment.min.js
-//=include _jquery.datetimepicker.full.min.js
 //=include _booking.form.js
 
 jQuery(document).ready(function () {

@@ -1,5 +1,3 @@
-//=include _spectrum.js
-
 $(document).ready(function () {
     $("#btnSave").click(function () {
 	$("#empNum").val($("#employee_empId").val());

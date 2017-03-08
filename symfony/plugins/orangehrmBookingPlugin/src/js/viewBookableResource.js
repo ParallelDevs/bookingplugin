@@ -1,5 +1,3 @@
-//=include _spectrum.js
-
 $(document).ready(function () {
     $(".editable").each(function () {
 	$(this).attr("disabled", "disabled");

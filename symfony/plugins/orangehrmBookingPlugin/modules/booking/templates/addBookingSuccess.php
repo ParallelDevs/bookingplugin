@@ -1,5 +1,7 @@
 <?php
 use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/orangeBookingPlugin.min.css'));
+use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/moment.min.js'));
+use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/jquery.datetimepicker.full.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/addBooking.js'));
 
 $partialParams = array(
