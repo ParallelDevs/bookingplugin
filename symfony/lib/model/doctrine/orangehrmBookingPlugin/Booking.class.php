@@ -12,184 +12,191 @@
  */
 class Booking extends PluginBooking {
 
-  const BOOKING_TYPE_HOURS = 1;
-  const BOOKING_TYPE_SPECIFIC_TIME = 2;
+    const BOOKING_TYPE_HOURS = 1;
+    const BOOKING_TYPE_SPECIFIC_TIME = 2;
 
-  private $configBookingService;
+    private $configBookingService;
 
-  /**
-   *
-   * @param type $startDate
-   * @param type $endDate
-   * @return string
-   */
-  public static function calculateAvailibity($startDate, $endDate) {
-    $availablePeriod = array();
-    $start = strtotime($startDate);
-    $end = strtotime($endDate);
-    $diff = floor(($end - $start) / 86400);
-    $weeks = floor($diff / 7);
-    $days = $diff % 7;
+    /**
+     *
+     * @param type $startDate
+     * @param type $endDate
+     * @return string
+     */
+    public static function calculateAvailibity($startDate, $endDate) {
+        $availablePeriod = array();
+        $start = strtotime($startDate);
+        $end = strtotime($endDate);
+        $diff = floor(($end - $start) / 86400);
+        $weeks = floor($diff / 7);
+        $days = $diff % 7;
 
-    $date = $start;
-    for ($i = 0; $i < $weeks; $i++) {
-      $period = date('Y-m', $date);
-      if (!in_array($period, $availablePeriod)) {
-        array_push($availablePeriod, $period);
-      }
-      $date = strtotime("+ 1 week", $date);
+        $date = $start;
+        for ($i = 0; $i < $weeks; $i++) {
+            $period = date('Y-m', $date);
+            if (!in_array($period, $availablePeriod)) {
+                array_push($availablePeriod, $period);
+            }
+            $date = strtotime("+ 1 week", $date);
+        }
+        for ($i = 0; $i < $days; $i++) {
+            $period = date('Y-m', $date);
+            if (!in_array($period, $availablePeriod)) {
+                array_push($availablePeriod, $period);
+            }
+            $date = strtotime("+ 1 day", $date);
+        }
+        $date = $end;
+        $period = date('Y-m', $date);
+        if (!in_array($period, $availablePeriod)) {
+            array_push($availablePeriod, $period);
+        }
+
+        return implode(',', $availablePeriod);
     }
-    for ($i = 0; $i < $days; $i++) {
-      $period = date('Y-m', $date);
-      if (!in_array($period, $availablePeriod)) {
-        array_push($availablePeriod, $period);
-      }
-      $date = strtotime("+ 1 day", $date);
+
+    /**
+     *
+     * @param type $hours
+     * @param type $minutes
+     * @return type
+     */
+    public static function calculateDurationHours($hours, $minutes) {
+        $f_hours = floatval($hours);
+        $f_minutes = floatval($minutes);
+        $f_minutes /= 60;
+        $duration = $f_hours + $f_minutes;
+        return floatval($duration);
     }
-    $date = $end;
-    $period = date('Y-m', $date);
-    if (!in_array($period, $availablePeriod)) {
-      array_push($availablePeriod, $period);
+
+    /**
+     *
+     * @param type $startTime
+     * @param type $endTime
+     * @return type
+     */
+    public static function calculateDurationSpecificTime($startTime, $endTime) {
+        $date = date('Y-m-d');
+        $start = strtotime($date . ' ' . $startTime);
+        $end = strtotime($date . ' ' . $endTime);
+        $duration = floor(($end - $start) / 3600);
+        return floatval($duration);
     }
 
-    return implode(',', $availablePeriod);
-  }
-
-  /**
-   *
-   * @param type $hours
-   * @param type $minutes
-   * @return type
-   */
-  public static function calculateDurationHours($hours, $minutes) {
-    $f_hours = floatval($hours);
-    $f_minutes = floatval($minutes);
-    $f_minutes /= 60;
-    $duration = $f_hours + $f_minutes;
-    return floatval($duration);
-  }
-
-  /**
-   *
-   * @param type $startTime
-   * @param type $endTime
-   * @return type
-   */
-  public static function calculateDurationSpecificTime($startTime, $endTime) {
-    $date = date('Y-m-d');
-    $start = strtotime($date . ' ' . $startTime);
-    $end = strtotime($date . ' ' . $endTime);
-    $duration = floor(($end - $start) / 3600);
-    return floatval($duration);
-  }
-
-  /**
-   *
-   * @param type $startTime
-   * @param type $hours
-   * @param type $minutes
-   * @return type
-   */
-  public static function calculateEndTimeOfHours($startTime, $hours, $minutes) {
-    $start = strtotime(date('Y-m-d') . ' ' . $startTime);
-    $end = strtotime("+ $hours hours $minutes minutes", $start);
-    $endTime = date('H:i:s', $end);
-    return $endTime;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getEventStart() {
-    $time = strtotime($this->startDate . ' ' . $this->startTime);
-    $date = date('c', $time);
-    return $date;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getEventEnd() {
-    $time = strtotime($this->endDate . ' ' . $this->endTime);
-    $date = date('c', $time);
-    return $date;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getTitle() {
-    return $this->getProject()->getName();
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getCustomerName() {
-    return $this->getCustomer()->getName();
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getHours() {
-    $duration = floor($this->duration);
-    return intval($duration);
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getMinutes() {
-    $duration_f = floor($this->duration * 60);
-    $duration = intval($duration_f);
-    $minutes = $duration % 60;
-    return $minutes;
-  }
-
-  /**
-   *
-   * @param ConfigBookingService $configService
-   */
-  public function setConfigBookingService(ConfigBookingService $configService) {
-    $this->configBookingService = $configService;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getConfigBookingService() {
-    if (!$this->configBookingService instanceof ConfigBookingService) {
-      $this->configBookingService = new ConfigBookingService();
-      $this->configBookingService->setConfigDao(new ConfigDao());
+    /**
+     *
+     * @param type $startTime
+     * @param type $hours
+     * @param type $minutes
+     * @return type
+     */
+    public static function calculateEndTimeOfHours($startTime, $hours, $minutes) {
+        $start = strtotime(date('Y-m-d') . ' ' . $startTime);
+        $end = strtotime("+ $hours hours $minutes minutes", $start);
+        $endTime = date('H:i:s', $end);
+        return $endTime;
     }
-    return $this->configBookingService;
-  }
 
-  /**
-   *
-   * @return type
-   */
-  public function getBookingAsCalendarEvent() {
-    return array(
-      'id' => $this->getBookingId(),
-      'resourceId' => $this->getBookableId(),
-      'title' => $this->getTitle(),
-      'start' => $this->getEventStart(),
-      'end' => $this->getEventEnd(),
-      'duration' => $this->getDuration(),
-      'customerId' => $this->getCustomerId(),
-      'customerName' => $this->getCustomerName(),
-      'projectId' => $this->getProjectId(),
-      'isHoliday' => false,
-    );
-  }
+    /**
+     *
+     * @return type
+     */
+    public function getEventStart() {
+        $time = strtotime($this->startDate . ' ' . $this->startTime);
+        $date = date('c', $time);
+        return $date;
+    }
+
+    /**
+     *
+     * @return type
+     */
+    public function getEventEnd() {
+        $time = strtotime($this->endDate . ' ' . $this->endTime);
+        $date = date('c', $time);
+        return $date;
+    }
+
+    /**
+     *
+     * @return type
+     */
+    public function getTitle() {
+        return $this->getProject()->getName();
+    }
+
+    /**
+     *
+     * @return type
+     */
+    public function getCustomerName() {
+        return $this->getCustomer()->getName();
+    }
+
+    /**
+     *
+     * @return type
+     */
+    public function getHours() {
+        $hours = '';
+        if (isset($this->duration) && is_numeric($this->duration)) {
+            $duration_f = floor($this->duration);
+            $hours = intval($duration_f);
+        }
+        return $hours;
+    }
+
+    /**
+     *
+     * @return type
+     */
+    public function getMinutes() {
+        $minutes = '';
+        if (isset($this->duration) && is_numeric($this->duration)) {
+            $duration_f = floor($this->duration * 60);
+            $duration = intval($duration_f);
+            $minutes = $duration % 60;
+        }
+        return $minutes;
+    }
+
+    /**
+     *
+     * @param ConfigBookingService $configService
+     */
+    public function setConfigBookingService(ConfigBookingService $configService) {
+        $this->configBookingService = $configService;
+    }
+
+    /**
+     *
+     * @return type
+     */
+    public function getConfigBookingService() {
+        if (!$this->configBookingService instanceof ConfigBookingService) {
+            $this->configBookingService = new ConfigBookingService();
+            $this->configBookingService->setConfigDao(new ConfigDao());
+        }
+        return $this->configBookingService;
+    }
+
+    /**
+     *
+     * @return type
+     */
+    public function getBookingAsCalendarEvent() {
+        return array(
+          'id' => $this->getBookingId(),
+          'resourceId' => $this->getBookableId(),
+          'title' => $this->getTitle(),
+          'start' => $this->getEventStart(),
+          'end' => $this->getEventEnd(),
+          'duration' => $this->getDuration(),
+          'customerId' => $this->getCustomerId(),
+          'customerName' => $this->getCustomerName(),
+          'projectId' => $this->getProjectId(),
+          'isHoliday' => false,
+        );
+    }
 
 }
