@@ -37,7 +37,8 @@ ALTER TABLE `ohrm_booking`
 
 -- Plugin settings
 INSERT INTO `hs_hr_config` (`key`,`value`) VALUES
-('booking.company_breaks_time','');
+('booking.company_breaks_time',''),
+('booking.minimum_booking_duration','');
 
 INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('booking', 1);
 
