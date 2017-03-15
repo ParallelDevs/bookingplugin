@@ -95,14 +95,14 @@ class BookableResourceForm extends sfForm {
     );
 
     $widgets = array(
-      'bookableId' => new sfWidgetFormInputHidden(array(), array('value' => $this->bookableResource->bookableId)),
+      'bookableId' => new sfWidgetFormInputHidden(array(), array('value' => $this->bookableResource->getBookableId())),
       'employee' => 
       $this->bookableIsNew ? 
         new ohrmWidgetEmployeeNameAutoFill(array('loadingMethod' => 'ajax'))
         : new sfWidgetFormInputText(array(), array('value'=> $this->bookableResource->getEmployeeName(),'readonly'=>true, "class"=>"read-only")),
-      'empNum' => new sfWidgetFormInputHidden(array(), array('value' => $this->bookableResource->empNumber)),
-      'status' => new sfWidgetFormSelect(array('choices' => $status), array('value' => $this->bookableResource->isActive, "class" => "formInputText editable")),
-      'bookableColor' => new sfWidgetFormInputText(array(), array('value' => $this->bookableResource->bookableColor, 'class' => 'editable')),
+      'empNum' => new sfWidgetFormInputHidden(array(), array('value' => $this->bookableResource->getEmpNumber())),
+      'status' => new sfWidgetFormSelect(array('choices' => $status), array('value' => $this->bookableResource->getisActive(), "class" => "formInputText editable")),
+      'bookableColor' => new sfWidgetFormInputText(array(), array('value' => $this->bookableResource->getBookableColor(), 'class' => 'editable')),
     );
 
     return $widgets;
