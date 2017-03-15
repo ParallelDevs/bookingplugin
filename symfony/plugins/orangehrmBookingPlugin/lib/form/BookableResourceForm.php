@@ -46,7 +46,7 @@ class BookableResourceForm extends sfForm {
     $this->setWidgets($this->getWidgets());
     $this->setValidators($this->getValidators());
 
-    $this->setDefault('status', $this->bookableResource->isActive);
+    $this->setDefault('status', $this->bookableResource->getisActive());
 
     //$formExtension = PluginFormMergeManager::instance();
     //$formExtension->mergeForms($this, 'addBookableResource', '', 'saveBookableResource', 'BookableResourceForm');
