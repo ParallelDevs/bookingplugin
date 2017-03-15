@@ -13,28 +13,30 @@
                 <?= $form['bookableId']->renderLabel() ?>
                 <?= $form['bookableId']->render() ?>
             </li>
-            <li class="input-group-inline">
+            <li class="event-date input-group-inline">
                 <?= $form['startDate']->renderLabel() ?>
                 <?= $form['startDate']->render() ?>
                 <?= $form['endDate']->renderLabel() ?>
                 <?= $form['endDate']->render() ?>
             </li>
-            <li class="duration">
+            <li class="booking-duration">
                 <?= $form['duration']->renderLabel() ?>
                 <?= $form['hours']->render() ?>
                 <span title="<?= __('Hours') ?>">H</span>
-                <?= $form['minutes']->render() ?>
+                <?= $form['minutes']->render() ?>                
                 <span title="<?= __('Minutes') ?>">M</span>
-                <a id="btn-booking-time" class="">
+                <span><?= __('Or') ?></span>
+                <a id="btn-booking-time" class="btn">
                     <?= __('Book specific time') ?>
                 </a>
             </li>
-            <li class="specific-time input-group-inline">
+            <li class="booking-specific-time input-group-inline">
                 <?= $form['startTime']->renderLabel() ?>
                 <?= $form['startTime']->render() ?>
                 <?= $form['endTime']->renderLabel() ?>
                 <?= $form['endTime']->render() ?>
-                <a id="btn-booking-duration" class="">
+                <span><?= __('Or') ?></span>
+                <a id="btn-booking-duration" class="btn">
                     <?= __('Book hours') ?>
                 </a>
             </li>
