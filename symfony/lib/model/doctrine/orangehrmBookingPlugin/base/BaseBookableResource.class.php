@@ -15,7 +15,7 @@
  * @method integer          getBookableId()           Returns the current record's "bookableId" value
  * @method integer          getEmpNumber()            Returns the current record's "empNumber" value
  * @method smallint         getisActive()             Returns the current record's "isActive" value
- * @method string           getbookableColor()        Returns the current record's "bookableColor" value
+ * @method string           getBookableColor()        Returns the current record's "bookableColor" value
  * @method Employee         getEmployee()             Returns the current record's "Employee" value
  * @method Booking          getBooking()              Returns the current record's "Booking" value
  * @method BookableResource setBookableId()           Sets the current record's "bookableId" value
