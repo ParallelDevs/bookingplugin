@@ -2,9 +2,9 @@
     <fieldset>
         <ol>
             <?php if ($form->hasGlobalErrors()): ?>
-              <li>
-                  <?= $form->renderGlobalErrors() ?>
-              </li>
+                <li>
+                    <?= $form->renderGlobalErrors() ?>
+                </li>
             <?php endif; ?>
             <li>
                 <?= $form->renderHiddenFields() ?>
@@ -12,41 +12,34 @@
             <li>
                 <?= $form['bookableId']->renderLabel() ?>
                 <?= $form['bookableId']->render() ?>
+                <?= $form['bookableId']->renderError() ?>
             </li>
             <li class="event-date input-group-inline">
                 <?= $form['startDate']->renderLabel() ?>
                 <?= $form['startDate']->render() ?>
+                <?= $form['startDate']->renderError() ?>
                 <?= $form['endDate']->renderLabel() ?>
                 <?= $form['endDate']->render() ?>
+                <?= $form['endDate']->renderError() ?>
             </li>
             <li class="booking-duration">
                 <?= $form['duration']->renderLabel() ?>
                 <?= $form['hours']->render() ?>
+                <?= $form['hours']->renderError() ?>
                 <span title="<?= __('Hours') ?>">H</span>
-                <?= $form['minutes']->render() ?>                
-                <span title="<?= __('Minutes') ?>">M</span>
-                <span><?= __('Or') ?></span>
-                <a id="btn-booking-time" class="btn">
-                    <?= __('Book specific time') ?>
-                </a>
-            </li>
-            <li class="booking-specific-time input-group-inline">
-                <?= $form['startTime']->renderLabel() ?>
-                <?= $form['startTime']->render() ?>
-                <?= $form['endTime']->renderLabel() ?>
-                <?= $form['endTime']->render() ?>
-                <span><?= __('Or') ?></span>
-                <a id="btn-booking-duration" class="btn">
-                    <?= __('Book hours') ?>
-                </a>
-            </li>
+                <?= $form['minutes']->render() ?>
+                <?= $form['minutes']->renderError() ?>                
+                <span title="<?= __('Minutes') ?>">M</span>                
+            </li>            
             <li>
                 <?= $form['customerId']->renderLabel() ?>
                 <?= $form['customerId']->render() ?>
+                <?= $form['customerId']->renderError() ?>
             </li>
             <li>
                 <?= $form['projectId']->renderLabel() ?>
                 <?= $form['projectId']->render() ?>
+                <?= $form['projectId']->renderError() ?>
             </li>
             <li class="required">
                 <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
@@ -54,7 +47,7 @@
         </ol>
         <p>
             <?php foreach ($buttons as $button) : ?>
-              <input type="button" class="" id="<?= $button['id'] ?>" value="<?= $button['value'] ?>"  />
+                <input type="button" class="" id="<?= $button['id'] ?>" value="<?= $button['value'] ?>"  />
             <?php endforeach; ?>
         </p>
     </fieldset>
