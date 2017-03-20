@@ -48,10 +48,6 @@ Booking:
       name: duration as duration
       type: float
       notnull: true
-    booking_type:
-       name: booking_type as bookingType
-       type: integer
-       notnull: true
     start_date:
       name: start_date as startDate
       type: date
@@ -67,7 +63,7 @@ Booking:
     end_time:
       name: end_time as endTime
       type: time
-      notnull: false    
+      notnull: false
     available_on:
       name: available_on as availableOn
       type: clob
