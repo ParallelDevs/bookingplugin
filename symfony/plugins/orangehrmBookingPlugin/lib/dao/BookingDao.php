@@ -123,7 +123,7 @@ class BookingDao extends BaseDao {
    */
   private function _getBookingListQuery(&$select, &$query, array &$bindParams, &$orderBy, $sortField = null, $sortOrder = null, array $filters = null) {
     $select = ' SELECT DISTINCT b.booking_id AS bookingId, b.bookable_id AS bookableId, b.customer_id AS customerId, b.project_id AS projectId, ';
-    $select .= ' b.duration as duration, b.booking_type as bookingType, ';
+    $select .= ' b.duration as duration, ';
     $select .= ' b.start_date AS startDate, b.end_date AS endDate, b.start_time AS startTime, b.end_time AS endTime, b.available_on AS availableOn ';
     $query = ' FROM ohrm_booking b ';
     $query .= ' LEFT JOIN ohrm_bookable_resource br ON br.bookable_id = b.booking_id ';
