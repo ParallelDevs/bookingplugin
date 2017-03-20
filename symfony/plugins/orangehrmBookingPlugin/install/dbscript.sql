@@ -17,8 +17,7 @@ CREATE TABLE `ohrm_booking` (
     `bookable_id` int(11) UNSIGNED NOT NULL,
     `customer_id` int(11) NOT NULL,
     `project_id` int(11) NOT NULL,
-    `duration` float(18, 2) NOT NULL,
-    `booking_type` int(11) NOT NULL,
+    `duration` float(18, 2) NOT NULL,    
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
     `start_time` TIME NULL DEFAULT NULL,
@@ -37,8 +36,7 @@ ALTER TABLE `ohrm_booking`
 
 -- Plugin settings
 INSERT INTO `hs_hr_config` (`key`,`value`) VALUES
-('booking.company_breaks_time',''),
-('booking.minimum_booking_duration','');
+('booking.company_breaks_time','');
 
 INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('booking', 1);
 

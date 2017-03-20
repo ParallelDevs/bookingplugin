@@ -31,10 +31,12 @@ function unlockForm() {
 function setBookableWorkShift(data) {
     var momentMinTime = moment(data.minTime, 'H:m');
     var momentMaxTime = moment(data.maxTime, 'H:m');
-    momentMaxTime.add(15, 'minutes');
-    
+
     jQuery('#minStartTime').val(momentMinTime.format('HH:mm:ss'));
-    
+    jQuery('#maxEndTime').val(momentMaxTime.format('HH:mm:ss'));
+
+    momentMaxTime.add(15, 'minutes');
+
     jQuery('#startTime').datetimepicker({
         minTime: momentMinTime.toDate(),
         maxTime: momentMaxTime.toDate()
@@ -49,7 +51,12 @@ function setBookableWorkShift(data) {
 
 
 jQuery(document).ready(function () {
-    $(".specific-time").hide();
+    var type = $("#bookingType").val();
+    if (BOOKING_HOURS === type) {
+        $(".booking-specific-time").hide();
+    } else if (BOOKING_SPECIFIC_TIME === type) {
+        $(".booking-duration").hide();
+    }
 
     var id = $("#bookableId").val();
     if (id === '') {
@@ -108,7 +115,7 @@ jQuery(document).ready(function () {
         timepicker: true,
         format: 'H:i',
         formatTime: 'H:i',
-	step: 15,
+        step: 15,
         dayOfWeekStart: firstDayOfWeek
     });
 
@@ -117,20 +124,20 @@ jQuery(document).ready(function () {
         timepicker: true,
         format: 'H:i',
         formatTime: 'H:i',
-	step: 15,
+        step: 15,
         dayOfWeekStart: firstDayOfWeek
     });
 
     $("#btn-booking-time").click(function () {
-        $(".duration").fadeOut(800, function () {
-            $(".specific-time").fadeIn(400);
+        $(".booking-duration").fadeOut(400, function () {
+            $(".booking-specific-time").fadeIn(400);
         });
         $("#bookingType").val(BOOKING_SPECIFIC_TIME);
     });
 
     $("#btn-booking-duration").click(function () {
-        $(".specific-time").fadeOut(800, function () {
-            $(".duration").fadeIn(400);
+        $(".booking-specific-time").fadeOut(400, function () {
+            $(".booking-duration").fadeIn(400);
         });
         $("#bookingType").val(BOOKING_HOURS);
     });
