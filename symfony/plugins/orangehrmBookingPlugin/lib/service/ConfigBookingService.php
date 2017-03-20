@@ -14,7 +14,6 @@
 class ConfigBookingService extends BaseService {
 
   const COMPANY_BREAKS_TIME = 'booking.company_breaks_time';
-  const COMPANY_BOOKING_TIME = 'booking.minimum_booking_duration';
 
   private $configDao;
 
@@ -52,24 +51,6 @@ class ConfigBookingService extends BaseService {
    */
   public function setCompanyBreaksTime($breaksTime) {
     return $this->getConfigDao()->setValue(self::COMPANY_BREAKS_TIME, $breaksTime);
-  }
-  
-  
-  /**
-   *
-   * @return type
-   */
-  public function getCompanyBookingTime() {
-    return $this->getConfigDao()->getValue(self::COMPANY_BOOKING_TIME);
-  }
-
-  /**
-   *
-   * @param type $bookingTime
-   * @return type
-   */
-  public function setCompanyBookingTime($bookingTime) {
-    return $this->getConfigDao()->setValue(self::COMPANY_BOOKING_TIME, $bookingTime);
   }
 
 }

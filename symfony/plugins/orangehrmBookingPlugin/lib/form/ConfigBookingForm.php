@@ -31,17 +31,14 @@ class ConfigBookingForm extends sfForm {
     }
 
     public function configure() {
-        $this->breaksTime = $this->getConfigBookingService()->getCompanyBreaksTime();
-        $this->minBookingTime = $this->getConfigBookingService()->getCompanyBookingTime();
+        $this->breaksTime = $this->getConfigBookingService()->getCompanyBreaksTime();        
 
         $this->setWidgets(array(
           'breaksTime' => new sfWidgetFormInputText(array(), array('value' => $this->breaksTime, 'placeholder' => __('Breaks Time in Hours'))),
-          'minBookingTime' => new sfWidgetFormInputText(array(), array('value' => $this->minBookingTime, 'placeholder' => __('Mininum Booking Duration in Hours'))),
         ));
 
         $this->setValidators(array(
           'breaksTime' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
-          'minBookingTime' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
         ));
 
         $formExtension = PluginFormMergeManager::instance();
@@ -57,7 +54,6 @@ class ConfigBookingForm extends sfForm {
 
         $labels = array(
           'breaksTime' => __('Breaks Time'),
-          'minBookingTime' => __('Minimum Booking'),
         );
         return $labels;
     }

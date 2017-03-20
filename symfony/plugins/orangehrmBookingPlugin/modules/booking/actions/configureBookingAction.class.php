@@ -51,11 +51,9 @@ class configureBookingAction extends baseBookingAction {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
       if ($this->form->isValid()) {
 
-        $breaks = $this->form->getValue('breaksTime');
-        $minBooking = $this->form->getValue('minBookingTime');
+        $breaks = $this->form->getValue('breaksTime');        
         try {
-          $this->getConfigBookingService()->setCompanyBreaksTime($breaks);
-          $this->getConfigBookingService()->setCompanyBookingTime($minBooking);
+          $this->getConfigBookingService()->setCompanyBreaksTime($breaks);          
           $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
           $this->redirect('booking/configureBooking');
         }
