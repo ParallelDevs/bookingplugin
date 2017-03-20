@@ -10,7 +10,6 @@
  * @property integer $customerId
  * @property integer $projectId
  * @property float $duration
- * @property integer $bookingType
  * @property date $startDate
  * @property date $endDate
  * @property time $startTime
@@ -25,7 +24,6 @@
  * @method integer          getCustomerId()              Returns the current record's "customerId" value
  * @method integer          getProjectId()               Returns the current record's "projectId" value
  * @method float            getDuration()                Returns the current record's "duration" value
- * @method smallint         getBookingType()             Returns the current record's "bookingType" value
  * @method date             getStartDate()               Returns the current record's "startDate" value
  * @method date             getEndDate()                 Returns the current record's "endDate" value
  * @method time             getStartTime()               Returns the current record's "startTime" value
@@ -39,7 +37,6 @@
  * @method Booking          setCustomerId()              Sets the current record's "customerId" value
  * @method Booking          setProjectId()               Sets the current record's "projectId" value
  * @method Booking          setDuration()                Sets the current record's "duration" value
- * @method Booking          setBookingType()             Sets the current record's "bookingType" value
  * @method Booking          setStartDate()               Sets the current record's "startDate" value
  * @method Booking          setEndDate()                 Sets the current record's "endDate" value
  * @method Booking          setStartTime()               Sets the current record's "startTime" value
@@ -80,10 +77,6 @@ abstract class BaseBooking extends sfDoctrineRecord
              ));
         $this->hasColumn('duration as duration', 'float', null, array(
              'type' => 'float',
-             'notnull' => true,
-             ));
-        $this->hasColumn('booking_type as bookingType', 'integer', null, array(
-             'type' => 'integer',
              'notnull' => true,
              ));
         $this->hasColumn('start_date as startDate', 'date', null, array(

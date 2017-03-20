@@ -12,9 +12,6 @@
  */
 class Booking extends PluginBooking {
 
-    const BOOKING_TYPE_HOURS = 1;
-    const BOOKING_TYPE_SPECIFIC_TIME = 2;
-
     private $configBookingService;
 
     /**
@@ -69,19 +66,7 @@ class Booking extends PluginBooking {
         return floatval($duration);
     }
 
-    /**
-     *
-     * @param type $startTime
-     * @param type $endTime
-     * @return type
-     */
-    public static function calculateDurationSpecificTime($startTime, $endTime) {
-        $date = date('Y-m-d');
-        $start = strtotime($date . ' ' . $startTime);
-        $end = strtotime($date . ' ' . $endTime);
-        $duration = floor(($end - $start) / 3600);
-        return floatval($duration);
-    }
+   
 
     /**
      *
