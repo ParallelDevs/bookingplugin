@@ -32,7 +32,7 @@ class BookingForm extends sfForm {
     }
 
     /**
-     * 
+     *
      * @param ConfigBookingService $configService
      */
     public function setConfigBookingService(ConfigBookingService $configService) {
@@ -40,7 +40,7 @@ class BookingForm extends sfForm {
     }
 
     /**
-     * 
+     *
      * @return type
      */
     public function getConfigBookingService() {
@@ -59,11 +59,34 @@ class BookingForm extends sfForm {
         $this->setWidgets($this->getWidgets());
         $this->setValidators($this->getValidators());
         $this->setDefaults($this->getDefaultValues());
-        $this->mergePostValidator(new sfValidatorCallback(array(
-          'callback' => array($this, 'postValidatorCallback')
+        $this->mergePreValidator(new sfValidatorSchemaCompare('startDate', sfValidatorSchemaCompare::LESS_THAN_EQUAL, 'endDate', array(
+            ), array(
+          'invalid' => 'The start ("%left_field%") must be set before the end ("%right_field%")',
         )));
-
+        $this->mergePostValidator(new sfValidatorCallback(array(
+          'callback' => array($this, 'validateBooking'),
+        )));
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
+    }
+
+    /**
+     * 
+     * @param sfValidatorBase $validator
+     * @param array $values
+     * @param array $arguments
+     * @return type
+     */
+    public function validateBooking(sfValidatorBase $validator, array $values, array $arguments) {
+        $values['duration'] = Booking::calculateDurationHours($values['hours'], $values['minutes']);
+        $startTime = $this->getBookingService()
+            ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
+        $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
+        $values['endTime'] = Booking::calculateEndTimeOfHours($values['startTime'], $values['hours'], $values['minutes']);
+        $start = $values['starDate'] . ' ' . $values['startTime'];
+        $end = $values['endDate'] . ' ' . $values['endTime'];
+        $values['availableOn'] = Booking::calculateAvailibity($start, $end);
+
+        return $values;
     }
 
     /**
@@ -85,7 +108,6 @@ class BookingForm extends sfForm {
         $booking->setCustomerId($posts['customerId']);
         $booking->setProjectId($posts['projectId']);
         $booking->setDuration($posts['duration']);
-        $booking->setBookingType($posts['bookingType']);
         $booking->setStartDate($posts['startDate']);
         $booking->setEndDate($posts['endDate']);
         $booking->setStartTime($posts['startTime']);
@@ -107,20 +129,7 @@ class BookingForm extends sfForm {
     }
 
     /**
-     * 
-     * @param type $validator
-     * @param type $values
-     * @param type $arguments
-     * @return type
-     */
-    public function postValidatorCallback(&$validator, &$values, &$arguments) {
-        
-
-        return $values;
-    }
-
-    /**
-     * 
+     *
      */
     protected function loadFromOptions() {
         $bookableSelectable = $this->getOption('bookableSelectable');
@@ -133,12 +142,10 @@ class BookingForm extends sfForm {
             $booking = !empty($bookingId) ? $this->getBookingService()->getBooking($bookingId) : null;
             if (null === $booking) {
                 $booking = new Booking();
-                $booking->setBookingType(Booking::BOOKING_TYPE_HOURS);
             }
         }
         catch (Exception $e) {
             $booking = new Booking();
-            $booking->setBookingType(Booking::BOOKING_TYPE_HOURS);
             sfContext::getInstance()->getLogger()->err($e->getMessage());
         }
 
@@ -150,11 +157,9 @@ class BookingForm extends sfForm {
      * @return type
      */
     protected function getWidgets() {
-
         $widgets = array(
           'bookingId' => new sfWidgetFormInputHidden(array(), array()),
           'duration' => new sfWidgetFormInputHidden(array(), array()),
-          'bookingType' => new sfWidgetFormInputHidden(array(), array()),
           'minStartTime' => new sfWidgetFormInputHidden(),
           'maxEndTime' => new sfWidgetFormInputHidden(),
           'bookableId' =>
@@ -177,16 +182,15 @@ class BookingForm extends sfForm {
     }
 
     /**
-     * 
+     *
      * @return type
      */
     protected function getValidators() {
         $validators = array(
           'bookingId' => new sfValidatorString(array('required' => false)),
           'duration' => new sfValidatorNumber(array('required' => false), array()),
-          'bookingType' => new sfValidatorInteger(array('required' => true), array()),
-          'minStartTime' => new sfValidatorTime(),
-          'maxEndTime' => new sfValidatorTime(),
+          'minStartTime' => new sfValidatorTime(array('required' => false)),
+          'maxEndTime' => new sfValidatorTime(array('required' => false)),
           'bookableId' =>
           $this->bookableSelectable ?
           new sfValidatorDoctrineChoice(array('model' => 'BookableResource')) :
@@ -196,8 +200,8 @@ class BookingForm extends sfForm {
           'endDate' => new sfValidatorDate(array('required' => true), array()),
           'customerId' => new sfValidatorDoctrineChoice(array('model' => 'Customer', 'required' => true)),
           'projectId' => new sfValidatorDoctrineChoice(array('model' => 'Project', 'required' => true)),
-          'hours' => new sfValidatorInteger(array('required' => false, 'empty_value' => 0), array()),
-          'minutes' => new sfValidatorInteger(array('required' => false, 'empty_value' => 0), array()),
+          'hours' => new sfValidatorInteger(array('required' => false, 'empty_value' => 0, 'min' => 0), array()),
+          'minutes' => new sfValidatorInteger(array('required' => false, 'empty_value' => 0, 'min' => 0, 'max' => 59), array()),
           'startTime' => new sfValidatorTime(array('required' => false), array()),
           'endTime' => new sfValidatorTime(array('required' => false), array()),
         );
@@ -205,13 +209,12 @@ class BookingForm extends sfForm {
     }
 
     /**
-     * 
+     *
      * @return array
      */
     protected function getDefaultValues() {
         $defaults = array(
           'bookingId' => $this->booking->getBookingId(),
-          'bookingType' => $this->booking->getBookingType(),
           'startDate' => $this->booking->getStartDate(),
           'endDate' => $this->booking->getEndDate(),
           'customerId' => $this->booking->getCustomerId(),
@@ -266,7 +269,6 @@ class BookingForm extends sfForm {
           'endDate' => __('To'),
           'startTime' => __('Start At'),
           'endTime' => __('Up To'),
-          'bookingType' => __('Booking Type'),
           'minStartTime' => __('Minimum Start Time'),
           'maxEndTime' => __('Maximum End Time'),
         );

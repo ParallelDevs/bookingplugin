@@ -1,6 +1,7 @@
 function fillProjectSelect(id, data) {
     var $select = $(id);
     $select.find('option').remove();
+    $('<option>').val('').text('').appendTo($select);
     $.each(data, function (key, value) {
         $('<option>').val(value.projectId).text(value.name).appendTo($select);
     });
@@ -50,13 +51,7 @@ function setBookableWorkShift(data) {
 }
 
 
-jQuery(document).ready(function () {
-    var type = $("#bookingType").val();
-    if (BOOKING_HOURS === type) {
-        $(".booking-specific-time").hide();
-    } else if (BOOKING_SPECIFIC_TIME === type) {
-        $(".booking-duration").hide();
-    }
+jQuery(document).ready(function () {    
 
     var id = $("#bookableId").val();
     if (id === '') {
@@ -127,18 +122,5 @@ jQuery(document).ready(function () {
         step: 15,
         dayOfWeekStart: firstDayOfWeek
     });
-
-    $("#btn-booking-time").click(function () {
-        $(".booking-duration").fadeOut(400, function () {
-            $(".booking-specific-time").fadeIn(400);
-        });
-        $("#bookingType").val(BOOKING_SPECIFIC_TIME);
-    });
-
-    $("#btn-booking-duration").click(function () {
-        $(".booking-specific-time").fadeOut(400, function () {
-            $(".booking-duration").fadeIn(400);
-        });
-        $("#bookingType").val(BOOKING_HOURS);
-    });
+    
 });
