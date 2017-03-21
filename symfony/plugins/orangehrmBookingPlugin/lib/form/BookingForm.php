@@ -85,7 +85,8 @@ class BookingForm extends sfForm {
         $start = $values['starDate'] . ' ' . $values['startTime'];
         $end = $values['endDate'] . ' ' . $values['endTime'];
         $values['availableOn'] = Booking::calculateAvailibity($start, $end);
-
+        $projectId = $values['projectId'];
+        $values['bookingColor'] = $this->getBookingService()->chooseBookingColor($projectId);
         return $values;
     }
 
@@ -113,6 +114,7 @@ class BookingForm extends sfForm {
         $booking->setStartTime($posts['startTime']);
         $booking->setEndTime($posts['endTime']);
         $booking->setAvailableOn($posts['availableOn']);
+        $booking->setBookingColor($posts['bookingColor']);
         return $booking;
     }
 
@@ -162,6 +164,7 @@ class BookingForm extends sfForm {
           'duration' => new sfWidgetFormInputHidden(array(), array()),
           'minStartTime' => new sfWidgetFormInputHidden(),
           'maxEndTime' => new sfWidgetFormInputHidden(),
+          'bookingColor' => new sfWidgetFormInputHidden(),
           'bookableId' =>
           $this->bookableSelectable ?
           new sfWidgetFormDoctrineChoice($this->getBookableOptions(), array()) :
@@ -191,6 +194,7 @@ class BookingForm extends sfForm {
           'duration' => new sfValidatorNumber(array('required' => false), array()),
           'minStartTime' => new sfValidatorTime(array('required' => false)),
           'maxEndTime' => new sfValidatorTime(array('required' => false)),
+          'bookingColor' => new sfValidatorString(array('required' => false)),
           'bookableId' =>
           $this->bookableSelectable ?
           new sfValidatorDoctrineChoice(array('model' => 'BookableResource')) :
@@ -223,6 +227,7 @@ class BookingForm extends sfForm {
           'minutes' => $this->booking->getMinutes(),
           'startTime' => $this->booking->getStartTime(),
           'endTime' => $this->booking->getEndTime(),
+          'bookingColor' => $this->booking->getBookingColor(),
         );
         return $defaults;
     }
@@ -271,6 +276,7 @@ class BookingForm extends sfForm {
           'endTime' => __('Up To'),
           'minStartTime' => __('Minimum Start Time'),
           'maxEndTime' => __('Maximum End Time'),
+          'bookingColor' => __('Color'),
         );
         return $labels;
     }
