@@ -66,8 +66,7 @@ class BookableResource extends PluginBookableResource {
       'id' => $this->bookableId,
       'title' => $this->getEmployeeName(),
       'businessHours' => $this->getWorkShifts(),
-      'empNum' => $this->getEmployeeId(),
-      'eventColor' => $this->getBookableColor(),
+      'empNum' => $this->getEmployeeId(),      
       'isActive' => $this->getResourceIsActive(),
     );
   }

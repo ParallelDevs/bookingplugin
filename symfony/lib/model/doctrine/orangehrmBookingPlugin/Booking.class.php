@@ -181,6 +181,7 @@ class Booking extends PluginBooking {
           'customerName' => $this->getCustomerName(),
           'projectId' => $this->getProjectId(),
           'isHoliday' => false,
+          'color'=> $this->getBookingColor(), //'#'.dechex(rand(0x000000, 0xFFFFFF)),
         );
     }
 

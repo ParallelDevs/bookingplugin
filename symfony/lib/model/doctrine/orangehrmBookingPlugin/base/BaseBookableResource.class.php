@@ -8,14 +8,12 @@
  * @property integer $bookableId
  * @property integer $empNumber
  * @property smallint $isActive
- * @property string $bookableColor
  * @property Employee $Employee
  * @property Booking $Booking
  * 
  * @method integer          getBookableId()           Returns the current record's "bookableId" value
  * @method integer          getEmpNumber()            Returns the current record's "empNumber" value
- * @method smallint         getisActive()             Returns the current record's "isActive" value
- * @method string           getBookableColor()        Returns the current record's "bookableColor" value
+ * @method smallint         getisActive()             Returns the current record's "isActive" value 
  * @method Employee         getEmployee()             Returns the current record's "Employee" value
  * @method Booking          getBooking()              Returns the current record's "Booking" value
  * @method BookableResource setBookableId()           Sets the current record's "bookableId" value
@@ -48,12 +46,6 @@ abstract class BaseBookableResource extends sfDoctrineRecord
         $this->hasColumn('is_active as isActive', 'smallint', null, array(
              'type' => 'smallint',
              'default' => '0',
-             ));
-        $this->hasColumn('bookable_color as bookableColor', 'string', 8, array(
-             'type' => 'string',
-             'notnull' => true,
-             'default' => '#000',
-             'length' => 8,
              ));
     }
 

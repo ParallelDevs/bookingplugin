@@ -14,6 +14,7 @@
  * @property date $endDate
  * @property time $startTime
  * @property time $endTime
+ * @property string $bookingColor
  * @property clob $availableOn
  * @property BookableResource $BookableResource
  * @property Customer $Customer
@@ -28,6 +29,7 @@
  * @method date             getEndDate()                 Returns the current record's "endDate" value
  * @method time             getStartTime()               Returns the current record's "startTime" value
  * @method time             getEndTime()                 Returns the current record's "endTime" value
+ * @method string           getBookingColor()            Returns the current record's "bookingColor" value
  * @method clob             getAvailableOn()             Returns the current record's "availableOn" value
  * @method BookableResource getBookableResource()        Returns the current record's "BookableResource" value
  * @method Customer         getCustomer()                Returns the current record's "Customer" value
@@ -41,6 +43,7 @@
  * @method Booking          setEndDate()                 Sets the current record's "endDate" value
  * @method Booking          setStartTime()               Sets the current record's "startTime" value
  * @method Booking          setEndTime()                 Sets the current record's "endTime" value
+ * @method Booking          setBookingColor()            Sets the current record's "bookingColor" value
  * @method Booking          setAvailableOn()             Sets the current record's "availableOn" value
  * @method Booking          setBookableResource()        Sets the current record's "BookableResource" value
  * @method Booking          setCustomer()                Sets the current record's "Customer" value
@@ -94,6 +97,12 @@ abstract class BaseBooking extends sfDoctrineRecord
         $this->hasColumn('end_time as endTime', 'time', null, array(
              'type' => 'time',
              'notnull' => false,
+             ));
+        $this->hasColumn('booking_color as bookingColor', 'string', 8, array(
+             'type' => 'string',
+             'notnull' => true,
+             'default' => '#000',
+             'length' => 8,
              ));
         $this->hasColumn('available_on as availableOn', 'clob', null, array(
              'type' => 'clob',
