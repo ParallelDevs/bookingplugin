@@ -51,7 +51,7 @@ function setBookableWorkShift(data) {
 }
 
 
-jQuery(document).ready(function () {    
+jQuery(document).ready(function () {
 
     var id = $("#bookableId").val();
     if (id === '') {
@@ -91,6 +91,13 @@ jQuery(document).ready(function () {
         }
     });
 
+    $("#startDate").change(function () {
+        var startDate = $(this).val();
+        if ($("#endDate").val() === '') {
+            $("#endDate").val(startDate);
+        }
+    });
+
     jQuery('#startDate').datetimepicker({
         timepicker: false,
         format: 'Y-m-d',
@@ -122,5 +129,5 @@ jQuery(document).ready(function () {
         step: 15,
         dayOfWeekStart: firstDayOfWeek
     });
-    
+
 });
