@@ -4,6 +4,7 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/moment.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/fullcalendar.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/scheduler.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/jquery.datetimepicker.full.min.js'));
+use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
 ?>
 
 <script type="text/javascript">
@@ -19,9 +20,7 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/jquery.datetimepick
     var bookableResourcesUrl = '<?= url_for('@bookables_json') ?>';
     var bookingResourcesUrl = '<?= url_for('@bookings_json') ?>';
     var customerProjectUrl = '<?= url_for('@customer_projects'); ?>';
-    var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';
-    var BOOKING_HOURS = '<?= Booking::BOOKING_TYPE_HOURS ?>';
-    var BOOKING_SPECIFIC_TIME = '<?= Booking::BOOKING_TYPE_SPECIFIC_TIME ?>';
+    var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';    
 </script>
 
 <div class="box" id="bookings">
