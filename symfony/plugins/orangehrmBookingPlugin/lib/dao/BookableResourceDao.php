@@ -157,7 +157,7 @@ class BookableResourceDao extends BaseDao {
    * @param array $filters
    */
   private function _getBookableListQuery(&$select, &$query, array &$bindParams, &$orderBy, $sortField = null, $sortOrder = null, array $filters = null) {
-    $select = 'SELECT b.bookable_id as bookableId, b.is_active as isActive, b.emp_number,  b.bookable_color as bookableColor, ';
+    $select = 'SELECT b.bookable_id as bookableId, b.is_active as isActive, b.emp_number, ';
     $select .= 'e.emp_number AS empNumber, e.employee_id AS employeeId, ';
     $select .= 'e.emp_firstname AS firstName, e.emp_lastname AS lastName ';
     $query = ' FROM ohrm_bookable_resource b ';

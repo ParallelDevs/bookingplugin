@@ -67,8 +67,7 @@ class BookableResourceForm extends sfForm {
             sfContext::getInstance()->getLogger()->err($e->getMessage());
         }
         $bookable->setEmpNumber($posts['empNum']);
-        $bookable->setIsActive($posts['status']);
-        $bookable->setBookableColor($posts['bookableColor']);
+        $bookable->setIsActive($posts['status']);        
         return $bookable;
     }
 
@@ -100,8 +99,7 @@ class BookableResourceForm extends sfForm {
           $this->bookableIsNew ?
           new ohrmWidgetEmployeeNameAutoFill(array('loadingMethod' => 'ajax')) : new sfWidgetFormInputText(array(), array('value' => $this->bookableResource->getEmployeeName(), 'readonly' => true, "class" => "read-only")),
           'empNum' => new sfWidgetFormInputHidden(array(), array('value' => $this->bookableResource->getEmpNumber())),
-          'status' => new sfWidgetFormSelect(array('choices' => $status), array('value' => $this->bookableResource->getisActive(), "class" => "formInputText editable")),
-          'bookableColor' => new sfWidgetFormInputText(array(), array('value' => $this->bookableResource->getBookableColor(), 'class' => 'editable')),
+          'status' => new sfWidgetFormSelect(array('choices' => $status), array('value' => $this->bookableResource->getisActive(), "class" => "formInputText editable")),          
         );
 
         return $widgets;
@@ -116,8 +114,7 @@ class BookableResourceForm extends sfForm {
           'bookableId' => new sfValidatorDoctrineChoice(array('model' => 'BookableResource', 'required' => false)),
           'employee' => new sfValidatorString(array('required' => false)),
           'empNum' => new sfValidatorString(array('required' => false)),
-          'status' => new sfValidatorString(array('required' => false)),
-          'bookableColor' => new sfValidatorString(array('required' => false)),
+          'status' => new sfValidatorString(array('required' => false)),          
         );
         return $validators;
     }
@@ -130,8 +127,7 @@ class BookableResourceForm extends sfForm {
 
         $labels = array(
           'employee' => __('Employee'),
-          'status' => __('Status'),
-          'bookableColor' => __('Color'),
+          'status' => __('Status'),          
         );
         return $labels;
     }

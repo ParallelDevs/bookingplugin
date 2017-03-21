@@ -15,12 +15,7 @@ $(document).ready(function () {
 	$('#search_form input.inputFormatHint').val('');
 	$('#search_form input.ac_loading').val('');
 	$('#search_form').submit();
-    });
-
-    $('#resultTable td::last-child').each(function (index) {
-	var color = $(this).text();
-	$(this).empty().css('background-color', color);
-    });
+    });    
 
 });
 
