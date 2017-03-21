@@ -1,9 +1,9 @@
-function resourceError() {
+function resourceErrorHandler() {
 
 }
 
 
-function resourceRender(resourceObj, labelTds, bodyTds) {
+function resourceRenderHandler(resourceObj, labelTds, bodyTds) {
     if (resourceObj.isActive) {
         labelTds.addClass('booking-resource-active');
     } else {

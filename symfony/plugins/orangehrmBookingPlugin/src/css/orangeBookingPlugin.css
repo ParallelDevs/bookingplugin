@@ -78,5 +78,6 @@
     opacity: 0.65; }
 
 .fc-highlighted {
-  border-color: #ff0000;
-  font-weight: bolder; }
+  border-width: 2px;
+  font-weight: bolder;
+  font-size: 1em; }

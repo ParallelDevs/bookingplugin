@@ -25,7 +25,7 @@ $(function () {
         resources: {
             url: bookableResourcesUrl,
             type: 'POST',
-            error: resourceError,
+            error: resourceErrorHandler,
         },
         events: {
             url: bookingResourcesUrl,
@@ -33,11 +33,12 @@ $(function () {
                 mode: 'timeline',
             },
             type: 'POST',
-            error: eventError,
+            error: eventErrorHandler,
         },
-        resourceRender: resourceRender,
-        eventRender: eventRender,
-        eventAfterRender: eventAfterRender
+        resourceRender: resourceRenderHandler,
+        eventRender: eventRenderHandler,
+        eventMouseover: eventMouseoverHandler,
+        eventMouseout: eventMouseoutHandler,	
     });
 
 

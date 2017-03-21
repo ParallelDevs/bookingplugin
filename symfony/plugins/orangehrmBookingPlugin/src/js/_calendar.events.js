@@ -1,8 +1,8 @@
-function eventError() {
+function eventErrorHandler() {
 
 }
 
-function eventRender(event, element, view) {
+function eventRenderHandler(event, element, view) {
     if (event.isHoliday) {
         element.tipTip({
             content: holidayLabel + ' ' + event.title
@@ -44,3 +44,20 @@ function eventAfterRender(event, element, view) {
      total = isNaN(total) ? parseFloat(event.worktime) : total + parseFloat(event.worktime);
      $total.text(total);*/
 }
+
+function eventMouseoverHandler(event, jsEvent, view) {
+    $(this).addClass('fc-highlighted');
+}
+
+function eventMouseoutHandler(event, jsEvent, view) {
+    $(this).removeClass('fc-highlighted');
+}
+
+function eventResizeHandler() {}
+function eventOverlapHandler() {}
+function eventClickHandler() {}
+function eventAllowHandler() {}
+function selectAllowHandler() {}
+function selectOverlapHandler() {}
+function selectHandler() {}
+function unselectHandler() {}
