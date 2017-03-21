@@ -12,12 +12,7 @@ BookableResource:
     is_active:
       name: is_active as isActive
       type: smallint
-      default: '0'
-    bookable_color:
-      name: bookable_color as bookableColor
-      type: string(8)
-      notnull: true
-      default: '#000'
+      default: '0'    
   relations:
     Employee:
       class: Employee
@@ -64,6 +59,11 @@ Booking:
       name: end_time as endTime
       type: time
       notnull: false
+    booking_color:
+      name: booking_color as bookingColor
+      type: string(8)
+      notnull: true
+      default: '#000'
     available_on:
       name: available_on as availableOn
       type: clob
