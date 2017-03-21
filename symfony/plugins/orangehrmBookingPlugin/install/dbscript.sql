@@ -7,8 +7,7 @@
 CREATE TABLE `ohrm_bookable_resource` (
     `bookable_id` int(11) UNSIGNED AUTO_INCREMENT,
     `emp_number` int(7) NOT NULL DEFAULT 0,
-    `is_active` smallint DEFAULT 0,
-    `bookable_color` VARCHAR(8) NOT NULL DEFAULT '#000',
+    `is_active` smallint DEFAULT 0,    
     PRIMARY KEY(`bookable_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
@@ -22,6 +21,7 @@ CREATE TABLE `ohrm_booking` (
     `end_date` DATE NOT NULL,
     `start_time` TIME NULL DEFAULT NULL,
     `end_time` TIME NULL DEFAULT NULL,
+    `booking_color` VARCHAR(8) NOT NULL DEFAULT '#000',
     `available_on` LONGTEXT NOT NULL,
     PRIMARY KEY(`booking_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
