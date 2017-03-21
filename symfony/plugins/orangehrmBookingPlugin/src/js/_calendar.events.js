@@ -22,7 +22,6 @@ function eventRender(event, element, view) {
                     element.find(".fc-title").text(event.duration + 'h p/d');
                     break;
                 case "timelineDay":
-                    element.find(".fc-title").text(event.duration + 'h p/d');
                     break;
                 default:
                     break;
