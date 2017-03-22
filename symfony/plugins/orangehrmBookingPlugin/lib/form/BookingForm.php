@@ -11,6 +11,9 @@ class BookingForm extends sfForm {
     private $configBookingService;
     private $booking;
     private $bookableSelectable = false;
+    private $bookableName;
+    private $minStartTime = '';
+    private $maxEndTime = '';
 
     /**
      *
@@ -144,12 +147,23 @@ class BookingForm extends sfForm {
             $booking = !empty($bookingId) ? $this->getBookingService()->getBooking($bookingId) : null;
             if (null === $booking) {
                 $booking = new Booking();
+                $this->bookableName = $this->getOption('bookableName');
             }
+            else {
+                $this->bookableName = $booking->getBookableResource()->getEmployeeName();
+            }
+
+            $this->minStartTime = $this->getOption('minStartTime');
+            $this->maxEndTime = $this->getOption('maxEndTime');
         }
         catch (Exception $e) {
             $booking = new Booking();
             sfContext::getInstance()->getLogger()->err($e->getMessage());
         }
+
+        $booking->setBookableId($this->getOption('bookableId'));
+        $booking->setStartDate($this->getOption('startDate'));
+        $booking->setEndDate($this->getOption('endDate'));
 
         $this->booking = $booking;
     }
@@ -168,10 +182,10 @@ class BookingForm extends sfForm {
           'bookableId' =>
           $this->bookableSelectable ?
           new sfWidgetFormDoctrineChoice($this->getBookableOptions(), array()) :
-          new sfWidgetFormInputHidden(array(), array('value' => $this->booking->getBookableId())),
+          new sfWidgetFormInputHidden(array(), array()),
           'bookableName' => $this->bookableSelectable ?
           new sfWidgetFormInputHidden(array(), array()) :
-          new sfWidgetFormInputText(array(), array('class' => 'text-read-only', 'readonly' => true, 'value' => $this->booking->getBookableResource()->getEmployeeName())),
+          new sfWidgetFormInputText(array(), array('class' => 'text-read-only', 'readonly' => true,)),
           'startDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date')),
           'endDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date')),
           'customerId' => new sfWidgetFormDoctrineChoice($this->getCustomerOptions(), array()),
@@ -228,6 +242,10 @@ class BookingForm extends sfForm {
           'startTime' => $this->booking->getStartTime(),
           'endTime' => $this->booking->getEndTime(),
           'bookingColor' => $this->booking->getBookingColor(),
+          'bookableId' => $this->booking->getBookableId(),
+          'bookableName' => $this->bookableName,
+          'minStartTime' => $this->minStartTime,
+          'maxEndTime' => $this->maxEndTime,
         );
         return $defaults;
     }

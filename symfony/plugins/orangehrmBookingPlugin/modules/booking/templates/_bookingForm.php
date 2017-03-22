@@ -13,6 +13,7 @@
                 <?= $form['bookableId']->renderLabel() ?>
                 <?= $form['bookableId']->render() ?>
                 <?= $form['bookableId']->renderError() ?>
+                <?= $form['bookableName']->render()?>
             </li>
             <li class="event-date input-group-inline">
                 <?= $form['startDate']->renderLabel() ?>
