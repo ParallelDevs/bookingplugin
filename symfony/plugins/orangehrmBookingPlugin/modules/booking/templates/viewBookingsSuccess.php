@@ -8,8 +8,6 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
 ?>
 
 <script type="text/javascript">
-  //var addBookingTitle = '<?= __('Add Booking') ?>';
-  //var editBookingTitle = '<?= __('Edit Booking') ?>';
     var currentDate = '<?= date('Y-m-d') ?>';
     var calendarMinTime = '<?= $minTime ?>';
     var calendarMaxTime = '<?= $maxTime ?>';
@@ -20,7 +18,8 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
     var bookableResourcesUrl = '<?= url_for('@bookables_json') ?>';
     var bookingResourcesUrl = '<?= url_for('@bookings_json') ?>';
     var customerProjectUrl = '<?= url_for('@customer_projects'); ?>';
-    var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';    
+    var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';
+    var bookingFormUrl = '<?= url_for('@form_booking') ?>';
 </script>
 
 <div class="box" id="bookings">
@@ -33,3 +32,4 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
     </div>
 </div>
 
+<?php include_partial('bookingModals', array()) ?>
