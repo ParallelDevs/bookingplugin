@@ -53,11 +53,43 @@ function eventMouseoutHandler(event, jsEvent, view) {
     $(this).removeClass('fc-highlighted');
 }
 
-function eventResizeHandler() {}
-function eventOverlapHandler() {}
-function eventClickHandler() {}
-function eventAllowHandler() {}
-function selectAllowHandler() {}
-function selectOverlapHandler() {}
-function selectHandler() {}
-function unselectHandler() {}
+function selectHandler(start, end, jsEvent, view, resource) {
+    var bookableId = '';
+    var bookableName = '';
+    var startDate = '';
+    var endDate = '';
+    var minStartTime = '';
+    var maxEndTime = '';
+
+    if (resource) {
+        bookableId = resource.id;
+        bookableName = resource.title;
+        minStartTime = resource.businessHours[0].start;
+        maxEndTime = resource.businessHours[0].end;
+    }
+
+    startDate = start.format('YYYY-MM-DD');
+    var selectedEndDate = end.subtract(1, 'days');
+    if (selectedEndDate.isBefore(startDate)) {
+        selectedEndDate = start;
+    }
+    endDate = selectedEndDate.format('YYYY-MM-DD');
+
+    $.ajax({
+        type: 'POST',
+        url: bookingFormUrl,
+        data: {
+            "bookableId": bookableId,
+            "bookableName": bookableName,
+            "startDate": startDate,
+            "endDate": endDate,
+            "minStartTime": minStartTime,
+            "maxEndTime": maxEndTime
+        },
+        success: function (response) {
+            $('#addBooking').find('.modal-body').html(response);
+            $('#addBooking').modal('show');
+        }
+    });
+
+}

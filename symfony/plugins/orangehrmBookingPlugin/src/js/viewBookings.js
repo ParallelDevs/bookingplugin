@@ -39,6 +39,7 @@ $(function () {
         eventRender: eventRenderHandler,
         eventMouseover: eventMouseoverHandler,
         eventMouseout: eventMouseoutHandler,	
+	select: selectHandler,	
     });
 
 
