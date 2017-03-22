@@ -39,6 +39,11 @@ bookable_workshifts:
    url:   /booking/bookableWorkShifts.json
    param: { module: booking, action: getBookableWorkShift, sf_format: json }
 
+form_booking:
+   url: /booking/bookingForm
+   param: { module: booking, action: getBookingForm }
+   with_wildcard_routes: true
+   
 save_booking:
    url: /booking/saveBooking
    param: { module: booking, action: saveBooking , sf_format: json}
