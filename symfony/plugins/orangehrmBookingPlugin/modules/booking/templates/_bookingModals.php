@@ -1,4 +1,4 @@
-<div class="modal hide" id="addBooking">
+<div id="addBooking" class="modal hide">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <h3 id="bookingDialogTitle"><?= __('Add Booking') ?></h3>
