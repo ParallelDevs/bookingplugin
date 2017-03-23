@@ -41,3 +41,22 @@
         text-decoration: none;
     }
 }
+
+.modal-body {
+    & .form-booking-plugin {
+        & .input-date {
+            width: 90px;
+            display: inline-block;
+            margin-right: 5px;
+            &:last-of-type{
+                margin-right: auto;
+            }
+        }
+        & .input-group-inline {
+            & label:last-of-type {
+                min-width: 16px;
+                margin-right: 5px;
+            }
+        }
+    }
+}
