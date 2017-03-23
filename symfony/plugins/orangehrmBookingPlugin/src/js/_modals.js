@@ -6,8 +6,13 @@ function initModalFields() {
 }
 
 jQuery(document).ready(function () {
-    $('#addBooking').on('change', '#customerId', customerChangeHandler);
-    $('#addBooking').on('change', '#startDate', function () {
+    $("#addBooking, #editBooking").on("hide.bs.modal", function () {
+        $(this).find('.modal-body').empty();
+    });
+
+    $("#addBooking, #editBooking").on('change', '#customerId', customerChangeHandler);
+
+    $("#addBooking, #editBooking").on('change', '#startDate', function () {
         startDateChangeHandler("#startDate", "#endDate");
     });
 });
