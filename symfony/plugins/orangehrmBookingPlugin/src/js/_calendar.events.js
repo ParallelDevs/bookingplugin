@@ -1,3 +1,11 @@
+var bookingId = '';
+var bookableId = '';
+var bookableName = '';
+var startDate = '';
+var endDate = '';
+var minStartTime = '';
+var maxEndTime = '';
+
 function eventErrorHandler() {
 
 }
@@ -53,14 +61,41 @@ function eventMouseoutHandler(event, jsEvent, view) {
     $(this).removeClass('fc-highlighted');
 }
 
-function selectHandler(start, end, jsEvent, view, resource) {
-    var bookableId = '';
-    var bookableName = '';
-    var startDate = '';
-    var endDate = '';
-    var minStartTime = '';
-    var maxEndTime = '';
+function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {    
+    bookingId = event.id;
+    startDate = event.start.format('YYYY-MM-DD');
+    endDate = event.end.format('YYYY-MM-DD');
 
+    var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
+    if (resource) {
+        bookableId = resource.id;
+        minStartTime = resource.businessHours[0].start;
+        maxEndTime = resource.businessHours[0].end;
+    }
+    
+    $.ajax({
+        type: 'POST',
+        url: bookingFormUrl,
+        data: {
+            "bookingId": bookingId,
+            "bookableId": bookableId,
+            "startDate": startDate,
+            "endDate": endDate,
+            "minStartTime": minStartTime,
+            "maxEndTime": maxEndTime
+        },
+        success: function (response) {
+            $('#editBooking').find('.modal-body').html(response);
+            initModalFields();
+            $('#editBooking').modal('show');
+        },
+        fail: function(){
+            revertFunc();
+        }
+    });
+}
+
+function selectHandler(start, end, jsEvent, view, resource) {
     if (resource) {
         bookableId = resource.id;
         bookableName = resource.title;
@@ -92,5 +127,4 @@ function selectHandler(start, end, jsEvent, view, resource) {
             $('#addBooking').modal('show');
         }
     });
-
 }

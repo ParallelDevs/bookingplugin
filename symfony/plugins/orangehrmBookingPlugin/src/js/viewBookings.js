@@ -10,7 +10,7 @@ $(function () {
         selectHelper: true,
         editable: true,
         aspectRatio: 4.0,
-        firstDay: firstDayOfWeek,        
+        firstDay: firstDayOfWeek,
         slotEventOverlap: false,
         minTime: calendarMinTime,
         maxTime: calendarMaxTime,
@@ -38,7 +38,8 @@ $(function () {
         resourceRender: resourceRenderHandler,
         eventRender: eventRenderHandler,
         eventMouseover: eventMouseoverHandler,
-        eventMouseout: eventMouseoutHandler,	
-	select: selectHandler,	
+        eventMouseout: eventMouseoutHandler,
+        eventResize: eventResizeHandler,	
+	select: selectHandler,
     });
 });
