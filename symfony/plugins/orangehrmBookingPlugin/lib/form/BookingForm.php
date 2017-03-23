@@ -148,6 +148,7 @@ class BookingForm extends sfForm {
             if (null === $booking) {
                 $booking = new Booking();
                 $this->bookableName = $this->getOption('bookableName');
+                $booking->setBookableId($this->getOption('bookableId'));
             }
             else {
                 $this->bookableName = $booking->getBookableResource()->getEmployeeName();
@@ -160,8 +161,7 @@ class BookingForm extends sfForm {
             $booking = new Booking();
             sfContext::getInstance()->getLogger()->err($e->getMessage());
         }
-
-        $booking->setBookableId($this->getOption('bookableId'));
+        
         $booking->setStartDate($this->getOption('startDate'));
         $booking->setEndDate($this->getOption('endDate'));
 
