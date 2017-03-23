@@ -2,7 +2,6 @@ function resourceErrorHandler() {
 
 }
 
-
 function resourceRenderHandler(resourceObj, labelTds, bodyTds) {
     if (resourceObj.isActive) {
         labelTds.addClass('booking-resource-active');
@@ -16,5 +15,3 @@ function resourceRenderHandler(resourceObj, labelTds, bodyTds) {
         }
     }
 }
-
-
