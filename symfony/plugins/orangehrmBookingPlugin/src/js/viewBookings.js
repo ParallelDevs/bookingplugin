@@ -1,6 +1,6 @@
 //=include _calendar.resources.js
 //=include _calendar.events.js
-
+//=include _modals.js
 
 $(function () {
     $('#calendar').fullCalendar({
@@ -41,6 +41,4 @@ $(function () {
         eventMouseout: eventMouseoutHandler,	
 	select: selectHandler,	
     });
-
-
 });

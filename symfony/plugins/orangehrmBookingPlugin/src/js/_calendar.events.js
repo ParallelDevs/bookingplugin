@@ -88,6 +88,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
         },
         success: function (response) {
             $('#addBooking').find('.modal-body').html(response);
+            initModalFields();
             $('#addBooking').modal('show');
         }
     });
