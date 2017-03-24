@@ -1,6 +1,6 @@
+//=include _modals.js
 //=include _calendar.resources.js
 //=include _calendar.events.js
-//=include _modals.js
 
 $(function () {
     $('#calendar').fullCalendar({
@@ -8,7 +8,8 @@ $(function () {
         now: moment().startOf('day'),
         selectable: true,
         selectHelper: true,
-        editable: true,        
+        editable: true,
+        eventResourceEditable: false,
         aspectRatio: 4.0,
         firstDay: firstDayOfWeek,
         slotEventOverlap: false,

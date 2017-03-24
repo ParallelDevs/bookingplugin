@@ -78,6 +78,11 @@ function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
 
 
 function eventDropHandler(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+    var delta = dayDelta.asDays();
+    if (0 === delta) {        
+        return;
+    }
+
     bookingId = event.id;
     startDate = event.start.format('YYYY-MM-DD');
     endDate = event.end.format('YYYY-MM-DD');
@@ -108,7 +113,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
     }
     endDate = selectedEndDate.format('YYYY-MM-DD');
 
-   ajaxAddBooking();
+    ajaxAddBooking();
 }
 
 function selectAllowHandler(selectInfo) {
