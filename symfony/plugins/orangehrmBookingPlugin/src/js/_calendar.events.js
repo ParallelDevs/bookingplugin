@@ -73,26 +73,7 @@ function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
         maxEndTime = resource.businessHours[0].end;
     }
 
-    $.ajax({
-        type: 'POST',
-        url: bookingFormUrl,
-        data: {
-            "bookingId": bookingId,
-            "bookableId": bookableId,
-            "startDate": startDate,
-            "endDate": endDate,
-            "minStartTime": minStartTime,
-            "maxEndTime": maxEndTime
-        },
-        success: function (response) {
-            $('#editBooking').find('.modal-body').html(response);
-            initModalFields();
-            $('#editBooking').modal('show');
-        },
-        fail: function () {
-            revertFunc();
-        }
-    });
+    ajaxEditBooking(revertFunc);
 }
 
 
@@ -109,26 +90,7 @@ function eventDropHandler(event, dayDelta, minuteDelta, allDay, revertFunc, jsEv
         maxEndTime = resource.businessHours[0].end;
     }
 
-    $.ajax({
-        type: 'POST',
-        url: bookingFormUrl,
-        data: {
-            "bookingId": bookingId,
-            "bookableId": bookableId,            
-            "startDate": startDate,
-            "endDate": endDate,
-            "minStartTime": minStartTime,
-            "maxEndTime": maxEndTime
-        },
-        success: function (response) {
-            $('#editBooking').find('.modal-body').html(response);
-            initModalFields();
-            $('#editBooking').modal('show');
-        },
-        fail: function () {
-            revertFunc();
-        }
-    });
+    ajaxEditBooking(revertFunc);
 }
 
 function selectHandler(start, end, jsEvent, view, resource) {
@@ -146,23 +108,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
     }
     endDate = selectedEndDate.format('YYYY-MM-DD');
 
-   $.ajax({
-        type: 'POST',
-        url: bookingFormUrl,
-        data: {
-            "bookableId": bookableId,
-            "bookableName": bookableName,
-            "startDate": startDate,
-            "endDate": endDate,
-            "minStartTime": minStartTime,
-            "maxEndTime": maxEndTime
-        },
-        success: function (response) {
-            $('#addBooking').find('.modal-body').html(response);
-            initModalFields();
-            $('#addBooking').modal('show');
-        }
-    });
+   ajaxAddBooking();
 }
 
 function selectAllowHandler(selectInfo) {
