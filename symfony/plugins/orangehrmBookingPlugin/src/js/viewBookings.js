@@ -8,7 +8,7 @@ $(function () {
         now: moment().startOf('day'),
         selectable: true,
         selectHelper: true,
-        editable: true,
+        editable: true,        
         aspectRatio: 4.0,
         firstDay: firstDayOfWeek,
         slotEventOverlap: false,
@@ -39,7 +39,8 @@ $(function () {
         eventRender: eventRenderHandler,
         eventMouseover: eventMouseoverHandler,
         eventMouseout: eventMouseoutHandler,
-        eventResize: eventResizeHandler,	
+        eventResize: eventResizeHandler,
+        eventDrop: eventDropHandler,
 	select: selectHandler,
         selectAllow: selectAllowHandler,
     });
