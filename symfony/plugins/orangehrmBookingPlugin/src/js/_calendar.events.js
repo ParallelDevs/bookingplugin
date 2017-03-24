@@ -61,7 +61,7 @@ function eventMouseoutHandler(event, jsEvent, view) {
     $(this).removeClass('fc-highlighted');
 }
 
-function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {    
+function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
     bookingId = event.id;
     startDate = event.start.format('YYYY-MM-DD');
     endDate = event.end.format('YYYY-MM-DD');
@@ -72,7 +72,7 @@ function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
         minStartTime = resource.businessHours[0].start;
         maxEndTime = resource.businessHours[0].end;
     }
-    
+
     $.ajax({
         type: 'POST',
         url: bookingFormUrl,
@@ -89,7 +89,7 @@ function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
             initModalFields();
             $('#editBooking').modal('show');
         },
-        fail: function(){
+        fail: function () {
             revertFunc();
         }
     });
@@ -127,4 +127,12 @@ function selectHandler(start, end, jsEvent, view, resource) {
             $('#addBooking').modal('show');
         }
     });
+}
+
+function selectAllowHandler(selectInfo) {
+    var resource = $('#calendar').fullCalendar('getResourceById', selectInfo.resourceId);
+    if (resource && !resource.isActive) {
+        return false;
+    }
+    return true;
 }

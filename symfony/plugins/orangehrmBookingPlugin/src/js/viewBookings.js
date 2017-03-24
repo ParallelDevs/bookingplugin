@@ -41,5 +41,6 @@ $(function () {
         eventMouseout: eventMouseoutHandler,
         eventResize: eventResizeHandler,	
 	select: selectHandler,
+        selectAllow: selectAllowHandler,
     });
 });
