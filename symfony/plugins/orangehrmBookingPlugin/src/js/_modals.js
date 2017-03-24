@@ -1,5 +1,7 @@
 //=include _booking.form.js
 
+var activeModalId = '';
+
 function initModalFields() {
     initDateField('#startDate');
     initDateField('#endDate');
@@ -25,13 +27,13 @@ function ajaxLoadNewBooking() {
     });
 }
 
-function ajaxLoadEditBooking(revertFunction){
+function ajaxLoadEditBooking(revertFunction) {
     $.ajax({
         type: 'POST',
         url: bookingFormUrl,
         data: {
             "bookingId": bookingId,
-            "bookableId": bookableId,            
+            "bookableId": bookableId,
             "startDate": startDate,
             "endDate": endDate,
             "minStartTime": minStartTime,
@@ -48,6 +50,28 @@ function ajaxLoadEditBooking(revertFunction){
     });
 }
 
+function ajaxSaveBooking() {
+    $.ajax({
+        type: "POST",
+        url: saveBookingUrl,
+        data: $('.form-booking-plugin').serialize(),
+        cache: false,
+        success: successBookingForm,
+        dataType: "json",
+    });
+}
+
+function successBookingForm(data) {
+    if (data.success) {
+        $(activeModalId).modal('hide');        
+    } else {
+        var length = data.errors.length;
+        for (var i = 0; i < length; i++) {
+            console.log(data.errors[i]);
+            // Show error
+        }
+    }
+}
 
 jQuery(document).ready(function () {
     $("#addBooking, #editBooking").on("hide.bs.modal", function () {
@@ -59,5 +83,10 @@ jQuery(document).ready(function () {
 
     $("#addBooking, #editBooking").on('change', '#startDate', function () {
         startDateChangeHandler("#startDate", "#endDate");
+    });
+
+    $("#addBooking").on('click', ".btn.save", function () {
+        activeModalId = "#addBooking";
+        ajaxSaveBooking();
     });
 });

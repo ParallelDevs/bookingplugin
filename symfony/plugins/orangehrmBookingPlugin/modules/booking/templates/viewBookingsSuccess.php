@@ -20,6 +20,7 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
     var customerProjectUrl = '<?= url_for('@customer_projects'); ?>';
     var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';
     var bookingFormUrl = '<?= url_for('@form_booking') ?>';
+    var saveBookingUrl = '<?= url_for('@save_booking'); ?>';
 </script>
 
 <div class="box" id="bookings">
