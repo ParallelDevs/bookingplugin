@@ -92,3 +92,9 @@
   border-width: 2px;
   font-weight: bolder;
   font-size: 1em; }
+
+.booking-resource-active, .booking-resource-inactive {
+  font-weight: normal; }
+
+.booking-resource-inactive {
+  background: #d7d7d7; }

@@ -23,17 +23,3 @@
     right: 10px;
 }
 
-.fc {
-    &-nonbusiness {
-        opacity: 0.75;
-        &.holiday {
-            opacity: 0.65;
-        }
-    }
-    &-highlighted {        
-        border-width: 2px;
-        font-weight: bolder;
-        font-size: 1em;
-    }
-}
-
