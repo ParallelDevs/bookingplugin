@@ -15,4 +15,8 @@ jQuery(document).ready(function () {
     $("#addBooking, #editBooking").on('change', '#startDate', function () {
         startDateChangeHandler("#startDate", "#endDate");
     });
+    
+    $(".booking .btn.reset").click(function(){
+        $('#calendar').fullCalendar('refetchEvents');
+    });
 });
