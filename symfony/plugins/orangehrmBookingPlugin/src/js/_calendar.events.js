@@ -73,7 +73,7 @@ function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
         maxEndTime = resource.businessHours[0].end;
     }
 
-    ajaxEditBooking(revertFunc);
+    ajaxLoadEditBooking(revertFunc);
 }
 
 
@@ -95,7 +95,7 @@ function eventDropHandler(event, dayDelta, minuteDelta, allDay, revertFunc, jsEv
         maxEndTime = resource.businessHours[0].end;
     }
 
-    ajaxEditBooking(revertFunc);
+    ajaxLoadEditBooking(revertFunc);
 }
 
 function selectHandler(start, end, jsEvent, view, resource) {
@@ -113,7 +113,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
     }
     endDate = selectedEndDate.format('YYYY-MM-DD');
 
-    ajaxAddBooking();
+    ajaxLoadNewBooking();
 }
 
 function selectAllowHandler(selectInfo) {

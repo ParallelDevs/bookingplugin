@@ -5,7 +5,7 @@ function initModalFields() {
     initDateField('#endDate');
 }
 
-function ajaxAddBooking() {
+function ajaxLoadNewBooking() {
     $.ajax({
         type: 'POST',
         url: bookingFormUrl,
@@ -25,7 +25,7 @@ function ajaxAddBooking() {
     });
 }
 
-function ajaxEditBooking(revertFunction){
+function ajaxLoadEditBooking(revertFunction){
     $.ajax({
         type: 'POST',
         url: bookingFormUrl,
