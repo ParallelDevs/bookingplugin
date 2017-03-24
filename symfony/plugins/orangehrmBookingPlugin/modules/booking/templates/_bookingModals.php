@@ -1,4 +1,4 @@
-<div id="addBooking" class="modal hide">
+<div id="addBooking" class="booking modal hide">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <h3 class="booking-dialog-title"><?= __('Add Booking') ?></h3>
@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div id="editBooking" class="modal hide">
+<div id="editBooking" class="booking modal hide">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <h3 class="booking-dialog-title"><?= __('Edit Booking') ?></h3>
