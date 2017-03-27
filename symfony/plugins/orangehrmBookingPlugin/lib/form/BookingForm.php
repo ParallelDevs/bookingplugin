@@ -57,7 +57,7 @@ class BookingForm extends sfForm {
   }
 
   /**
-   * 
+   *
    * @param ProjectService $projectService
    */
   public function setProjectService(ProjectService $projectService) {
@@ -65,7 +65,7 @@ class BookingForm extends sfForm {
   }
 
   /**
-   * 
+   *
    * @return type
    */
   public function getProjectService() {
@@ -95,7 +95,7 @@ class BookingForm extends sfForm {
   }
 
   /**
-   * 
+   *
    * @param sfValidatorBase $validator
    * @param array $values
    * @param array $arguments
@@ -103,20 +103,21 @@ class BookingForm extends sfForm {
    */
   public function validateBooking(sfValidatorBase $validator, array $values, array $arguments) {
     $values['duration'] = Booking::calculateDurationHours($values['hours'], $values['minutes']);
-    
+
     if (empty($values['startTime'])) {
       $startTime = $this->getBookingService()
           ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
       $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
     }
     $values['endTime'] = Booking::calculateEndTimeOfHours($values['startTime'], $values['hours'], $values['minutes']);
-    
+
     $start = $values['starDate'] . ' ' . $values['startTime'];
     $end = $values['endDate'] . ' ' . $values['endTime'];
     $values['availableOn'] = Booking::calculateAvailibity($start, $end);
-    
-    if (empty($values['bookingColor'])) {
-      $projectId = $values['projectId'];
+
+    $projectId = $values['projectId'];
+    $currentProjectId = $this->booking->getProjectId();
+    if (empty($values['bookingColor']) || ($currentProjectId != $projectId)) {
       $values['bookingColor'] = $this->getBookingService()->chooseBookingColor($projectId);
     }
 
@@ -313,7 +314,7 @@ class BookingForm extends sfForm {
   }
 
   /**
-   * 
+   *
    * @return array
    */
   protected function getProjectOptions() {
