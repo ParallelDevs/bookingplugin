@@ -101,7 +101,6 @@ abstract class BaseBooking extends sfDoctrineRecord
         $this->hasColumn('booking_color as bookingColor', 'string', 8, array(
              'type' => 'string',
              'notnull' => true,
-             'default' => '#000',
              'length' => 8,
              ));
         $this->hasColumn('available_on as availableOn', 'clob', null, array(

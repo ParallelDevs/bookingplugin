@@ -62,8 +62,7 @@ Booking:
     booking_color:
       name: booking_color as bookingColor
       type: string(8)
-      notnull: true
-      default: '#000'
+      notnull: true     
     available_on:
       name: available_on as availableOn
       type: clob
