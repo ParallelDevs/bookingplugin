@@ -42,7 +42,7 @@ $(function () { // document ready
         eventRender: eventRenderHandler,
         eventMouseover: eventMouseoverHandler,
         eventMouseout: eventMouseoutHandler,
-	selectAllow: false,	
+	selectAllow: false,
     });
 
 });

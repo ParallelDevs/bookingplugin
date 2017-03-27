@@ -1,6 +1,7 @@
 //=include _modals.js
 //=include _calendar.resources.js
 //=include _calendar.events.js
+//=include _calendar.manage-events.js
 
 $(function () {
     $('#calendar').fullCalendar({
@@ -38,6 +39,7 @@ $(function () {
         },
         resourceRender: resourceRenderHandler,
         eventRender: eventRenderHandler,
+        eventAfterRender: eventAfterRenderHandler,
         eventMouseover: eventMouseoverHandler,
         eventMouseout: eventMouseoutHandler,
         eventResize: eventResizeHandler,
