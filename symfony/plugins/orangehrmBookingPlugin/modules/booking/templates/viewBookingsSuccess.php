@@ -7,8 +7,7 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/jquery.datetimepick
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
 ?>
 
-<script type="text/javascript">
-    var currentDate = '<?= date('Y-m-d') ?>';
+<script type="text/javascript">    
     var calendarMinTime = '<?= $minTime ?>';
     var calendarMaxTime = '<?= $maxTime ?>';
     var firstDayOfWeek = <?= $firstDayOfWeek; ?>;
