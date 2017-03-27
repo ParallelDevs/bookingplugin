@@ -9,6 +9,7 @@ class BookingForm extends sfForm {
 
   private $bookingService;
   private $configBookingService;
+  private $projectService;
   private $booking;
   private $bookableSelectable = false;
   private $bookableName;
@@ -54,6 +55,26 @@ class BookingForm extends sfForm {
   }
 
   /**
+   * 
+   * @param ProjectService $projectService
+   */
+  public function setProjectService(ProjectService $projectService) {
+    $this->projectService = $projectService;
+  }
+
+  /**
+   * 
+   * @return type
+   */
+  public function getProjectService() {
+    if (!$this->projectService instanceof ProjectService) {
+      $this->projectService = new ProjectService();
+      $this->projectService->setProjectDao(new ProjectDao());
+    }
+    return $this->projectService;
+  }
+
+  /**
    *
    */
   public function configure() {
@@ -62,8 +83,7 @@ class BookingForm extends sfForm {
     $this->setWidgets($this->getWidgets());
     $this->setValidators($this->getValidators());
     $this->setDefaults($this->getDefaultValues());
-    $this->mergePreValidator(new sfValidatorSchemaCompare('startDate', sfValidatorSchemaCompare::LESS_THAN_EQUAL, 'endDate', array(
-        ), array(
+    $this->mergePreValidator(new sfValidatorSchemaCompare('startDate', sfValidatorSchemaCompare::LESS_THAN_EQUAL, 'endDate', array(), array(
       'invalid' => 'The start ("%left_field%") must be set before the end ("%right_field%")',
     )));
     $this->mergePostValidator(new sfValidatorCallback(array(
@@ -197,7 +217,7 @@ class BookingForm extends sfForm {
       'startDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date')),
       'endDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date')),
       'customerId' => new sfWidgetFormDoctrineChoice($this->getCustomerOptions(), array()),
-      'projectId' => new sfWidgetFormChoice(array('choices' => array()), array()),
+      'projectId' => new sfWidgetFormDoctrineChoice($this->getProjectOptions(), array()),
       'hours' => new sfWidgetFormInputText(array(), array('class' => 'input-hours', 'placeholder' => __('Hours'))),
       'minutes' => new sfWidgetFormInputText(array(), array('class' => 'input-minutes', 'placeholder' => __('Minutes'))),
       'startTime' => new sfWidgetFormInputText(array(), array('class' => 'input-time')),
@@ -280,6 +300,28 @@ class BookingForm extends sfForm {
       'add_empty' => true,
       'method' => 'getName',
     );
+  }
+
+  /**
+   * 
+   * @return array
+   */
+  protected function getProjectOptions() {
+    $options = array(
+      'model' => 'Project',
+      'add_empty' => true,
+      'method' => 'getName',
+    );
+
+    $customerId = $this->booking->getCustomerId();
+    if (!empty($customerId)) {
+      $options['query'] = Doctrine_Query::create()
+          ->select('*')
+          ->from('Project')
+          ->where('customer_id = ?', $customerId);
+    }
+
+    return $options;
   }
 
   /**
