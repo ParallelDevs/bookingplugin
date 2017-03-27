@@ -89,4 +89,9 @@ jQuery(document).ready(function () {
         activeModalId = "#addBooking";
         ajaxSaveBooking();
     });
+    
+    $("#editBooking").on('click', ".btn.save", function () {
+        activeModalId = "#editBooking";
+        ajaxSaveBooking();
+    });
 });
