@@ -31,6 +31,7 @@ class BookingForm extends sfForm {
   public function getBookingService() {
     if (!$this->bookingService instanceof BookingService) {
       $this->bookingService = new BookingService();
+      $this->bookingService->setBookingDao(new BookingDao());
     }
     return $this->bookingService;
   }
@@ -50,6 +51,7 @@ class BookingForm extends sfForm {
   public function getConfigBookingService() {
     if (!$this->configBookingService instanceof ConfigBookingService) {
       $this->configBookingService = new ConfigBookingService();
+      $this->configBookingService->setConfigDao(new ConfigDao());
     }
     return $this->configBookingService;
   }
