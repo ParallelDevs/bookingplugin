@@ -41,7 +41,8 @@ class getBookingsAction extends baseBookingAction {
     $parameterHolder->setReturnType(BookingSearchParameterHolder::RETURN_TYPE_CALENDAR_EVENT);
 
     $bookings = $this->getBookingService()->searchBookingsList($parameterHolder);
-    if ('agenda' === $mode) {
+    
+    if ('timeline' !== $mode) {
       foreach ($bookings as &$booking) {
         $booking['editable'] = false;
       }
