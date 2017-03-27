@@ -103,15 +103,23 @@ class BookingForm extends sfForm {
    */
   public function validateBooking(sfValidatorBase $validator, array $values, array $arguments) {
     $values['duration'] = Booking::calculateDurationHours($values['hours'], $values['minutes']);
-    $startTime = $this->getBookingService()
-        ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
-    $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
+    
+    if (empty($values['startTime'])) {
+      $startTime = $this->getBookingService()
+          ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
+      $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
+    }
     $values['endTime'] = Booking::calculateEndTimeOfHours($values['startTime'], $values['hours'], $values['minutes']);
+    
     $start = $values['starDate'] . ' ' . $values['startTime'];
     $end = $values['endDate'] . ' ' . $values['endTime'];
     $values['availableOn'] = Booking::calculateAvailibity($start, $end);
-    $projectId = $values['projectId'];
-    $values['bookingColor'] = $this->getBookingService()->chooseBookingColor($projectId);
+    
+    if (empty($values['bookingColor'])) {
+      $projectId = $values['projectId'];
+      $values['bookingColor'] = $this->getBookingService()->chooseBookingColor($projectId);
+    }
+
     return $values;
   }
 
@@ -209,6 +217,8 @@ class BookingForm extends sfForm {
       'minStartTime' => new sfWidgetFormInputHidden(),
       'maxEndTime' => new sfWidgetFormInputHidden(),
       'bookingColor' => new sfWidgetFormInputHidden(),
+      'startTime' => new sfWidgetFormInputHidden(),
+      'endTime' => new sfWidgetFormInputHidden(),
       'bookableId' =>
       $this->bookableSelectable ?
       new sfWidgetFormDoctrineChoice($this->getBookableOptions(), array()) :
@@ -222,8 +232,6 @@ class BookingForm extends sfForm {
       'projectId' => new sfWidgetFormDoctrineChoice($this->getProjectOptions(), array()),
       'hours' => new sfWidgetFormInputText(array(), array('class' => 'input-hours', 'placeholder' => __('Hours'))),
       'minutes' => new sfWidgetFormInputText(array(), array('class' => 'input-minutes', 'placeholder' => __('Minutes'))),
-      'startTime' => new sfWidgetFormInputText(array(), array('class' => 'input-time')),
-      'endTime' => new sfWidgetFormInputText(array(), array('class' => 'input-time')),
     );
     return $widgets;
   }
