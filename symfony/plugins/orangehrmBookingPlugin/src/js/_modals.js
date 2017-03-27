@@ -63,7 +63,7 @@ function ajaxSaveBooking() {
 
 function successBookingForm(data) {
     if (data.success) {
-        $(activeModalId).modal('hide');        
+        $(activeModalId).modal('hide');
     } else {
         var length = data.errors.length;
         for (var i = 0; i < length; i++) {
@@ -73,10 +73,14 @@ function successBookingForm(data) {
     }
 }
 
+function refreshBookings() {
+    $('#calendar').fullCalendar('refetchEvents');
+}
+
 jQuery(document).ready(function () {
     $("#addBooking, #editBooking").on("hide.bs.modal", function () {
         $(this).find('.modal-body').empty();
-        $('#calendar').fullCalendar('refetchEvents');
+        refreshBookings();
     });
 
     $("#addBooking, #editBooking").on('change', '#customerId', customerChangeHandler);
@@ -89,7 +93,7 @@ jQuery(document).ready(function () {
         activeModalId = "#addBooking";
         ajaxSaveBooking();
     });
-    
+
     $("#editBooking").on('click', ".btn.save", function () {
         activeModalId = "#editBooking";
         ajaxSaveBooking();
