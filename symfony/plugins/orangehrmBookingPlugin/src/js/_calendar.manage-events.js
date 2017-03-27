@@ -21,13 +21,11 @@ function loadVarsFromEvent(event) {
 }
 
 function eventAfterRenderHandler(event, element, view) {    
-    var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
-    if (resource && resource.isActive) {
+    if (event.editable) {
         element.bind('dblclick', function () {
             eventDblClickHandler(event);
         });
     }
-
 }
 
 function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
