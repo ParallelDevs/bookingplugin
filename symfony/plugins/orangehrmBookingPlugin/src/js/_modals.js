@@ -75,12 +75,14 @@ function successBookingForm(data) {
 
 function refreshBookings() {
     $('#calendar').fullCalendar('refetchEvents');
+    holidayOverlap = false;
 }
 
 jQuery(document).ready(function () {
     $("#addBooking, #editBooking").on("hide.bs.modal", function () {
         $(this).find('.modal-body').empty();
         refreshBookings();
+        holidayOverlap = false;
     });
 
     $("#addBooking, #editBooking").on('change', '#customerId', customerChangeHandler);

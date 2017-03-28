@@ -46,5 +46,6 @@ $(function () {
         eventDrop: eventDropHandler,
 	select: selectHandler,
         selectAllow: selectAllowHandler,
+        selectOverlap: selectOverlapHandler,
     });
 });
