@@ -45,7 +45,7 @@ function ajaxLoadEditBooking(revertFunction) {
             $('#editBooking').modal('show');
         },
         fail: function () {
-            revertFunction();
+            revertCalendar(revertFunction);
         }
     });
 }
@@ -75,7 +75,7 @@ function successBookingForm(data) {
 
 function refreshBookings() {
     $('#calendar').fullCalendar('refetchEvents');
-    holidayOverlap = false;
+    holidayEvent = null;
 }
 
 jQuery(document).ready(function () {

@@ -45,7 +45,7 @@ $(function () {
         eventResize: eventResizeHandler,
         eventDrop: eventDropHandler,
         eventOverlap: eventOverlapHandler,
-	select: selectHandler,
+        select: selectHandler,
         selectAllow: selectAllowHandler,
         selectOverlap: selectOverlapHandler,
     });

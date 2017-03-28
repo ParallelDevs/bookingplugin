@@ -5,58 +5,53 @@ var startDate = '';
 var endDate = '';
 var minStartTime = '';
 var maxEndTime = '';
-var holidayOverlap = false;
+var holidayEvent = null;
 
 function loadVarsFromEvent(event) {
+    var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
     bookingId = event.id;
     startDate = event.start.format('YYYY-MM-DD');
     endDate = event.end.format('YYYY-MM-DD');
-
-    var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
-    if (resource) {
-        bookableId = resource.id;
-        bookableName = resource.title;
-        minStartTime = resource.businessHours[0].start;
-        maxEndTime = resource.businessHours[0].end;
-    }
+    bookableId = resource.id;
+    bookableName = resource.title;
+    minStartTime = resource.businessHours[0].start;
+    maxEndTime = resource.businessHours[0].end;
 }
 
 function revertCalendar(revertFunc) {
     if (jQuery.isFunction(revertFunc)) {
         revertFunc();
-        holidayOverlap = false;
     } else {
         refreshBookings();
     }
+    holidayEvent = null;
+
 }
 
 function addBookingConfirmBusinessDays(start, end, resourceId) {
     var resource = $('#calendar').fullCalendar('getResourceById', resourceId);
     var startInBusinessDays = jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 ? true : false;
     var endInBusinessDays = jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0 ? true : false;
+    var startInHoliday = (holidayEvent && start.isSame(holidayEvent.start, 'day')) ? true : false;
+    var endInHoliday = (holidayEvent && end.isSame(holidayEvent.start, 'day')) ? true : false;
     var msgConfirm = '';
 
     if (!startInBusinessDays) {
         msgConfirm = confirmStartBookingNonBusiness;
     } else if (!endInBusinessDays) {
         msgConfirm = confirmEndBookingNonBusiness;
+    } else if (startInHoliday || endInHoliday) {
+        msgConfirm = confirmBookingHoliday;
     }
 
-    if (!holidayOverlap && startInBusinessDays && endInBusinessDays) {
+    if (!startInHoliday && !endInHoliday && startInBusinessDays && endInBusinessDays) {
         ajaxLoadNewBooking();
-    } else if (!startInBusinessDays || !endInBusinessDays) {
+    } else {
         if (confirm(msgConfirm)) {
             ajaxLoadNewBooking();
         } else {
             $('#calendar').fullCalendar('unselect');
-            holidayOverlap = false;
-        }
-    } else if (holidayOverlap) {
-        if (confirm(confirmBookingHoliday)) {
-            ajaxLoadNewBooking();
-        } else {
-            $('#calendar').fullCalendar('unselect');
-            holidayOverlap = false;
+            holidayEvent = null;
         }
     }
 }
@@ -67,24 +62,22 @@ function editBookingConfirmNonBusinessDays(event, revertFunc) {
     var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
     var startInBusinessDays = jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 ? true : false;
     var endInBusinessDays = jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0 ? true : false;
+    var startInHoliday = (holidayEvent && start.isSame(holidayEvent.start, 'day')) ? true : false;
+    var endInHoliday = (holidayEvent && end.isSame(holidayEvent.start, 'day')) ? true : false;
     var msgConfirm = '';
 
     if (!startInBusinessDays) {
         msgConfirm = confirmStartBookingNonBusiness;
     } else if (!endInBusinessDays) {
         msgConfirm = confirmEndBookingNonBusiness;
+    } else if (startInHoliday || endInHoliday) {
+        msgConfirm = confirmBookingHoliday;
     }
 
-    if (!holidayOverlap && startInBusinessDays && endInBusinessDays) {
+    if (!startInHoliday && !endInHoliday && startInBusinessDays && endInBusinessDays) {
         ajaxLoadEditBooking(revertFunc);
-    } else if (!startInBusinessDays || !endInBusinessDays) {
+    } else {
         if (confirm(msgConfirm)) {
-            ajaxLoadEditBooking(revertFunc);
-        } else {
-            revertCalendar(revertFunc);
-        }
-    } else if (holidayOverlap) {
-        if (confirm(confirmBookingHoliday)) {
             ajaxLoadEditBooking(revertFunc);
         } else {
             revertCalendar(revertFunc);
@@ -122,9 +115,9 @@ function eventDblClickHandler(event) {
 
 function eventOverlapHandler(stillEvent, movingEvent) {
     if (stillEvent.isHoliday) {
-        holidayOverlap = true;
+        holidayEvent = stillEvent;
     } else {
-        holidayOverlap = false;
+        holidayEvent = null;
     }
     return true;
 }
@@ -155,9 +148,9 @@ function selectAllowHandler(selectInfo) {
 
 function selectOverlapHandler(event) {
     if (event.isHoliday) {
-        holidayOverlap = true;
+        holidayEvent = event;
     } else {
-        holidayOverlap = false;
+        holidayEvent = null;
     }
     return true;
 }
