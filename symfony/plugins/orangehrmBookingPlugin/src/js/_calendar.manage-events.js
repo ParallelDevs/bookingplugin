@@ -67,15 +67,15 @@ function selectHandler(start, end, jsEvent, view, resource) {
     if (jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 && jQuery.inArray(selectedEndDate.day(), resource.businessHours[0].dow) >= 0) {
         ajaxLoadNewBooking();
     } else if (jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0) {
-        if (confirm("Are you sure you want to start a booking in a non business day?")) {
+        if (confirm(confirmStartBookingNonBusiness)) {
             ajaxLoadNewBooking();
-        }else{
+        } else {
             $('#calendar').fullCalendar('unselect');
         }
     } else if (jQuery.inArray(selectedEndDate.day(), resource.businessHours[0].dow) < 0) {
-        if (confirm("Are you sure you want to end a booking in a non business day?")) {
+        if (confirm(confirmEndBookingNonBusiness)) {
             ajaxLoadNewBooking();
-        }else{
+        } else {
             $('#calendar').fullCalendar('unselect');
         }
     }

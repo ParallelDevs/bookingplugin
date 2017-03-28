@@ -7,19 +7,21 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/jquery.datetimepick
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
 ?>
 
-<script type="text/javascript">    
-    var calendarMinTime = '<?= $minTime ?>';
-    var calendarMaxTime = '<?= $maxTime ?>';
-    var firstDayOfWeek = <?= $firstDayOfWeek; ?>;
-    var inactiveResourceTooltip = '<?= __('Resource is inactive') ?>';
-    var holidayLabel = '<?= __('Holiday:') ?>';
-    var bookableResourceTitle = '<?= __("Resources") ?>';
-    var bookableResourcesUrl = '<?= url_for('@bookables_json') ?>';
-    var bookingResourcesUrl = '<?= url_for('@bookings_json') ?>';
-    var customerProjectUrl = '<?= url_for('@customer_projects'); ?>';
-    var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';
-    var bookingFormUrl = '<?= url_for('@form_booking') ?>';
-    var saveBookingUrl = '<?= url_for('@save_booking'); ?>';
+<script type="text/javascript">
+  var calendarMinTime = '<?= $minTime ?>';
+  var calendarMaxTime = '<?= $maxTime ?>';
+  var firstDayOfWeek = <?= $firstDayOfWeek; ?>;
+  var inactiveResourceTooltip = '<?= __('Resource is inactive') ?>';
+  var holidayLabel = '<?= __('Holiday:') ?>';
+  var bookableResourceTitle = '<?= __("Resources") ?>';
+  var confirmStartBookingNonBusiness = '<?= __("Are you sure you want to start a booking in a non business day?") ?>';
+  var confirmEndBookingNonBusiness = '<?= __("Are you sure you want to end a booking in a non business day?") ?>';
+  var bookableResourcesUrl = '<?= url_for('@bookables_json') ?>';
+  var bookingResourcesUrl = '<?= url_for('@bookings_json') ?>';
+  var customerProjectUrl = '<?= url_for('@customer_projects'); ?>';
+  var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';
+  var bookingFormUrl = '<?= url_for('@form_booking') ?>';
+  var saveBookingUrl = '<?= url_for('@save_booking'); ?>';
 </script>
 
 <div class="box" id="bookings">
