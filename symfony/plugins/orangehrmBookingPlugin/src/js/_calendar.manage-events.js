@@ -21,6 +21,30 @@ function loadVarsFromEvent(event) {
     }
 }
 
+function editBookingConfirmNonBusinessDays(event, revertFunc) {
+    var start = event.start;
+    var end = event.end;
+    var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
+
+    if (!holidayOverlap && jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 && jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0) {
+        ajaxLoadEditBooking(revertFunc);
+    } else if (holidayOverlap || jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0) {
+        if (confirm(confirmStartBookingNonBusiness)) {
+            ajaxLoadEditBooking(revertFunc);
+        } else {
+            revertFunc();
+            holidayOverlap = false;
+        }
+    } else if (holidayOverlap || jQuery.inArray(end.day(), resource.businessHours[0].dow) < 0) {
+        if (confirm(confirmEndBookingNonBusiness)) {
+            ajaxLoadEditBooking(revertFunc);
+        } else {
+            revertFunc();
+            holidayOverlap = false;
+        }
+    }
+}
+
 function eventAfterRenderHandler(event, element, view) {
     if (event.editable) {
         element.bind('dblclick', function () {
@@ -31,9 +55,8 @@ function eventAfterRenderHandler(event, element, view) {
 
 function eventResizeHandler(event, delta, revertFunc, jsEvent, ui, view) {
     loadVarsFromEvent(event);
-    ajaxLoadEditBooking(revertFunc);
+    editBookingConfirmNonBusinessDays(event, revertFunc);
 }
-
 
 function eventDropHandler(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
     var delta = dayDelta.asDays();
@@ -42,7 +65,7 @@ function eventDropHandler(event, dayDelta, minuteDelta, allDay, revertFunc, jsEv
     }
 
     loadVarsFromEvent(event);
-    ajaxLoadEditBooking(revertFunc);
+    editBookingConfirmNonBusinessDays(event, revertFunc);
 }
 
 function eventDblClickHandler(event) {
