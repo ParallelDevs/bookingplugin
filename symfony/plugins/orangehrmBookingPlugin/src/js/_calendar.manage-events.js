@@ -21,26 +21,73 @@ function loadVarsFromEvent(event) {
     }
 }
 
+function revertCalendar(revertFunc) {
+    if (jQuery.isFunction(revertFunc)) {
+        revertFunc();
+        holidayOverlap = false;
+    } else {
+        refreshBookings();
+    }
+}
+
+function addBookingConfirmBusinessDays(start, end, resourceId) {
+    var resource = $('#calendar').fullCalendar('getResourceById', resourceId);
+    var startInBusinessDays = jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 ? true : false;
+    var endInBusinessDays = jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0 ? true : false;
+    var msgConfirm = '';
+
+    if (!startInBusinessDays) {
+        msgConfirm = confirmStartBookingNonBusiness;
+    } else if (!endInBusinessDays) {
+        msgConfirm = confirmEndBookingNonBusiness;
+    }
+
+    if (!holidayOverlap && startInBusinessDays && endInBusinessDays) {
+        ajaxLoadNewBooking();
+    } else if (!startInBusinessDays || !endInBusinessDays) {
+        if (confirm(msgConfirm)) {
+            ajaxLoadNewBooking();
+        } else {
+            $('#calendar').fullCalendar('unselect');
+            holidayOverlap = false;
+        }
+    } else if (holidayOverlap) {
+        if (confirm(confirmBookingHoliday)) {
+            ajaxLoadNewBooking();
+        } else {
+            $('#calendar').fullCalendar('unselect');
+            holidayOverlap = false;
+        }
+    }
+}
+
 function editBookingConfirmNonBusinessDays(event, revertFunc) {
     var start = event.start;
     var end = event.end;
     var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
+    var startInBusinessDays = jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 ? true : false;
+    var endInBusinessDays = jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0 ? true : false;
+    var msgConfirm = '';
 
-    if (!holidayOverlap && jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 && jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0) {
+    if (!startInBusinessDays) {
+        msgConfirm = confirmStartBookingNonBusiness;
+    } else if (!endInBusinessDays) {
+        msgConfirm = confirmEndBookingNonBusiness;
+    }
+
+    if (!holidayOverlap && startInBusinessDays && endInBusinessDays) {
         ajaxLoadEditBooking(revertFunc);
-    } else if (holidayOverlap || jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0) {
-        if (confirm(confirmStartBookingNonBusiness)) {
+    } else if (!startInBusinessDays || !endInBusinessDays) {
+        if (confirm(msgConfirm)) {
             ajaxLoadEditBooking(revertFunc);
         } else {
-            revertFunc();
-            holidayOverlap = false;
+            revertCalendar(revertFunc);
         }
-    } else if (holidayOverlap || jQuery.inArray(end.day(), resource.businessHours[0].dow) < 0) {
-        if (confirm(confirmEndBookingNonBusiness)) {
+    } else if (holidayOverlap) {
+        if (confirm(confirmBookingHoliday)) {
             ajaxLoadEditBooking(revertFunc);
         } else {
-            revertFunc();
-            holidayOverlap = false;
+            revertCalendar(revertFunc);
         }
     }
 }
@@ -73,39 +120,29 @@ function eventDblClickHandler(event) {
     ajaxLoadEditBooking(refreshBookings);
 }
 
-function selectHandler(start, end, jsEvent, view, resource) {
-    if (resource) {
-        bookableId = resource.id;
-        bookableName = resource.title;
-        minStartTime = resource.businessHours[0].start;
-        maxEndTime = resource.businessHours[0].end;
+function eventOverlapHandler(stillEvent, movingEvent) {
+    if (stillEvent.isHoliday) {
+        holidayOverlap = true;
+    } else {
+        holidayOverlap = false;
     }
+    return true;
+}
 
+function selectHandler(start, end, jsEvent, view, resource) {
+    bookableId = resource.id;
+    bookableName = resource.title;
+    minStartTime = resource.businessHours[0].start;
+    maxEndTime = resource.businessHours[0].end;
     startDate = start.format('YYYY-MM-DD');
+
     var selectedEndDate = end.subtract(1, 'days');
     if (selectedEndDate.isBefore(startDate)) {
         selectedEndDate = start;
     }
     endDate = selectedEndDate.format('YYYY-MM-DD');
 
-    if (!holidayOverlap && jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 && jQuery.inArray(selectedEndDate.day(), resource.businessHours[0].dow) >= 0) {
-        ajaxLoadNewBooking();
-    } else if (holidayOverlap || jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0) {
-        if (confirm(confirmStartBookingNonBusiness)) {
-            ajaxLoadNewBooking();
-        } else {
-            $('#calendar').fullCalendar('unselect');
-            holidayOverlap = false;
-        }
-    } else if (holidayOverlap || jQuery.inArray(selectedEndDate.day(), resource.businessHours[0].dow) < 0) {
-        if (confirm(confirmEndBookingNonBusiness)) {
-            ajaxLoadNewBooking();
-        } else {
-            $('#calendar').fullCalendar('unselect');
-            holidayOverlap = false;
-        }
-    }
-
+    addBookingConfirmBusinessDays(start, selectedEndDate, resource.id);
 }
 
 function selectAllowHandler(selectInfo) {
