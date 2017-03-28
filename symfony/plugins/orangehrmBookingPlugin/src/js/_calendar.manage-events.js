@@ -20,7 +20,7 @@ function loadVarsFromEvent(event) {
     }
 }
 
-function eventAfterRenderHandler(event, element, view) {    
+function eventAfterRenderHandler(event, element, view) {
     if (event.editable) {
         element.bind('dblclick', function () {
             eventDblClickHandler(event);
@@ -64,7 +64,22 @@ function selectHandler(start, end, jsEvent, view, resource) {
     }
     endDate = selectedEndDate.format('YYYY-MM-DD');
 
-    ajaxLoadNewBooking();
+    if (jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 && jQuery.inArray(selectedEndDate.day(), resource.businessHours[0].dow) >= 0) {
+        ajaxLoadNewBooking();
+    } else if (jQuery.inArray(start.day(), resource.businessHours[0].dow) < 0) {
+        if (confirm("Are you sure you want to start a booking in a non business day?")) {
+            ajaxLoadNewBooking();
+        }else{
+            $('#calendar').fullCalendar('unselect');
+        }
+    } else if (jQuery.inArray(selectedEndDate.day(), resource.businessHours[0].dow) < 0) {
+        if (confirm("Are you sure you want to end a booking in a non business day?")) {
+            ajaxLoadNewBooking();
+        }else{
+            $('#calendar').fullCalendar('unselect');
+        }
+    }
+
 }
 
 function selectAllowHandler(selectInfo) {
