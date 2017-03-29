@@ -21,10 +21,10 @@
             min-width: 50px;
         }
         & .validation-error {
-            &:nth-of-type(odd){
+            &:nth-of-type(1){
                 left: 150px;
             }
-            &:nth-of-type(even){
+            &:nth-of-type(2){
                 left: 325px;
             }
         }
