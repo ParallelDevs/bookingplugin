@@ -1,9 +1,14 @@
 function fillProjectSelect(id, data) {
     var $select = $(id);
-    $select.find('option').remove();
-    $('<option>').val('').text('').appendTo($select);
+    $select.find('option')
+            .remove();
+    $('<option>').val('')
+            .text('')
+            .appendTo($select);
     $.each(data, function (key, value) {
-        $('<option>').val(value.projectId).text(value.name).appendTo($select);
+        $('<option>').val(value.projectId)
+                .text(value.name)
+                .appendTo($select);
     });
 }
 

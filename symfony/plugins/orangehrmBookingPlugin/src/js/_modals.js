@@ -20,7 +20,8 @@ function ajaxLoadNewBooking() {
             "maxEndTime": maxEndTime
         },
         success: function (response) {
-            $('#addBooking').find('.modal-body').html(response);
+            $('#addBooking').find('.modal-body')
+                    .html(response);
             initModalFields();
             $('#addBooking').modal('show');
         }
@@ -40,7 +41,8 @@ function ajaxLoadEditBooking(revertFunction) {
             "maxEndTime": maxEndTime
         },
         success: function (response) {
-            $('#editBooking').find('.modal-body').html(response);
+            $('#editBooking').find('.modal-body')
+                    .html(response);
             initModalFields();
             $('#editBooking').modal('show');
         },
@@ -67,8 +69,12 @@ function successBookingForm(data) {
     } else {
         var length = data.errors.length;
         for (var i = 0; i < length; i++) {
-            console.log(data.errors[i]);
-            // Show error
+            var $field = $('#' + data.errors[i].field);
+            $('<span>').addClass('validation-error')
+                    .addClass(data.errors[i].field)
+                    .attr('generated', 'true')
+                    .text(data.errors[i].message)
+                    .insertAfter($field);
         }
     }
 }
@@ -80,7 +86,8 @@ function refreshBookings() {
 
 jQuery(document).ready(function () {
     $("#addBooking, #editBooking").on("hide.bs.modal", function () {
-        $(this).find('.modal-body').empty();
+        $(this).find('.modal-body')
+                .empty();
         refreshBookings();
     });
 
@@ -92,11 +99,15 @@ jQuery(document).ready(function () {
 
     $("#addBooking").on('click', ".btn.save", function () {
         activeModalId = "#addBooking";
+        $("#addBooking .form-booking-plugin").find(".validation-error")
+                .remove();
         ajaxSaveBooking();
     });
 
     $("#editBooking").on('click', ".btn.save", function () {
         activeModalId = "#editBooking";
+        $("#editBooking .form-booking-plugin").find(".validation-error")
+                .remove();
         ajaxSaveBooking();
     });
 });
