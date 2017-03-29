@@ -121,6 +121,13 @@ class BookingForm extends sfForm {
       $values['bookingColor'] = $this->getBookingService()->chooseBookingColor($projectId);
     }
 
+    if ($values['duration'] <= 0) {
+      $error = new sfValidatorErrorSchema($validator, array(
+        'hours' => new sfValidatorError($validator, 'Invalid.'),
+        'minutes' => new sfValidatorError($validator, 'Invalid.'),
+      ));
+      throw $error;
+    }
     return $values;
   }
 
