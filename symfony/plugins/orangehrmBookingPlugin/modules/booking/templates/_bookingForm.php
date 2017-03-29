@@ -6,7 +6,7 @@
                     <?= $form->renderGlobalErrors() ?>
                 </li>
             <?php endif; ?>
-            <li>
+                <li class="hidden-fields">
                 <?= $form->renderHiddenFields() ?>
             </li>
             <li class="booking-bookable">
