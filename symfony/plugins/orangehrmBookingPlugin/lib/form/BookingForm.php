@@ -85,9 +85,7 @@ class BookingForm extends sfForm {
     $this->setWidgets($this->getWidgets());
     $this->setValidators($this->getValidators());
     $this->setDefaults($this->getDefaultValues());
-    $this->mergePreValidator(new sfValidatorSchemaCompare('startDate', sfValidatorSchemaCompare::LESS_THAN_EQUAL, 'endDate', array(), array(
-      'invalid' => 'The start ("%left_field%") must be set before the end ("%right_field%")',
-    )));
+    $this->mergePreValidator(new sfValidatorSchemaCompare('endDate', sfValidatorSchemaCompare::GREATER_THAN_EQUAL, 'startDate', array(), array()));
     $this->mergePostValidator(new sfValidatorCallback(array(
       'callback' => array($this, 'validateBooking'),
     )));
