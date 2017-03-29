@@ -75,6 +75,7 @@ function successBookingForm(data) {
                     .attr('generated', 'true')
                     .text(data.errors[i].message)
                     .insertAfter($field);
+            $field.addClass('error-field');
         }
     }
 }
@@ -101,6 +102,7 @@ jQuery(document).ready(function () {
         activeModalId = "#addBooking";
         $("#addBooking .form-booking-plugin").find(".validation-error")
                 .remove();
+        $("#addBooking .form-booking-plugin input").removeClass('error-field');
         ajaxSaveBooking();
     });
 
@@ -108,6 +110,7 @@ jQuery(document).ready(function () {
         activeModalId = "#editBooking";
         $("#editBooking .form-booking-plugin").find(".validation-error")
                 .remove();
+        $("#editBooking .form-booking-plugin input").removeClass('error-field');
         ajaxSaveBooking();
     });
 });

@@ -23,6 +23,9 @@
 .form-booking-plugin input {
   margin-right: 10px; }
 
+.form-booking-plugin .hidden-fields {
+  display: none; }
+
 .form-booking-plugin .input-date {
   width: 100px; }
 
@@ -50,11 +53,10 @@
 .form-booking-plugin .booking-duration input {
   margin-right: 0; }
 
-.form-booking-plugin .booking-duration .validation-error:nth-of-type(1) {
-  left: 150px; }
-
-.form-booking-plugin .booking-duration .validation-error:nth-of-type(2) {
-  left: 325px; }
+.form-booking-plugin .booking-duration .validation-error {
+  left: 240px; }
+  .form-booking-plugin .booking-duration .validation-error:nth-of-type(1) {
+    left: 150px; }
 
 .form-booking-plugin .btn {
   border-radius: 3px;
@@ -67,6 +69,17 @@
   padding: 5px 10px;
   text-decoration: none; }
 
+.form-booking-plugin .text-read-only {
+  background: transparent; }
+
+.form-booking-plugin .error-field {
+  color: #aa4935;
+  border-color: #aa4935;
+  border-width: thin; }
+
+.booking.modal .form-booking-plugin ol li {
+  margin: 3px 0 22px 0; }
+
 .booking.modal .form-booking-plugin .input-date {
   width: 90px;
   display: inline-block;
@@ -78,11 +91,11 @@
   min-width: 16px;
   margin-right: 5px; }
 
-.booking.modal .form-booking-plugin .validation-error.endDate {
-  left: 245px; }
-
-.booking.modal .form-booking-plugin .validation-error.minutes {
-  left: 205px; }
+.booking.modal .form-booking-plugin .validation-error {
+  width: 100%;
+  left: 115px; }
+  .booking.modal .form-booking-plugin .validation-error.endDate, .booking.modal .form-booking-plugin .validation-error.minutes {
+    top: 31px; }
 
 #calendar {
   max-width: 100%;
