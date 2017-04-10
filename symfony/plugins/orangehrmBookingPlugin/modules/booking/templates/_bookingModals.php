@@ -19,6 +19,7 @@
     <div class="modal-body"></div>
     <div class="modal-footer">
         <input type="button" name="dialogSave" class="btn save" value="<?= __('Save'); ?>" />
+        <input type="button" name="dialogDelete" class="btn delete" value="<?= __('Delete'); ?>" />
         <input type="button" name="dialogCancel" class="btn reset" data-dismiss="modal"
                value="<?= __('Cancel'); ?>" />
     </div>
