@@ -43,6 +43,39 @@ function setBookableWorkShift(data) {
 
 }
 
+function ajaxSaveBooking() {
+    $.ajax({
+        type: "POST",
+        url: saveBookingUrl,
+        data: $('.form-booking-plugin').serialize(),
+        cache: false,
+        success: successBookingForm,
+        dataType: "json",
+    });
+}
+
+function successBookingForm(data) {
+    if (data.success) {
+        $(location).attr('href', viewBookingsUrl);
+    } else {
+        $(".form-booking-plugin").find(".validation-error")
+                .remove();
+        $(".form-booking-plugin").find(".error-field")
+                .removeClass('error-field');
+        
+        var length = data.errors.length;
+        for (var i = 0; i < length; i++) {
+            var $field = $('#' + data.errors[i].field);
+            $('<span>').addClass('validation-error')
+                    .addClass(data.errors[i].field)
+                    .attr('generated', 'true')
+                    .text(data.errors[i].message)
+                    .insertAfter($field);
+            $field.addClass('error-field');
+        }
+    }
+}
+
 jQuery(document).ready(function () {
     $("#bookableId").change(function () {
         var id = $(this).val();
@@ -66,12 +99,12 @@ jQuery(document).ready(function () {
     $("#startDate").change(function () {
         startDateChangeHandler("#startDate", "#endDate");
     });
-    
+
     initDateField('#startDate');
     initDateField('#endDate');
 
     $("#btnSave").click(function () {
-        $("#frmBooking").submit();
+        ajaxSaveBooking();
     });
 
     if ($("#bookableId").val() !== '') {

@@ -6,7 +6,7 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/addBooking.js'));
 
 $partialParams = array(
   'form' => $form,
-  'actionForm' => url_for('@add_booking'),
+  'actionForm' => '',
   'buttons' => array(
     array('id' => 'btnSave', 'value' => __("Save")),
   )
@@ -18,7 +18,7 @@ $partialParams = array(
         <h1><?php echo __('Add a Booking'); ?></h1>
     </div>
 
-    <div class="inner" id="addBookingTbl">
+    <div class="inner" id="addBooking">
         <?php
         include_partial('global/flash_messages');
         include_partial('bookingForm', $partialParams);
@@ -29,6 +29,8 @@ $partialParams = array(
 
 <script type="text/javascript">
   var customerProjectUrl = '<?= url_for('@customer_projects'); ?>';
-  var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';  
+  var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';
+  var saveBookingUrl = '<?= url_for('@save_booking'); ?>';
+  var viewBookingsUrl = '<?= url_for('@view_bookings'); ?>';
   var firstDayOfWeek = <?= $firstDayOfWeek; ?>;
 </script>
