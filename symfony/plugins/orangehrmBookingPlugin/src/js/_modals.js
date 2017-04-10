@@ -63,6 +63,20 @@ function ajaxSaveBooking() {
     });
 }
 
+function ajaxDeleteBooking(){
+    bookingId = $("#bookingId").val();
+    $.ajax({
+        type: "POST",
+        url: deleteBookingUrl,
+        data: {
+            "bookingId": bookingId
+        },
+        cache: false,
+        success: successBookingForm,
+        dataType: "json",
+    });
+}
+
 function successBookingForm(data) {
     if (data.success) {
         $(activeModalId).modal('hide');
@@ -102,6 +116,8 @@ jQuery(document).ready(function () {
         activeModalId = "#addBooking";
         $("#addBooking .form-booking-plugin").find(".validation-error")
                 .remove();
+        $("#addBooking .form-booking-plugin").find(".error-field")
+                .removeClass('error-field');
         $("#addBooking .form-booking-plugin input").removeClass('error-field');
         ajaxSaveBooking();
     });
@@ -110,7 +126,16 @@ jQuery(document).ready(function () {
         activeModalId = "#editBooking";
         $("#editBooking .form-booking-plugin").find(".validation-error")
                 .remove();
+        $("#editBooking .form-booking-plugin").find(".error-field")
+                .removeClass('error-field');
         $("#editBooking .form-booking-plugin input").removeClass('error-field');
         ajaxSaveBooking();
+    });
+
+    $("#editBooking").on('click', ".btn.delete", function () {
+        activeModalId = "#editBooking";
+        if (confirm(confirmDeleteBooking)) {
+            ajaxDeleteBooking();
+        }
     });
 });
