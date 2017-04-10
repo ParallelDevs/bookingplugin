@@ -100,14 +100,25 @@ class BookingForm extends sfForm {
    * @return type
    */
   public function validateBooking(sfValidatorBase $validator, array $values, array $arguments) {
-    $values['duration'] = Booking::calculateDurationHours($values['hours'], $values['minutes']);
-
-    if (empty($values['startTime'])) {
-      $startTime = $this->getBookingService()
-          ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
-      $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
+    if (empty($values['hours']) && empty($values['minutes'])) {
+      if (empty($values['startTime'])) {
+        $startTime = $this->getBookingService()
+            ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
+        $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
+      }
+      $values['endTime'] = $values['maxEndTime'];
+      $values['duration'] = Booking::calculateDurationTimes($values['startTime'], $values['endTime']);
     }
-    $values['endTime'] = Booking::calculateEndTimeOfHours($values['startTime'], $values['hours'], $values['minutes']);
+    else {
+      $values['duration'] = Booking::calculateDurationHours($values['hours'], $values['minutes']);
+
+      if (empty($values['startTime'])) {
+        $startTime = $this->getBookingService()
+            ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
+        $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
+      }
+      $values['endTime'] = Booking::calculateEndTimeOfHours($values['startTime'], $values['hours'], $values['minutes']);
+    }
 
     $start = $values['starDate'] . ' ' . $values['startTime'];
     $end = $values['endDate'] . ' ' . $values['endTime'];
@@ -118,14 +129,7 @@ class BookingForm extends sfForm {
     if (empty($values['bookingColor']) || ($currentProjectId != $projectId)) {
       $values['bookingColor'] = $this->getBookingService()->chooseBookingColor($projectId);
     }
-
-    if ($values['duration'] <= 0) {
-      $error = new sfValidatorErrorSchema($validator, array(
-        'hours' => new sfValidatorError($validator, 'Invalid.'),
-        'minutes' => new sfValidatorError($validator, 'Invalid.'),
-      ));
-      throw $error;
-    }
+   
     return $values;
   }
 
@@ -303,7 +307,7 @@ class BookingForm extends sfForm {
         ->select('*')
         ->from('BookableResource')
         ->where('is_active = ?', BookableResource::STATUS_ACTIVE);
-    
+
     return array(
       'model' => 'BookableResource',
       'add_empty' => true,

@@ -82,6 +82,25 @@ class Booking extends PluginBooking {
 
   /**
    *
+   * @param type $startTime
+   * @param type $endTime
+   */
+  public static function calculateDurationTimes($startTime, $endTime) {
+    $start = strtotime(date('Y-m-d') . ' ' . $startTime);
+    $end = strtotime(date('Y-m-d') . ' ' . $endTime);
+    $configBookingService = new ConfigBookingService();
+    $configBookingService->setConfigDao(new ConfigDao());
+    $breaksTimeConf = $configBookingService->getCompanyBreaksTime();
+    $breaksTime = floatval($breaksTimeConf);
+    
+    $diff = floatval($end - $start);
+    $diff/= 3600;    
+    $diff -=$breaksTime;
+    return $diff;
+  }
+
+  /**
+   *
    * @return type
    */
   public function getEventStart() {
@@ -144,7 +163,7 @@ class Booking extends PluginBooking {
   }
 
   /**
-   * 
+   *
    * @return type
    */
   public function getIsEditable() {
