@@ -7,7 +7,7 @@
 CREATE TABLE `ohrm_bookable_resource` (
     `bookable_id` int(11) UNSIGNED AUTO_INCREMENT,
     `emp_number` int(7) NOT NULL DEFAULT 0,
-    `is_active` smallint DEFAULT 0,    
+    `is_active` smallint DEFAULT 0,
     PRIMARY KEY(`bookable_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
@@ -16,7 +16,7 @@ CREATE TABLE `ohrm_booking` (
     `bookable_id` int(11) UNSIGNED NOT NULL,
     `customer_id` int(11) NOT NULL,
     `project_id` int(11) NOT NULL,
-    `duration` float(18, 2) NOT NULL,    
+    `duration` float(18, 2) NOT NULL,
     `start_date` DATE NOT NULL,
     `end_date` DATE NOT NULL,
     `start_time` TIME NULL DEFAULT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE `ohrm_booking` (
     PRIMARY KEY(`booking_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
-ALTER TABLE `ohrm_bookable_resource` 
+ALTER TABLE `ohrm_bookable_resource`
     ADD FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee`(`emp_number`);
 
 ALTER TABLE `ohrm_booking`
