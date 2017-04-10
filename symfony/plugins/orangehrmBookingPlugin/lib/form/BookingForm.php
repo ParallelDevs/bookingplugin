@@ -255,8 +255,8 @@ class BookingForm extends sfForm {
       'bookingColor' => new sfValidatorString(array('required' => false)),
       'bookableId' =>
       $this->bookableSelectable ?
-      new sfValidatorDoctrineChoice(array('model' => 'BookableResource')) :
-      new sfValidatorString(array('required' => false)),
+      new sfValidatorDoctrineChoice(array('model' => 'BookableResource','required' => true)) :
+      new sfValidatorString(array('required' => true)),
       'bookableName' => new sfValidatorString(array('required' => false)),
       'startDate' => new sfValidatorDate(array('required' => true), array()),
       'endDate' => new sfValidatorDate(array('required' => true), array()),
