@@ -26,7 +26,7 @@ add_booking:
 bookables_json:
    url:   /booking/bookables.json
    param: { module: booking, action: getBookables, sf_format: json }
-
+ 
 bookings_json:
    url:   /booking/bookings.json
    param: { module: booking, action: getBookings, sf_format: json }
@@ -47,4 +47,8 @@ form_booking:
 save_booking:
    url: /booking/saveBooking
    param: { module: booking, action: saveBooking , sf_format: json}
+
+view_bookings:
+   url: /booking/viewBookings
+   param: { module: booking, action: viewBookings }
 
