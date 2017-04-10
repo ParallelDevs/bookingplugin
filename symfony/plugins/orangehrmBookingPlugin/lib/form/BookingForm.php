@@ -255,7 +255,7 @@ class BookingForm extends sfForm {
       'bookingColor' => new sfValidatorString(array('required' => false)),
       'bookableId' =>
       $this->bookableSelectable ?
-      new sfValidatorDoctrineChoice(array('model' => 'BookableResource','required' => true)) :
+      new sfValidatorDoctrineChoice(array('model' => 'BookableResource', 'required' => true)) :
       new sfValidatorString(array('required' => true)),
       'bookableName' => new sfValidatorString(array('required' => false)),
       'startDate' => new sfValidatorDate(array('required' => true), array()),
@@ -299,10 +299,16 @@ class BookingForm extends sfForm {
    * @return type
    */
   protected function getBookableOptions() {
+    $query = Doctrine_Query::create()
+        ->select('*')
+        ->from('BookableResource')
+        ->where('is_active = ?', BookableResource::STATUS_ACTIVE);
+    
     return array(
       'model' => 'BookableResource',
       'add_empty' => true,
       'method' => 'getEmployeeName',
+      'query' => $query,
     );
   }
 
