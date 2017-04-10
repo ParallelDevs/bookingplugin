@@ -35,6 +35,14 @@
 .form-booking-plugin .input-hours, .form-booking-plugin .input-minutes {
   width: 50px; }
 
+.form-booking-plugin .error-field {
+  color: #aa4935;
+  border-color: #aa4935;
+  border-width: thin; }
+
+.form-booking-plugin .text-read-only {
+  background: transparent; }
+
 .form-booking-plugin .booking-date label:last-of-type {
   width: auto;
   min-width: 50px; }
@@ -68,14 +76,6 @@
   color: #eee;
   padding: 5px 10px;
   text-decoration: none; }
-
-.form-booking-plugin .text-read-only {
-  background: transparent; }
-
-.form-booking-plugin .error-field {
-  color: #aa4935;
-  border-color: #aa4935;
-  border-width: thin; }
 
 .booking.modal .form-booking-plugin ol li {
   margin: 3px 0 22px 0; }
