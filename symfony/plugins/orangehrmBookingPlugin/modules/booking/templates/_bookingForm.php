@@ -2,53 +2,43 @@
     <fieldset>
         <ol>
             <?php if ($form->hasGlobalErrors()): ?>
-                <li>
-                    <?= $form->renderGlobalErrors() ?>
-                </li>
+              <li>
+                  <?= $form->renderGlobalErrors() ?>
+              </li>
             <?php endif; ?>
-                <li class="hidden-fields">
+            <li class="hidden-fields">
                 <?= $form->renderHiddenFields() ?>
             </li>
             <li class="booking-bookable">
                 <?= $form['bookableId']->renderLabel() ?>
                 <?= $form['bookableId']->render() ?>
-                <?= $form['bookableId']->renderError() ?>
-                <?= $form['bookableName']->render()?>
+                <?= $form['bookableName']->render() ?>
             </li>
             <li class="booking-date">
                 <?= $form['startDate']->renderLabel() ?>
                 <?= $form['startDate']->render() ?>
-                <?= $form['startDate']->renderError() ?>
                 <?= $form['endDate']->renderLabel() ?>
                 <?= $form['endDate']->render() ?>
-                <?= $form['endDate']->renderError() ?>
             </li>
             <li class="booking-duration">
                 <?= $form['duration']->renderLabel() ?>
                 <?= $form['hours']->render() ?>
-                <?= $form['hours']->renderError() ?>
                 <span title="<?= __('Hours') ?>" class="time-label">H</span>
                 <?= $form['minutes']->render() ?>
-                <?= $form['minutes']->renderError() ?>                
-                <span title="<?= __('Minutes') ?>" class="time-label">M</span>                
-            </li>            
+                <span title="<?= __('Minutes') ?>" class="time-label">M</span>
+            </li>
             <li class="booking-customer">
                 <?= $form['customerId']->renderLabel() ?>
-                <?= $form['customerId']->render() ?>
-                <?= $form['customerId']->renderError() ?>
+                <?= $form['customerId']->render() ?>                
             </li>
             <li class="booking-project">
                 <?= $form['projectId']->renderLabel() ?>
-                <?= $form['projectId']->render() ?>
-                <?= $form['projectId']->renderError() ?>
-            </li>
-            <li class="required">
-                <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
-            </li>
+                <?= $form['projectId']->render() ?>                
+            </li>            
         </ol>
         <p>
             <?php foreach ($buttons as $button) : ?>
-                <input type="button" class="" id="<?= $button['id'] ?>" value="<?= $button['value'] ?>"  />
+              <input type="button" class="" id="<?= $button['id'] ?>" value="<?= $button['value'] ?>"  />
             <?php endforeach; ?>
         </p>
     </fieldset>
