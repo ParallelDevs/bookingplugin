@@ -51,4 +51,8 @@ save_booking:
 view_bookings:
    url: /booking/viewBookings
    param: { module: booking, action: viewBookings }
+   
+delete_booking:
+   url: /booking/deleteBooking
+   param: { module: booking, action: deleteBooking , sf_format: json}
 
