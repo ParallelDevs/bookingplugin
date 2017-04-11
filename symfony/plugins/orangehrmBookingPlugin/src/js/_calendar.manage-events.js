@@ -16,6 +16,7 @@ function loadVarsFromEvent(event) {
     bookableName = resource.title;
     minStartTime = resource.businessHours[0].start;
     maxEndTime = resource.businessHours[0].end;
+    workingDays = resource.businessHours[0].dow;
 }
 
 function revertCalendar(revertFunc) {
@@ -86,6 +87,12 @@ function editBookingConfirmNonBusinessDays(event, revertFunc) {
 }
 
 function eventAfterRenderHandler(event, element, view) {
+    if (event.isHoliday) {
+        var date = event.start.format('YYYY-MM-DD');
+        if (jQuery.inArray(date, holidays) < 0) {
+            holidays.push(date);
+        }
+    }
     if (event.editable) {
         element.bind('dblclick', function () {
             eventDblClickHandler(event);
@@ -127,6 +134,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
     bookableName = resource.title;
     minStartTime = resource.businessHours[0].start;
     maxEndTime = resource.businessHours[0].end;
+    workingDays = resource.businessHours[0].dow;
     startDate = start.format('YYYY-MM-DD');
 
     var selectedEndDate = end.subtract(1, 'days');
