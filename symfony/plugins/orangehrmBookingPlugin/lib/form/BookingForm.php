@@ -11,6 +11,7 @@ class BookingForm extends sfForm {
   private $configBookingService;
   private $projectService;
   private $booking;
+  private $isNew;
   private $bookableSelectable = false;
   private $bookableName;
   private $minStartTime = '';
@@ -100,6 +101,8 @@ class BookingForm extends sfForm {
    * @return type
    */
   public function validateBooking(sfValidatorBase $validator, array $values, array $arguments) {
+    $this->isNew = empty($values['bookingId']) ? true : false;
+
     if (empty($values['hours']) && empty($values['minutes'])) {
       if (empty($values['startTime'])) {
         $startTime = $this->getBookingService()
@@ -120,16 +123,18 @@ class BookingForm extends sfForm {
       $values['endTime'] = Booking::calculateEndTimeOfHours($values['startTime'], $values['hours'], $values['minutes']);
     }
 
-    $start = $values['starDate'] . ' ' . $values['startTime'];
-    $end = $values['endDate'] . ' ' . $values['endTime'];
-    $values['availableOn'] = Booking::calculateAvailibity($start, $end);
-
     $projectId = $values['projectId'];
     $currentProjectId = $this->booking->getProjectId();
     if (empty($values['bookingColor']) || ($currentProjectId != $projectId)) {
       $values['bookingColor'] = $this->getBookingService()->chooseBookingColor($projectId);
     }
-   
+
+    if (!$this->isNew) {
+      $start = $values['starDate'] . ' ' . $values['startTime'];
+      $end = $values['endDate'] . ' ' . $values['endTime'];
+      $values['availableOn'] = Booking::calculateAvailibity($start, $end);
+    }
+
     return $values;
   }
 
@@ -141,24 +146,22 @@ class BookingForm extends sfForm {
     $posts = $this->getValues();
 
     try {
-      $booking = !empty($posts['bookingId']) ? $this->getBookingService()->getBooking($posts['bookingId']) : new Booking();
+      $booking = !$this->isNew ? $this->getBookingService()->getBooking($posts['bookingId']) : new Booking();
     }
     catch (Exception $e) {
+      $this->isNew = true;
       $booking = new Booking();
       sfContext::getInstance()->getLogger()->err($e->getMessage());
     }
 
-    $booking->setBookableId($posts['bookableId']);
-    $booking->setCustomerId($posts['customerId']);
-    $booking->setProjectId($posts['projectId']);
-    $booking->setDuration($posts['duration']);
-    $booking->setStartDate($posts['startDate']);
-    $booking->setEndDate($posts['endDate']);
-    $booking->setStartTime($posts['startTime']);
-    $booking->setEndTime($posts['endTime']);
-    $booking->setAvailableOn($posts['availableOn']);
-    $booking->setBookingColor($posts['bookingColor']);
-    return $booking;
+    if (!$this->isNew) {
+      $this->loadSingleBooking($booking, $posts);
+      return $booking;
+    }
+    else {
+      $result = $this->loadBookingCollection($posts);
+      return $result;
+    }
   }
 
   /**
@@ -167,10 +170,13 @@ class BookingForm extends sfForm {
    */
   public function save() {
     $booking = $this->getBooking();
-    $service = $this->getBookingService();
-    $savedBooking = $service->saveBooking($booking);
-    $bookingId = $savedBooking->getBookingId();
-    return $bookingId;
+    if ($booking instanceof Booking) {
+      $this->saveSingle($booking);
+    }
+    else if (is_array($booking)) {
+      $this->saveMultiple($booking);
+    }
+    return true;
   }
 
   /**
@@ -190,9 +196,9 @@ class BookingForm extends sfForm {
         true === $bookableSelectable) ? true : false;
 
     $bookingId = $this->getOption('bookingId');
-
+    $this->isNew = empty($bookingId) ? true : false;
     try {
-      $booking = !empty($bookingId) ? $this->getBookingService()->getBooking($bookingId) : null;
+      $booking = !$this->isNew ? $this->getBookingService()->getBooking($bookingId) : null;
       if (null === $booking) {
         $booking = new Booking();
         $this->bookableName = $this->getOption('bookableName');
@@ -207,6 +213,7 @@ class BookingForm extends sfForm {
     }
     catch (Exception $e) {
       $booking = new Booking();
+      $this->isNew = true;
       sfContext::getInstance()->getLogger()->err($e->getMessage());
     }
 
@@ -373,6 +380,77 @@ class BookingForm extends sfForm {
       'bookingColor' => __('Color'),
     );
     return $labels;
+  }
+
+  /**
+   * 
+   * @param type $booking
+   * @param type $values
+   */
+  protected function loadSingleBooking(&$booking, &$values) {
+    $booking->setBookableId($values['bookableId']);
+    $booking->setCustomerId($values['customerId']);
+    $booking->setProjectId($values['projectId']);
+    $booking->setDuration($values['duration']);
+    $booking->setStartDate($values['startDate']);
+    $booking->setEndDate($values['endDate']);
+    $booking->setStartTime($values['startTime']);
+    $booking->setEndTime($values['endTime']);
+    $booking->setAvailableOn($values['availableOn']);
+    $booking->setBookingColor($values['bookingColor']);
+  }
+
+  /**
+   * 
+   * @param type $values
+   * @return array
+   */
+  protected function loadBookingCollection(&$values) {
+    $collection = array();
+    $dates = Booking::calculateBookingPeriods($values['startDate'], $values['endDate'], array(1, 2, 3, 4, 5),array('2017-04-11','2017-04-13','2017-04-14'));
+    
+    foreach ($dates as $week) {
+      $start = $week['startDate'] . ' ' . $values['startTime'];
+      $end = $week['endDate'] . ' ' . $values['endTime'];
+      $availableOn = Booking::calculateAvailibity($start, $end);
+
+      $booking = new Booking();
+      $booking->setBookableId($values['bookableId']);
+      $booking->setCustomerId($values['customerId']);
+      $booking->setProjectId($values['projectId']);
+      $booking->setDuration($values['duration']);
+      $booking->setStartDate($week['startDate']);
+      $booking->setEndDate($week['endDate']);
+      $booking->setStartTime($values['startTime']);
+      $booking->setEndTime($values['endTime']);
+      $booking->setAvailableOn($availableOn);
+      $booking->setBookingColor($values['bookingColor']);
+      array_push($collection, $booking);
+    }    
+    return $collection;
+  }
+
+  /**
+   * 
+   * @param Booking $booking
+   * @return type
+   */
+  protected function saveSingle(Booking $booking) {
+    $service = $this->getBookingService();
+    $savedBooking = $service->saveBooking($booking);
+    $bookingId = $savedBooking->getBookingId();
+    return $bookingId;
+  }
+
+  /**
+   * 
+   * @param type $collection
+   */
+  protected function saveMultiple($collection) {
+    $service = $this->getBookingService();
+    foreach ($collection as $booking) {
+      $service->saveBooking($booking);
+    }
   }
 
 }

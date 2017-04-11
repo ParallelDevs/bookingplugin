@@ -92,11 +92,55 @@ class Booking extends PluginBooking {
     $configBookingService->setConfigDao(new ConfigDao());
     $breaksTimeConf = $configBookingService->getCompanyBreaksTime();
     $breaksTime = floatval($breaksTimeConf);
-    
+
     $diff = floatval($end - $start);
-    $diff/= 3600;    
-    $diff -=$breaksTime;
+    $diff /= 3600;
+    $diff -= $breaksTime;
     return $diff;
+  }
+
+  /**
+   * 
+   * @param type $startDate
+   * @param type $endDate
+   * @param type $workingDays
+   * @param type $holidays
+   * @return array
+   */
+  public static function calculateBookingPeriods($startDate, $endDate, $workingDays, $holidays = array()) {
+    $periods = array();
+    $start = strtotime($startDate);
+    $end = strtotime($endDate);
+    $days = floor(($end - $start) / 86400);
+    $startP = date('Y-m-d', $start);
+    $endP = '';
+    $date = $start;
+    for ($i = 0; $i < $days; $i++) {
+      $currentDate = date('Y-m-d', $date);
+      $day = date('w', $date);
+      if (in_array($day, $workingDays) && !in_array($currentDate, $holidays)) {
+        if (empty($startP)) {
+          $startP = $currentDate;
+        }
+        $endP = $currentDate;
+      }
+      else {
+        if (!empty($startP) && !empty($endP)) {
+          array_push($periods, array('startDate' => $startP, 'endDate' => $endP));
+        }
+        $startP = '';
+        $endP = '';
+      }
+      $date = strtotime("+ 1 day", $date);
+    }
+
+    if (empty($startP)) {
+      $startP = date('Y-m-d', $date);
+    }
+    $endP = date('Y-m-d', $end);
+    array_push($periods, array('startDate' => $startP, 'endDate' => $endP));
+
+    return $periods;
   }
 
   /**
