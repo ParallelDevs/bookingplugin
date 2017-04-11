@@ -17,6 +17,10 @@ class addBookableResourceAction extends baseBookingAction {
     }
   }
 
+  /**
+   * 
+   * @param type $request
+   */
   public function execute($request) {
     $postArray = array();
     if ($request->isMethod('post')) {

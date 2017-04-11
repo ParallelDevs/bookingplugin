@@ -3,7 +3,7 @@
 /**
  * Description of configureBookingAction
  *
- * @author alonso
+ * @author amora
  */
 class configureBookingAction extends baseBookingAction {
 
@@ -40,7 +40,7 @@ class configureBookingAction extends baseBookingAction {
   }
 
   /**
-   * 
+   *
    * @param type $request
    */
   public function execute($request) {
@@ -51,9 +51,9 @@ class configureBookingAction extends baseBookingAction {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
       if ($this->form->isValid()) {
 
-        $breaks = $this->form->getValue('breaksTime');        
+        $breaks = $this->form->getValue('breaksTime');
         try {
-          $this->getConfigBookingService()->setCompanyBreaksTime($breaks);          
+          $this->getConfigBookingService()->setCompanyBreaksTime($breaks);
           $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
           $this->redirect('booking/configureBooking');
         }

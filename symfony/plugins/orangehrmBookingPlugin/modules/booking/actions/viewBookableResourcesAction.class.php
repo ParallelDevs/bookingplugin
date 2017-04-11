@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of indexAction
+ * Description of viewBookableResourcesAction
  *
  * @author amora
  */

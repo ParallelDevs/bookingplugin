@@ -7,6 +7,10 @@
  */
 class getBookableWorkShiftAction extends baseBookingAction {
 
+  /**
+   *
+   * @param type $request
+   */
   public function execute($request) {
     if ($request->hasParameter('bookableId')) {
       $bookableId = $request->getParameter('bookableId');

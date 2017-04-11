@@ -1,12 +1,16 @@
 <?php
 
 /**
- * Description of getCustomerProjects
+ * Description of getCustomerProjectsAction
  *
  * @author amora
  */
 class getCustomerProjectsAction extends baseBookingAction {
 
+  /**
+   *
+   * @param type $request
+   */
   public function execute($request) {
     if ($request->hasParameter('customerId')) {
       $customerId = $request->getParameter('customerId');

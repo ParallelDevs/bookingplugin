@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Description of AddBookingAjaxAction
+ * Description of saveBookingAction
  *
  * @author amora
  */
 class saveBookingAction extends baseBookingAction {
 
+  /**
+   *
+   * @param type $request
+   */
   public function execute($request) {
-    $this->setLayout(false);
-    sfConfig::set('sf_web_debug', false);
-    sfConfig::set('sf_debug', false);
     $response = array();
-
 
     if ($request->isMethod('post')) {
       $this->form = new BookingForm(array(), array(), true);

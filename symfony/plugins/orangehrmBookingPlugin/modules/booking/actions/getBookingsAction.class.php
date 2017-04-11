@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of getBookablesAction
+ * Description of getBookingsAction
  *
  * @author amora
  */
@@ -41,13 +41,13 @@ class getBookingsAction extends baseBookingAction {
     $parameterHolder->setReturnType(BookingSearchParameterHolder::RETURN_TYPE_CALENDAR_EVENT);
 
     $bookings = $this->getBookingService()->searchBookingsList($parameterHolder);
-    
+
     if ('timeline' !== $mode) {
       foreach ($bookings as &$booking) {
         $booking['editable'] = false;
       }
     }
-    
+
     $holidays = BusinessBookingPluginService::getHolidaysAsCalendarEvents($start, $end);
     $this->result = array_merge($bookings, $holidays);
   }

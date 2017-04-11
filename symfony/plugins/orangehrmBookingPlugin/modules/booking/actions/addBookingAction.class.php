@@ -3,7 +3,7 @@
 /**
  * Description of AddBookingAction
  *
- * @author alonso
+ * @author amora
  */
 class AddBookingAction extends baseBookingAction {
 
@@ -17,6 +17,10 @@ class AddBookingAction extends baseBookingAction {
     }
   }
 
+  /**
+   *
+   * @param type $request
+   */
   public function execute($request) {
     $postArray = array();
     if ($request->isMethod('post')) {
@@ -29,35 +33,15 @@ class AddBookingAction extends baseBookingAction {
       $postArray = $_SESSION['addBookingPost'];
     }
 
-    $this->setForm(new BookingForm(array(), array('bookableSelectable'=>true), true));
+    $this->setForm(new BookingForm(array(), array('bookableSelectable' => true), true));
 
     if ($this->getUser()->hasFlash('templateMessage')) {
       unset($_SESSION['addBookingPost']);
       list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
     }
 
-    $firstDay= BusinessBookingPluginService::getCompanyFirstBusinessDay();
+    $firstDay = BusinessBookingPluginService::getCompanyFirstBusinessDay();
     $this->firstDayOfWeek = $firstDay;
-
-    if ($request->isMethod('post')) {
-      $this->form->bind($request->getPostParameters(), $request->getFiles());
-      if ($this->form->isValid()) {
-        try {
-          $bookingId = $this->form->save();
-          unset($_SESSION['addBookingPost']);
-          $this->redirect('booking/viewBookings');
-        }
-        catch (Exception $e) {
-          print($e->getMessage());
-          sfContext::getInstance()->getLogger()->err($e->getMessage());
-        }
-      }
-    }
-  }
-
-  private function validateBooking() {
-    $this->getUser()->setFlash('warning', __('Failed To Save: Resource Already Exists'));
-    return false;
   }
 
 }

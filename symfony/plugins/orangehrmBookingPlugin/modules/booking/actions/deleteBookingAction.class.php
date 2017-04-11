@@ -1,16 +1,17 @@
 <?php
 
 /**
- * Description of AddBookingAjaxAction
+ * Description of deleteBookingAction
  *
  * @author amora
  */
 class deleteBookingAction extends baseBookingAction {
 
+  /**
+   *
+   * @param type $request
+   */
   public function execute($request) {
-    $this->setLayout(false);
-    sfConfig::set('sf_web_debug', false);
-    sfConfig::set('sf_debug', false);
     $response = array();
 
     $bookingId = $request->getParameter('bookingId');

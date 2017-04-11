@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of BaseAction
+ * Description of baseBookingAction
  *
  * @author amora
  */
