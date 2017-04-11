@@ -14,6 +14,8 @@ class getBookableWorkShiftAction extends baseBookingAction {
   public function execute($request) {
     if ($request->hasParameter('bookableId')) {
       $bookableId = $request->getParameter('bookableId');
+      $start = $request->hasParameter('start') ? $request->getParameter('start') : date('Y-m-d');
+      $end = $request->hasParameter('end') ? $request->getParameter('end') : date('Y-m-d');
       try {
         $bookable = $this->getBookableService()->getBookableResourceById($bookableId);
         $result = $bookable->getWorkShifts();
@@ -36,6 +38,7 @@ class getBookableWorkShiftAction extends baseBookingAction {
           else {
             $this->result['maxTime'] = $workshift['end'];
           }
+          $this->result['dow'] = $workshift['dow'];
         }
       }
       catch (Exception $e) {
@@ -47,10 +50,13 @@ class getBookableWorkShiftAction extends baseBookingAction {
       $this->result = array('maxTime' => '23:59', 'minTime' => '00:00');
     }
 
-    foreach ($this->result as $key => &$value) {
-      $time = strtotime(date('Y-m-d ' . $value));
-      $this->result[$key] = date('H:i', $time);
-    }
+    $holidays = BusinessBookingPluginService::getHolidaysAsJson($start, $end);
+
+    $time = strtotime(date('Y-m-d ' . $this->result['maxTime']));
+    $this->result['maxTime'] = date('H:i', $time);
+    $time = strtotime(date('Y-m-d ' . $this->result['minTime']));
+    $this->result['minTime'] = date('H:i', $time);
+    $this->result['holidays'] = $holidays;
   }
 
 }
