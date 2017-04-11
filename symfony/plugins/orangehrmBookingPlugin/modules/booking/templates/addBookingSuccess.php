@@ -28,6 +28,7 @@ $partialParams = array(
 </div>
 
 <script type="text/javascript">
+  var confirmBookingNonBusiness = '<?= __("Are you sure you want a booking in a non business day?") ?>';
   var customerProjectUrl = '<?= url_for('@customer_projects'); ?>';
   var bookableWorkShiftsUrl = '<?= url_for('@bookable_workshifts'); ?>';
   var saveBookingUrl = '<?= url_for('@save_booking'); ?>';

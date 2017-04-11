@@ -25,22 +25,11 @@ function unlockForm() {
 function setBookableWorkShift(data) {
     var momentMinTime = moment(data.minTime, 'H:m');
     var momentMaxTime = moment(data.maxTime, 'H:m');
+    workingDays = data.dow;
+    holidays = data.holidays;
 
     jQuery('#minStartTime').val(momentMinTime.format('HH:mm:ss'));
     jQuery('#maxEndTime').val(momentMaxTime.format('HH:mm:ss'));
-
-    momentMaxTime.add(15, 'minutes');
-
-    jQuery('#startTime').datetimepicker({
-        minTime: momentMinTime.toDate(),
-        maxTime: momentMaxTime.toDate()
-    });
-
-    jQuery('#endTime').datetimepicker({
-        minTime: momentMinTime.toDate(),
-        maxTime: momentMaxTime.toDate()
-    });
-
 }
 
 function ajaxSaveBooking() {
@@ -62,7 +51,7 @@ function successBookingForm(data) {
                 .remove();
         $(".form-booking-plugin").find(".error-field")
                 .removeClass('error-field');
-        
+
         var length = data.errors.length;
         for (var i = 0; i < length; i++) {
             var $field = $('#' + data.errors[i].field);
@@ -79,11 +68,23 @@ function successBookingForm(data) {
 jQuery(document).ready(function () {
     $("#bookableId").change(function () {
         var id = $(this).val();
+        var startYear = moment()
+                .clone()
+                .startOf('year')
+                .format('YYYY-MM-DD');
+        var endYear = moment()
+                .clone()
+                .endOf("year")
+                .format('YYYY-MM-DD');
         if (id !== '') {
             $.ajax({
                 type: "POST",
                 url: bookableWorkShiftsUrl,
-                data: {bookableId: id},
+                data: {
+                    "bookableId": id,
+                    "start": startYear,
+                    "end": endYear
+                },
                 cache: false,
                 success: function (data)
                 {
@@ -104,7 +105,15 @@ jQuery(document).ready(function () {
     initDateField('#endDate');
 
     $("#btnSave").click(function () {
-        ajaxSaveBooking();
+        var startIsValid = dateIsValid($('#startDate').val());
+        var endIsValid = dateIsValid($('#endDate').val());
+        if (!startIsValid || !endIsValid) {
+            if (confirm(confirmBookingNonBusiness)) {
+                ajaxSaveBooking();
+            }
+        } else {
+            ajaxSaveBooking();
+        }
     });
 
     if ($("#bookableId").val() !== '') {
