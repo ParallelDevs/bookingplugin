@@ -22,7 +22,7 @@
         color: #aa4935;
         border-color: #aa4935;
         border-width: thin;
-    }    
+    }
     & .text-read-only {
         background: transparent;
     }
@@ -45,6 +45,8 @@
             float: left;
             margin-right: 10px;
             font-size: 1.5em;
+            position: relative;
+            top: 3px;
         }
         & input {
             margin-right: 0;
@@ -70,7 +72,7 @@
         & ol{
             & li {
                 margin: 3px 0 22px 0;
-            }  
+            }
         }
         & .input-date {
             width: 90px;
@@ -84,6 +86,11 @@
             & label:last-of-type {
                 min-width: 16px;
                 margin-right: 5px;
+            }
+        }
+        & .booking-duration {
+            & .time-label {
+                top: 5px;
             }
         }
         & .validation-error {

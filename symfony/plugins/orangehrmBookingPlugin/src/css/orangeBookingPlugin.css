@@ -56,7 +56,9 @@
 .form-booking-plugin .booking-duration .time-label {
   float: left;
   margin-right: 10px;
-  font-size: 1.5em; }
+  font-size: 1.5em;
+  position: relative;
+  top: 3px; }
 
 .form-booking-plugin .booking-duration input {
   margin-right: 0; }
@@ -90,6 +92,9 @@
 .booking.modal .form-booking-plugin .booking-date label:last-of-type {
   min-width: 16px;
   margin-right: 5px; }
+
+.booking.modal .form-booking-plugin .booking-duration .time-label {
+  top: 5px; }
 
 .booking.modal .form-booking-plugin .validation-error {
   width: 100%;
