@@ -223,6 +223,25 @@ class BusinessBookingPluginService extends BaseService {
   }
 
   /**
+   * 
+   * @param type $startDate
+   * @param type $endDate
+   * @return array
+   */
+  public static function getHolidaysAsJson($startDate = null, $endDate = null) {
+    $holidays = array();
+    $holidayService = self::getHolidayService();
+    $holidaysResult = $holidayService->searchHolidays($startDate, $endDate);
+    foreach ($holidaysResult as $holiday) {
+      if ($holiday->getLength() == WorkWeek::WORKWEEK_LENGTH_FULL_DAY ||
+          $holiday->getLength() == WorkWeek::WORKWEEK_LENGTH_HALF_DAY) {
+        array_push($holidays, $holiday->getDate());
+      }
+    }
+    return $holidays;
+  }
+
+  /**
    *
    * @param type $hour1
    * @param type $hour2
@@ -275,7 +294,7 @@ class BusinessBookingPluginService extends BaseService {
    * @return int
    */
   public static function getCompanyFirstBusinessDay() {
-    $timesheetService = self::getTimesheetPeriodService();    
+    $timesheetService = self::getTimesheetPeriodService();
     try {
       $xmlConfig = $timesheetService->getTimesheetPeriodDao()->getDefinedTimesheetPeriod();
       $xml = simplexml_load_String($xmlConfig);
