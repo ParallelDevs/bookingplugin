@@ -5,77 +5,11 @@
  *
  * @author amora
  */
-class BookingForm extends sfForm {
+class BookingForm extends BaseBookingForm {
 
-  private $bookingService;
-  private $configBookingService;
-  private $projectService;
-  private $booking;
-  private $isNew;
-  private $bookableSelectable = false;
-  private $bookableName;
-  private $minStartTime = '';
-  private $maxEndTime = '';
-
-  /**
-   *
-   * @param BookingService $bookingService
-   */
-  public function setBookingService(BookingService $bookingService) {
-    $this->bookingService = $bookingService;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getBookingService() {
-    if (!$this->bookingService instanceof BookingService) {
-      $this->bookingService = new BookingService();
-      $this->bookingService->setBookingDao(new BookingDao());
-    }
-    return $this->bookingService;
-  }
-
-  /**
-   *
-   * @param ConfigBookingService $configService
-   */
-  public function setConfigBookingService(ConfigBookingService $configService) {
-    $this->configBookingService = $configService;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getConfigBookingService() {
-    if (!$this->configBookingService instanceof ConfigBookingService) {
-      $this->configBookingService = new ConfigBookingService();
-      $this->configBookingService->setConfigDao(new ConfigDao());
-    }
-    return $this->configBookingService;
-  }
-
-  /**
-   *
-   * @param ProjectService $projectService
-   */
-  public function setProjectService(ProjectService $projectService) {
-    $this->projectService = $projectService;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  public function getProjectService() {
-    if (!$this->projectService instanceof ProjectService) {
-      $this->projectService = new ProjectService();
-      $this->projectService->setProjectDao(new ProjectDao());
-    }
-    return $this->projectService;
-  }
+  protected $minStartTime = '';
+  protected $maxEndTime = '';
+  protected $workingDays = '';
 
   /**
    *
@@ -181,14 +115,6 @@ class BookingForm extends sfForm {
 
   /**
    *
-   * @return type
-   */
-  public function getErrors() {
-    return $this->getErrorSchema()->getErrors();
-  }
-
-  /**
-   *
    */
   protected function loadFromOptions() {
     $bookableSelectable = $this->getOption('bookableSelectable');
@@ -210,6 +136,7 @@ class BookingForm extends sfForm {
 
       $this->minStartTime = $this->getOption('minStartTime');
       $this->maxEndTime = $this->getOption('maxEndTime');
+      $this->workingDays = $this->getOption('workingDays');
     }
     catch (Exception $e) {
       $booking = new Booking();
@@ -221,64 +148,6 @@ class BookingForm extends sfForm {
     $booking->setEndDate($this->getOption('endDate'));
 
     $this->booking = $booking;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  protected function getWidgets() {
-    $widgets = array(
-      'bookingId' => new sfWidgetFormInputHidden(array(), array()),
-      'duration' => new sfWidgetFormInputHidden(array(), array()),
-      'minStartTime' => new sfWidgetFormInputHidden(),
-      'maxEndTime' => new sfWidgetFormInputHidden(),
-      'bookingColor' => new sfWidgetFormInputHidden(),
-      'startTime' => new sfWidgetFormInputHidden(),
-      'endTime' => new sfWidgetFormInputHidden(),
-      'bookableId' =>
-      $this->bookableSelectable ?
-      new sfWidgetFormDoctrineChoice($this->getBookableOptions(), array()) :
-      new sfWidgetFormInputHidden(array(), array()),
-      'bookableName' => $this->bookableSelectable ?
-      new sfWidgetFormInputHidden(array(), array()) :
-      new sfWidgetFormInputText(array(), array('class' => 'text-read-only', 'readonly' => true,)),
-      'startDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date')),
-      'endDate' => new sfWidgetFormInputText(array(), array('class' => 'input-date')),
-      'customerId' => new sfWidgetFormDoctrineChoice($this->getCustomerOptions(), array()),
-      'projectId' => new sfWidgetFormDoctrineChoice($this->getProjectOptions(), array()),
-      'hours' => new sfWidgetFormInputText(array(), array('class' => 'input-hours', 'placeholder' => __('Hours'))),
-      'minutes' => new sfWidgetFormInputText(array(), array('class' => 'input-minutes', 'placeholder' => __('Minutes'))),
-    );
-    return $widgets;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  protected function getValidators() {
-    $validators = array(
-      'bookingId' => new sfValidatorString(array('required' => false)),
-      'duration' => new sfValidatorNumber(array('required' => false), array()),
-      'minStartTime' => new sfValidatorTime(array('required' => false)),
-      'maxEndTime' => new sfValidatorTime(array('required' => false)),
-      'bookingColor' => new sfValidatorString(array('required' => false)),
-      'bookableId' =>
-      $this->bookableSelectable ?
-      new sfValidatorDoctrineChoice(array('model' => 'BookableResource', 'required' => true)) :
-      new sfValidatorString(array('required' => true)),
-      'bookableName' => new sfValidatorString(array('required' => false)),
-      'startDate' => new sfValidatorDate(array('required' => true), array()),
-      'endDate' => new sfValidatorDate(array('required' => true), array()),
-      'customerId' => new sfValidatorDoctrineChoice(array('model' => 'Customer', 'required' => true)),
-      'projectId' => new sfValidatorDoctrineChoice(array('model' => 'Project', 'required' => true)),
-      'hours' => new sfValidatorInteger(array('required' => false, 'empty_value' => 0, 'min' => 0), array()),
-      'minutes' => new sfValidatorInteger(array('required' => false, 'empty_value' => 0, 'min' => 0, 'max' => 59), array()),
-      'startTime' => new sfValidatorTime(array('required' => false), array()),
-      'endTime' => new sfValidatorTime(array('required' => false), array()),
-    );
-    return $validators;
   }
 
   /**
@@ -301,85 +170,9 @@ class BookingForm extends sfForm {
       'bookableName' => $this->bookableName,
       'minStartTime' => $this->minStartTime,
       'maxEndTime' => $this->maxEndTime,
+      'workingDays' => $this->workingDays,
     );
     return $defaults;
-  }
-
-  /**
-   *
-   * @return type
-   */
-  protected function getBookableOptions() {
-    $query = Doctrine_Query::create()
-        ->select('*')
-        ->from('BookableResource')
-        ->where('is_active = ?', BookableResource::STATUS_ACTIVE);
-
-    return array(
-      'model' => 'BookableResource',
-      'add_empty' => true,
-      'method' => 'getEmployeeName',
-      'query' => $query,
-    );
-  }
-
-  /**
-   *
-   * @return type
-   */
-  protected function getCustomerOptions() {
-    return array(
-      'model' => 'Customer',
-      'add_empty' => true,
-      'method' => 'getName',
-    );
-  }
-
-  /**
-   *
-   * @return array
-   */
-  protected function getProjectOptions() {
-    $options = array(
-      'model' => 'Project',
-      'add_empty' => true,
-      'method' => 'getName',
-    );
-
-    $customerId = $this->booking->getCustomerId();
-    if (!empty($customerId)) {
-      $options['query'] = Doctrine_Query::create()
-          ->select('*')
-          ->from('Project')
-          ->where('customer_id = ?', $customerId);
-    }
-
-    return $options;
-  }
-
-  /**
-   *
-   * @return array
-   */
-  protected function getFormLabels() {
-
-    $labels = array(
-      'bookingId' => __('Booking'),
-      'bookableId' => __('Resource'),
-      'bookableName' => __('Resource'),
-      'customerId' => __('Customer'),
-      'projectId' => __('Project'),
-      'duration' => __('Duration'),
-      'hours' => __('Hours'),
-      'startDate' => __('From'),
-      'endDate' => __('To'),
-      'startTime' => __('Start At'),
-      'endTime' => __('Up To'),
-      'minStartTime' => __('Minimum Start Time'),
-      'maxEndTime' => __('Maximum End Time'),
-      'bookingColor' => __('Color'),
-    );
-    return $labels;
   }
 
   /**
@@ -407,26 +200,22 @@ class BookingForm extends sfForm {
    */
   protected function loadBookingCollection(&$values) {
     $collection = array();
-    $dates = Booking::calculateBookingPeriods($values['startDate'], $values['endDate'], array(1, 2, 3, 4, 5),array('2017-04-11','2017-04-13','2017-04-14'));
-    
+    $workingDays = explode(',', $values['workingDays']);
+    $holidays = BusinessBookingPluginService::getHolidaysAsArray($values['startDate'], $values['endDate']);
+    $dates = Booking::calculateBookingPeriods($values['startDate'], $values['endDate'], $workingDays, $holidays);
+
     foreach ($dates as $week) {
       $start = $week['startDate'] . ' ' . $values['startTime'];
       $end = $week['endDate'] . ' ' . $values['endTime'];
       $availableOn = Booking::calculateAvailibity($start, $end);
+      $values['startDate'] = $week['startDate'];
+      $values['endDate'] = $week['endDate'];
+      $values['availableOn'] = $availableOn;
 
       $booking = new Booking();
-      $booking->setBookableId($values['bookableId']);
-      $booking->setCustomerId($values['customerId']);
-      $booking->setProjectId($values['projectId']);
-      $booking->setDuration($values['duration']);
-      $booking->setStartDate($week['startDate']);
-      $booking->setEndDate($week['endDate']);
-      $booking->setStartTime($values['startTime']);
-      $booking->setEndTime($values['endTime']);
-      $booking->setAvailableOn($availableOn);
-      $booking->setBookingColor($values['bookingColor']);
+      $this->loadSingleBooking($booking, $values);      
       array_push($collection, $booking);
-    }    
+    }
     return $collection;
   }
 
