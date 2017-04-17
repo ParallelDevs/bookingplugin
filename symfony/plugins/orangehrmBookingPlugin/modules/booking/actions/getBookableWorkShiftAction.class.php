@@ -50,7 +50,7 @@ class getBookableWorkShiftAction extends baseBookingAction {
       $this->result = array('maxTime' => '23:59', 'minTime' => '00:00');
     }
 
-    $holidays = BusinessBookingPluginService::getHolidaysAsJson($start, $end);
+    $holidays = BusinessBookingPluginService::getHolidaysAsArray($start, $end);
 
     $time = strtotime(date('Y-m-d ' . $this->result['maxTime']));
     $this->result['maxTime'] = date('H:i', $time);

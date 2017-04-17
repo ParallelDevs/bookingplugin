@@ -228,7 +228,7 @@ class BusinessBookingPluginService extends BaseService {
    * @param type $endDate
    * @return array
    */
-  public static function getHolidaysAsJson($startDate = null, $endDate = null) {
+  public static function getHolidaysAsArray($startDate = null, $endDate = null) {
     $holidays = array();
     $holidayService = self::getHolidayService();
     $holidaysResult = $holidayService->searchHolidays($startDate, $endDate);
