@@ -33,6 +33,7 @@ class getBookingFormAction extends baseBookingAction {
       'bookableSelectable' => empty($bookableId) ? true : false,
       'minStartTime' => $request->getParameter('minStartTime'),
       'maxEndTime' => $request->getParameter('maxEndTime'),
+      'workingDays'=>$request->getParameter('workingDays'),
     );
 
     $this->setForm(new BookingForm(array(), $params, true));

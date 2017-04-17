@@ -17,7 +17,8 @@ function ajaxLoadNewBooking() {
             "startDate": startDate,
             "endDate": endDate,
             "minStartTime": minStartTime,
-            "maxEndTime": maxEndTime
+            "maxEndTime": maxEndTime,
+            "workingDays": workingDays.join()
         },
         success: function (response) {
             $('#addBooking').find('.modal-body')
@@ -38,7 +39,8 @@ function ajaxLoadEditBooking(revertFunction) {
             "startDate": startDate,
             "endDate": endDate,
             "minStartTime": minStartTime,
-            "maxEndTime": maxEndTime
+            "maxEndTime": maxEndTime,
+            "workingDays": workingDays.join()
         },
         success: function (response) {
             $('#editBooking').find('.modal-body')
