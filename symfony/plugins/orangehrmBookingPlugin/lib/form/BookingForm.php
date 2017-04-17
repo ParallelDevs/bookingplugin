@@ -37,31 +37,8 @@ class BookingForm extends BaseBookingForm {
   public function validateBooking(sfValidatorBase $validator, array $values, array $arguments) {
     $this->isNew = empty($values['bookingId']) ? true : false;
 
-    if (empty($values['hours']) && empty($values['minutes'])) {
-      if (empty($values['startTime'])) {
-        $startTime = $this->getBookingService()
-            ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
-        $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
-      }
-      $values['endTime'] = $values['maxEndTime'];
-      $values['duration'] = Booking::calculateDurationTimes($values['startTime'], $values['endTime']);
-    }
-    else {
-      $values['duration'] = Booking::calculateDurationHours($values['hours'], $values['minutes']);
-
-      if (empty($values['startTime'])) {
-        $startTime = $this->getBookingService()
-            ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
-        $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
-      }
-      $values['endTime'] = Booking::calculateEndTimeOfHours($values['startTime'], $values['hours'], $values['minutes']);
-    }
-
-    $projectId = $values['projectId'];
-    $currentProjectId = $this->booking->getProjectId();
-    if (empty($values['bookingColor']) || ($currentProjectId != $projectId)) {
-      $values['bookingColor'] = $this->getBookingService()->chooseBookingColor($projectId);
-    }
+    $this->vallidateBookingDuration($values);
+    $this->validateBookingProject($values);
 
     if (!$this->isNew) {
       $start = $values['starDate'] . ' ' . $values['startTime'];
@@ -89,7 +66,7 @@ class BookingForm extends BaseBookingForm {
     }
 
     if (!$this->isNew) {
-      $this->loadSingleBooking($booking, $posts);
+      $this->fillBooking($booking, $posts);
       return $booking;
     }
     else {
@@ -176,11 +153,11 @@ class BookingForm extends BaseBookingForm {
   }
 
   /**
-   * 
+   *
    * @param type $booking
    * @param type $values
    */
-  protected function loadSingleBooking(&$booking, &$values) {
+  protected function fillBooking(&$booking, &$values) {
     $booking->setBookableId($values['bookableId']);
     $booking->setCustomerId($values['customerId']);
     $booking->setProjectId($values['projectId']);
@@ -194,7 +171,7 @@ class BookingForm extends BaseBookingForm {
   }
 
   /**
-   * 
+   *
    * @param type $values
    * @return array
    */
@@ -213,14 +190,14 @@ class BookingForm extends BaseBookingForm {
       $values['availableOn'] = $availableOn;
 
       $booking = new Booking();
-      $this->loadSingleBooking($booking, $values);      
+      $this->fillBooking($booking, $values);
       array_push($collection, $booking);
     }
     return $collection;
   }
 
   /**
-   * 
+   *
    * @param Booking $booking
    * @return type
    */
@@ -232,13 +209,51 @@ class BookingForm extends BaseBookingForm {
   }
 
   /**
-   * 
+   *
    * @param type $collection
    */
   protected function saveMultiple($collection) {
     $service = $this->getBookingService();
     foreach ($collection as $booking) {
       $service->saveBooking($booking);
+    }
+  }
+
+  /**
+   *
+   * @param array $values
+   */
+  protected function vallidateBookingDuration(array &$values) {
+    if (empty($values['hours']) && empty($values['minutes'])) {
+      if (empty($values['startTime'])) {
+        $startTime = $this->getBookingService()
+            ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
+        $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
+      }
+      $values['endTime'] = $values['maxEndTime'];
+      $values['duration'] = Booking::calculateDurationTimes($values['startTime'], $values['endTime']);
+    }
+    else {
+      $values['duration'] = Booking::calculateDurationHours($values['hours'], $values['minutes']);
+
+      if (empty($values['startTime'])) {
+        $startTime = $this->getBookingService()
+            ->getBookableNextAvailableStartTime($values['bookableId'], $values['startDate']);
+        $values['startTime'] = (null !== $startTime ) ? $startTime : $values['minStartTime'];
+      }
+      $values['endTime'] = Booking::calculateEndTimeOfHours($values['startTime'], $values['hours'], $values['minutes']);
+    }
+  }
+
+  /**
+   *
+   * @param array $values
+   */
+  protected function validateBookingProject(array &$values) {
+    $projectId = $values['projectId'];
+    $currentProjectId = $this->booking->getProjectId();
+    if (empty($values['bookingColor']) || ($currentProjectId != $projectId)) {
+      $values['bookingColor'] = $this->getBookingService()->chooseBookingColor($projectId);
     }
   }
 
