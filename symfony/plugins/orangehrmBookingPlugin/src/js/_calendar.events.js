@@ -22,10 +22,8 @@ function eventRenderHandler(event, element, view) {
                 case "timelineWeek":
                     element.find(".fc-title").text(event.duration + 'h p/d');
                     break;
-                case "timelineDay":
-                    break;
                 case "month":
-                case 'basicWeek':
+                case "basicWeek":
                     element.find(".fc-time").text(event.duration + 'h p/d');
                     break;
                 case "agendaWeek":
