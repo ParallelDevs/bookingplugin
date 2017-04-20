@@ -1,26 +1,18 @@
 //=include _modals.js
+//=include _calendar.render-resource.js
+//=include _calendar.render-booking.js
+//=include _calendar.manage-booking.js
+//=include _calendar.filter-booking.js
 //=include _calendar.options-admin.js
 
 $(function () {
     calendarOptions.firstDay = firstDayOfWeek;
     calendarOptions.minTime = calendarMinTime;
     calendarOptions.maxTime = calendarMaxTime;
-    calendarOptions.resourceLabelText= bookableResourceTitle;
+    calendarOptions.resourceLabelText = bookableResourceTitle;
     calendarOptions.customButtons.filter.text = filterBtnLabel;
-    calendarOptions.resources.url = bookableResourcesUrl;   
-    calendarOptions.events.url = bookingResourcesUrl;    
-    
+    calendarOptions.resources.url = bookableResourcesUrl;
+    calendarOptions.events.url = bookingResourcesUrl;
+
     $('#calendar').fullCalendar(calendarOptions);
-    jQuery("#searchStartDate").datetimepicker({
-        timepicker: false,
-        format: 'Y-m-d',
-        formatDate: 'Y-m-d',
-        dayOfWeekStart: firstDayOfWeek        
-    });
-    jQuery("#searchEndDate").datetimepicker({
-        timepicker: false,
-        format: 'Y-m-d',
-        formatDate: 'Y-m-d',
-        dayOfWeekStart: firstDayOfWeek        
-    });
 });

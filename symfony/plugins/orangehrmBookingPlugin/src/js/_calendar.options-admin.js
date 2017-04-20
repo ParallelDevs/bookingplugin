@@ -1,7 +1,3 @@
-//=include _calendar.render-resource.js
-//=include _calendar.render-event.js
-//=include _calendar.manage-booking.js
-
 var calendarOptions = {
     schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
     now: moment().startOf('day'),
@@ -18,13 +14,13 @@ var calendarOptions = {
     customButtons: {
         filter: {
             text: '',
-            click: showCustomDateRange
+            click: filterBookings
         }
     },
     header: {
         left: 'prev,next today filter',
         center: 'title',
-        right: 'timelineDay,timelineWeek,timelineMonth'
+        right: 'timelineMonth,timelineWeek,timelineDay'
     },
     defaultView: 'timelineMonth',
     resourceAreaWidth: '25%',
@@ -63,8 +59,15 @@ var calendarOptions = {
             slotDuration: {
                 days: 1
             }
+        },
+        filterDates: {
+            type: 'timeline',
+            duration: {
+                days: 1
+            },
+            slotDuration: {
+                days: 1
+            }
         }
     }
 };
-
-

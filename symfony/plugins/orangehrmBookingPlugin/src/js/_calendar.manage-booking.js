@@ -29,7 +29,7 @@ function revertCalendar(revertFunc) {
 
 }
 
-function addBookingConfirmBusinessDays(start, end, resourceId) {
+function addBookingConfirmNonBusinessDays(start, end, resourceId) {
     var resource = $('#calendar').fullCalendar('getResourceById', resourceId);
     var startInBusinessDays = jQuery.inArray(start.day(), resource.businessHours[0].dow) >= 0 ? true : false;
     var endInBusinessDays = jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0 ? true : false;
@@ -143,7 +143,7 @@ function selectHandler(start, end, jsEvent, view, resource) {
     }
     endDate = selectedEndDate.format('YYYY-MM-DD');
 
-    addBookingConfirmBusinessDays(start, selectedEndDate, resource.id);
+    addBookingConfirmNonBusinessDays(start, selectedEndDate, resource.id);
 }
 
 function selectAllowHandler(selectInfo) {
@@ -163,14 +163,3 @@ function selectOverlapHandler(event) {
     return true;
 }
 
-
-function showCustomDateRange(){
-    /*var startDate = $("#searchStartDate").val();
-    var endDate = $("#searchEndDate").val();
-    if(!jQuery.isEmptyObject(startDate) && !jQuery.isEmptyObject(endDate)){
-        var defaultDate = moment(startDate,'YYYY-MM-DD');
-        $('#calendar').fullCalendar('option', 'startParam', defaultDate);
-    }*/
-    var view = $("#calendar").fullCalendar('getView');
-    console.log(view, $("#calendar").fullCalendar('option','startParam'));
-}
