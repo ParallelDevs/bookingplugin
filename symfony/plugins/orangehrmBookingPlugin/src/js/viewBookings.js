@@ -14,5 +14,5 @@ $(function () {
     calendarOptions.resources.url = bookableResourcesUrl;
     calendarOptions.events.url = bookingResourcesUrl;
 
-    $('#calendar').fullCalendar(calendarOptions);
+    $("#calendar").fullCalendar(calendarOptions);
 });

@@ -20,7 +20,7 @@ var calendarOptions = {
     header: {
         left: 'prev,next today filter',
         center: 'title',
-        right: 'timelineMonth,timelineWeek,timelineDay'
+        right: 'timelineMonth,timelineWeek'
     },
     defaultView: 'timelineMonth',
     resourceAreaWidth: '25%',
@@ -71,3 +71,12 @@ var calendarOptions = {
         }
     }
 };
+
+$(document).ready(function () {
+    $("#calendar").on('click', ".fc-timelineMonth-button, .fc-timelineWeek-button", function () {
+        $("#searchStartDate").val('')
+                .change();
+        $("#searchEndDate").val('')
+                .change();
+    });
+});
