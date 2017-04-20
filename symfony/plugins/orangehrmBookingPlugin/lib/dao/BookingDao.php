@@ -15,8 +15,7 @@ class BookingDao extends BaseDao {
     'bookingId' => 'b.booking_id',
     'bookableId' => 'b.bookable_id',
     'start' => 'b.start_at',
-    'end' => 'b.end_at',
-    'period' => 'b.available_on',
+    'end' => 'b.end_at',    
     'months' => 'b.available_on',
   );
 
@@ -240,11 +239,7 @@ class BookingDao extends BaseDao {
           case 'end':
             $conditions[] = array('operator' => 'AND', 'condition' => " $field <= ? ");
             $bindParams[] = $searchBy;
-            break;
-          case 'period':
-            $conditions[] = array('operator' => 'AND', 'condition' => " $field LIKE ? ");
-            $bindParams[] = "%$searchBy%";
-            break;
+            break;          
           case 'months':
             $months = explode(',', $searchBy);
             $conds = [];
