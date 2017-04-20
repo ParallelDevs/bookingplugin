@@ -13,8 +13,7 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
   var firstDayOfWeek = <?= $firstDayOfWeek; ?>;
   var inactiveResourceTooltip = '<?= __("Resource is inactive") ?>';
   var holidayLabel = '<?= __("Holiday:") ?>';
-  var bookableResourceTitle = '<?= __("Resources") ?>';
-  var filterBtnLabel = '<?= __("Filter") ?>';
+  var bookableResourceTitle = '<?= __("Resources") ?>';  
   var confirmBookingNonBusiness = '<?= __("Are you sure you want a booking in a non business day?") ?>';
   var confirmStartBookingNonBusiness = '<?= __("Are you sure you want to start a booking in a non business day?") ?>';
   var confirmEndBookingNonBusiness = '<?= __("Are you sure you want to end a booking in a non business day?") ?>';
@@ -33,9 +32,15 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
     <div class="head">
         <h1><?php echo __("Bookings") ?></h1>
     </div>
-    <div class="inner">        
-        <input type="text" id="searchStartDate" name="searchStartDate"/>
-        <input type="text" id="searchEndDate" name="searchEndDate"/>
+    <div class="inner">
+        <div class="filter-form">
+            <label for="searchStartDate"><?= __("From") ?></label>
+            <input type="text" id="searchStartDate" name="searchStartDate"/>
+            <label for="searchEndDate"><?= __("To") ?></label>
+            <input type="text" id="searchEndDate" name="searchEndDate"/>
+            <button id="" class="btn filter"><?= __("Filter") ?></button>
+        </div>        
+
         <div id='calendar'></div>
     </div>
 </div>

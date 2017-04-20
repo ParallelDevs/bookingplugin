@@ -9,10 +9,11 @@ $(function () {
     calendarOptions.firstDay = firstDayOfWeek;
     calendarOptions.minTime = calendarMinTime;
     calendarOptions.maxTime = calendarMaxTime;
-    calendarOptions.resourceLabelText = bookableResourceTitle;
-    calendarOptions.customButtons.filter.text = filterBtnLabel;
+    calendarOptions.resourceLabelText = bookableResourceTitle;    
     calendarOptions.resources.url = bookableResourcesUrl;
     calendarOptions.events.url = bookingResourcesUrl;
 
     $("#calendar").fullCalendar(calendarOptions);
+    
+    $(".btn.filter").click(filterBookings);
 });

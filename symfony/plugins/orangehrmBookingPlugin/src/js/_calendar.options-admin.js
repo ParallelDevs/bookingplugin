@@ -10,13 +10,7 @@ var calendarOptions = {
     aspectRatio: 2.5,
     slotEventOverlap: false,
     minTime: '00:00:00',
-    maxTime: '23:59:59',
-    customButtons: {
-        filter: {
-            text: '',
-            click: filterBookings
-        }
-    },
+    maxTime: '23:59:59',    
     header: {
         left: 'prev,next today filter',
         center: 'title',
