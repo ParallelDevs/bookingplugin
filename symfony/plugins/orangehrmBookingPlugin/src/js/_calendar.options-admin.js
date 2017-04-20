@@ -1,27 +1,34 @@
 //=include _calendar.render-resource.js
 //=include _calendar.render-event.js
-//=include _calendar.manage-events.js
+//=include _calendar.manage-booking.js
 
 var calendarOptions = {
     schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
     now: moment().startOf('day'),
+    defaultDate: moment().format('YYYY-MM-DD'),
+    firstDay: 1,
     selectable: true,
     selectHelper: true,
     editable: true,
     eventResourceEditable: false,
-    aspectRatio: 4.0,
-    firstDay: 1,
+    aspectRatio: 2.5,    
     slotEventOverlap: false,
     minTime: '00:00:00',
     maxTime: '23:59:59',
+    customButtons: {
+        filter: {
+            text: '',
+            click: showCustomDateRange
+        }
+    },
     header: {
-        left: 'prev,next today',
+        left: 'prev,next today filter',
         center: 'title',
-        right: 'timelineDay,timelineWeek,timelineMonth'
+        right: 'timelineWeek,timelineMonth'
     },
     defaultView: 'timelineMonth',
     resourceAreaWidth: '25%',
-    resourceLabelText: bookableResourceTitle,
+    resourceLabelText: '',
     resources: {
         url: '',
         type: 'POST',
