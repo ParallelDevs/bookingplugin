@@ -10,4 +10,13 @@
         font-weight: bolder;
         font-size: 1em;
     }
+    &-timeline-event {
+        &.booking {
+            & .fc-title {
+                &::before {
+                    content: none !important;
+                }  
+            }
+        }
+    }
 }

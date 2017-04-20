@@ -129,6 +129,9 @@
   font-weight: bolder;
   font-size: 1em; }
 
+.fc-timeline-event.booking .fc-title::before {
+  content: none !important; }
+
 .booking-resource-active, .booking-resource-inactive {
   font-weight: normal; }
 
