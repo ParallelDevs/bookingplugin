@@ -12,6 +12,7 @@ function eventRenderHandler(event, element, view) {
         element.tipTip({
             content: event.customerName + ' - ' + event.title
         });
+        element.addClass('booking');
 
         if (view) {
             switch (view.type) {
@@ -20,7 +21,10 @@ function eventRenderHandler(event, element, view) {
                     element.find(".fc-title").remove();
                     break;
                 case "timelineWeek":
-                    element.find(".fc-title").text(event.duration + 'h p/d');
+                    element.find(".fc-time").text(event.duration + 'h p/d');
+                    break;
+                case "timelineDay":
+                    element.find(".fc-time").text(event.duration + 'h');
                     break;
                 case "month":
                 case "basicWeek":
