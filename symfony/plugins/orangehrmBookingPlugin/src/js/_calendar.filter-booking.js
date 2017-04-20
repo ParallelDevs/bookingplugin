@@ -8,30 +8,13 @@ function filterBookings() {
         calendarOptions.views.filterDates.duration.days = diffDays;
         $("#calendar").fullCalendar('destroy');
         $("#calendar").fullCalendar(calendarOptions);
-        $("#calendar").fullCalendar('changeView', "filterDates");
-        $("#calendar").fullCalendar('gotoDate', startDate);
+        $("#calendar").fullCalendar('changeView', "filterDates",startDate);
     }
 }
 
 function changeSearchStartDate() {
-    var startDate = moment($(this).val(), "YYYY-MM-DD", true);
-    var currentView = $('#calendar').fullCalendar('getView');
-    var endDate = '';
     if ($("#searchEndDate").val() === '') {
-        switch (currentView.name) {
-            case 'timelineMonth':
-                endDate = startDate.add(1, "month")
-                        .format("YYYY-MM-DD");
-                break;
-            case 'timelineWeek':
-                endDate = startDate.add(1, "week")
-                        .format("YYYY-MM-DD");
-                break;
-            default:
-                endDate = startDate.format("YYYY-MM-DD");
-                break;
-        }
-        $("#searchEndDate").val(endDate);
+        $("#searchEndDate").val($(this).val());
     }
 }
 
