@@ -18,19 +18,8 @@ class getBookingsAction extends baseBookingAction {
     $bookableId = $request->hasParameter('bookableId') ? $request->getParameter('bookableId') : '';
     $mode = $request->hasParameter('mode') ? $request->getParameter('mode') : '';
 
-    switch ($mode) {
-      case 'agenda':
-        $searchMonths = !empty($start) && !empty($end) ? Booking::calculateAvailibity($start, $end) : '';
-        $this->setFilters(array('months' => $searchMonths, 'bookableId' => $bookableId));
-        break;
-      case 'timeline':
-        $period = !empty($start) ? date('Y-m', strtotime($start)) : '';
-        $this->setFilters(array('period' => $period, 'bookableId' => $bookableId));
-        break;
-      default:
-        $this->setFilters(array());
-        break;
-    }
+    $searchMonths = Booking::calculateAvailibity($start, $end);
+    $this->setFilters(array('months' => $searchMonths, 'bookableId' => $bookableId));
 
     $parameterHolder = new BookingSearchParameterHolder();
     $parameterHolder->setOrderField('bookingId');
