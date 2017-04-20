@@ -11,7 +11,7 @@ var calendarOptions = {
     selectHelper: true,
     editable: true,
     eventResourceEditable: false,
-    aspectRatio: 2.5,    
+    aspectRatio: 2.5,
     slotEventOverlap: false,
     minTime: '00:00:00',
     maxTime: '23:59:59',
@@ -24,7 +24,7 @@ var calendarOptions = {
     header: {
         left: 'prev,next today filter',
         center: 'title',
-        right: 'timelineWeek,timelineMonth'
+        right: 'timelineDay,timelineWeek,timelineMonth'
     },
     defaultView: 'timelineMonth',
     resourceAreaWidth: '25%',
@@ -53,6 +53,18 @@ var calendarOptions = {
     select: selectHandler,
     selectAllow: selectAllowHandler,
     selectOverlap: selectOverlapHandler,
+    views: {
+        timelineDay: {
+            slotDuration: {
+                days: 1
+            }
+        },
+        timelineWeek: {
+            slotDuration: {
+                days: 1
+            }
+        }
+    }
 };
 
 
