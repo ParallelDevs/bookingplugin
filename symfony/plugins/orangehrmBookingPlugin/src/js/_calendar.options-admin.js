@@ -70,7 +70,5 @@ $(document).ready(function () {
                 .change();
     });
 
-    $(".btn.filter").click(function () {
-        filterBookings("timelineFilter");
-    });
+    $(".btn.filter").click(filterBookings);
 });
