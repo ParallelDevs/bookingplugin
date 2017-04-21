@@ -18,13 +18,11 @@ function changeSearchStartDate() {
         var endDate = '';
         var currentView = $("#calendar").fullCalendar('getView');
         switch (currentView.name) {
-            case "timelineMonth":
-            case "month":
+            case "timelineMonth":            
                 endDate = startDate.add(1, 'month')
                         .format("YYYY-MM-DD");
                 break;
-            case "timelineWeek":
-            case "basicWeek":
+            case "timelineWeek":           
                 endDate = startDate.add(1, 'week')
                         .format("YYYY-MM-DD");
                 break;
