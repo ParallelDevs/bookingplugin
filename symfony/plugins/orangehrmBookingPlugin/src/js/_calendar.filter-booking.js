@@ -8,13 +8,29 @@ function filterBookings(viewFilter) {
         calendarOptions.views[viewFilter].duration.days = diffDays;
         $("#calendar").fullCalendar('destroy');
         $("#calendar").fullCalendar(calendarOptions);
-        $("#calendar").fullCalendar('changeView', viewFilter,startDate);
+        $("#calendar").fullCalendar('changeView', viewFilter, startDate);
     }
 }
 
 function changeSearchStartDate() {
     if ($("#searchEndDate").val() === '') {
-        $("#searchEndDate").val($(this).val());
+        var startDate = moment($(this).val(), "YYYY-MM-DD", true);
+        var endDate = '';
+        var currentView = $("#calendar").fullCalendar('getView');
+        switch (currentView.name) {
+            case "timelineMonth":
+                endDate = startDate.add(1, 'month')
+                        .format("YYYY-MM-DD");
+                break;
+            case "timelineWeek":
+                endDate = startDate.add(1, 'week')
+                        .format("YYYY-MM-DD");
+                break;
+            default:
+                endDate = startDate.format("YYYY-MM-DD");
+                break;
+        }
+        $("#searchEndDate").val(endDate);
     }
 }
 
