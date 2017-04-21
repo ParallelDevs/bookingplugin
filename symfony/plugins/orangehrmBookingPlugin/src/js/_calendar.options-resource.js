@@ -17,7 +17,6 @@ var calendarOptions = {
         right: 'timelineMonth,timelineWeek'
     },
     defaultView: 'timelineMonth',
-    //resourceAreaWidth: '0%',
     resources: {
         url: '',
         data: {
