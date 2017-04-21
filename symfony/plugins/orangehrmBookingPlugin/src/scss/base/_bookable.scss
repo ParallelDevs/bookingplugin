@@ -1,12 +1,20 @@
-.booking-resource-active, .booking-resource-inactive {    
-    font-weight: normal;    
-}
-
-.booking-resource-active {
-
-}
-
-.booking-resource-inactive {
-    opacity: 0.75;
-    background: #d7d7d7;
+.booking-resource {
+    &-inactive {
+        opacity: 0.75;
+        background: #d7d7d7;
+    }
+    &-active, &-inactive {
+        font-weight: normal;
+    }
+    &-header {
+        font-size: 1.05em;
+    }
+    &-header, &-content {
+        &.hidden {
+            display: none;
+        }
+        & * {
+            text-transform: capitalize;
+        }
+    }
 }

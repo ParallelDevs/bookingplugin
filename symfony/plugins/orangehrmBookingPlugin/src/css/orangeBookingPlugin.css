@@ -132,9 +132,18 @@
 .fc-timeline-event.booking .fc-title::before {
   content: none !important; }
 
-.booking-resource-active, .booking-resource-inactive {
-  font-weight: normal; }
-
 .booking-resource-inactive {
   opacity: 0.75;
   background: #d7d7d7; }
+
+.booking-resource-active, .booking-resource-inactive {
+  font-weight: normal; }
+
+.booking-resource-header {
+  font-size: 1.05em; }
+
+.booking-resource-header.hidden, .booking-resource-content.hidden {
+  display: none; }
+
+.booking-resource-header *, .booking-resource-content * {
+  text-transform: capitalize; }
