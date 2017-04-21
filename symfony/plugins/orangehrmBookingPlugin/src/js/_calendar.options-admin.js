@@ -10,9 +10,9 @@ var calendarOptions = {
     aspectRatio: 2.5,
     slotEventOverlap: false,
     minTime: '00:00:00',
-    maxTime: '23:59:59',    
+    maxTime: '23:59:59',
     header: {
-        left: 'prev,next today filter',
+        left: 'prev,next today',
         center: 'title',
         right: 'timelineMonth,timelineWeek'
     },
@@ -73,7 +73,8 @@ $(document).ready(function () {
         $("#searchEndDate").val('')
                 .change();
     });
-    $(".btn.filter").click(function(){
+
+    $(".btn.filter").click(function () {
         filterBookings("timelineFilter");
     });
 });
