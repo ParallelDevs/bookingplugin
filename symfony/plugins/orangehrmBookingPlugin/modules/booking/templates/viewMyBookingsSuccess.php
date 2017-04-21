@@ -3,6 +3,7 @@ use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/orangeBookingPlugi
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/moment.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/fullcalendar.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/scheduler.min.js'));
+use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/jquery.datetimepicker.full.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewMyBookings.js'));
 ?>
 
@@ -22,7 +23,13 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewMyBookings.js')
         <h1><?php echo __("My Bookings") ?></h1>
     </div>
     <div class="inner">
-        <div id='loading'></div>
+        <div class="filter-form">
+            <label for="searchStartDate"><?= __("From") ?></label>
+            <input type="text" id="searchStartDate" name="searchStartDate"/>
+            <label for="searchEndDate"><?= __("To") ?></label>
+            <input type="text" id="searchEndDate" name="searchEndDate"/>
+            <button id="" class="btn filter"><?= __("Filter") ?></button>
+        </div>
 
         <div id='calendar'></div>
     </div>
