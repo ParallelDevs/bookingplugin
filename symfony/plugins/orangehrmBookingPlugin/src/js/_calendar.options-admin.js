@@ -44,11 +44,6 @@ var calendarOptions = {
     selectAllow: selectAllowHandler,
     selectOverlap: selectOverlapHandler,
     views: {
-        timelineDay: {
-            slotDuration: {
-                days: 1
-            }
-        },
         timelineWeek: {
             slotDuration: {
                 days: 1
