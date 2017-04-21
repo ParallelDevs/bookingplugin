@@ -2,7 +2,9 @@ function resourceErrorHandler() {
 
 }
 function resourceRenderHandler(resourceObj, labelTds, bodyTds) {
-    
+    $(".fc-resource-area.fc-widget-header").remove();
+    $(".fc-resource-area.fc-widget-content").remove();
+    $(".fc-col-resizer").remove();
 }
 
 function resourceRenderAdminHandler(resourceObj, labelTds, bodyTds) {
