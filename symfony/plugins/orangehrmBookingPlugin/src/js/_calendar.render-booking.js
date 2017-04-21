@@ -17,17 +17,17 @@ function eventRenderHandler(event, element, view) {
         if (view) {
             switch (view.type) {
                 case "timelineMonth":
-                case "filterDates":
+                case "filterDatesAdmin":
                     element.find(".fc-time").text(event.duration + 'h p/d');
                     element.find(".fc-title").remove();
                     break;
                 case "timelineWeek":
                     element.find(".fc-time").text(event.duration + 'h p/d');
-                    break;                
+                    break;
                 case "month":
                 case "basicWeek":
                     element.find(".fc-time").text(event.duration + 'h p/d');
-                    break;                
+                    break;
                 default:
                     break;
             }
