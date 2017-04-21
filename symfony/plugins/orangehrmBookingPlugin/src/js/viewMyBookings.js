@@ -1,51 +1,16 @@
-//=include _calendar.resources.js
-//=include _calendar.events.js
+//=include _calendar.render-resource.js
+//=include _calendar.render-booking.js
+//=include _calendar.filter-booking.js
+//=include _calendar.options-resource.js
 
 $(function () { // document ready
+    calendarOptions.firstDay = firstDayOfWeek;
+    calendarOptions.minTime = calendarMinTime;
+    calendarOptions.maxTime = calendarMaxTime;
+    calendarOptions.resources.url = bookableResourcesUrl;
+    calendarOptions.resources.data.bookableId = bookableId;
+    calendarOptions.events.url = bookingResourcesUrl;
+    calendarOptions.events.data.bookableId = bookableId;
 
-    $('#calendar').fullCalendar({
-	schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-	now: moment().startOf('day'),
-	selectable: false,
-	selectHelper: false,
-	editable: false,
-        eventResourceEditable: false,
-	aspectRatio: 4.0,
-	firstDay: firstDayOfWeek,
-	slotEventOverlap: false,
-        minTime: calendarMinTime,
-        maxTime: calendarMaxTime,
-	header: {
-	    left: 'today prev,next',
-	    center: 'title',
-	    right: 'agendaWeek,month'
-	},
-	defaultView: 'month',
-	resources: {
-	    url: bookableResourcesUrl,
-	    data: {
-		bookableId: bookableId,
-	    },
-	    type: 'POST',
-            error: resourceErrorHandler,
-	},
-	events: {
-	    url: bookingResourcesUrl,
-	    data: {
-		bookableId: bookableId,
-		mode: 'agenda',
-	    },
-	    type: 'POST',
-	    error: eventErrorHandler,
-	},
-	resourceRender: resourceRenderHandler,
-        eventRender: eventRenderHandler,
-        eventMouseover: eventMouseoverHandler,
-        eventMouseout: eventMouseoutHandler,
-	selectAllow: false,
-    });
-
+    $('#calendar').fullCalendar(calendarOptions);
 });
-
-
-
