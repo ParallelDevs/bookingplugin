@@ -54,7 +54,7 @@ var calendarOptions = {
                 days: 1
             }
         },
-        filterDatesAdmin: {
+        timelineFilter: {
             type: 'timeline',
             duration: {
                 days: 1
@@ -74,6 +74,6 @@ $(document).ready(function () {
                 .change();
     });
     $(".btn.filter").click(function(){
-        filterBookings("filterDatesAdmin");
+        filterBookings("timelineFilter");
     });
 });
