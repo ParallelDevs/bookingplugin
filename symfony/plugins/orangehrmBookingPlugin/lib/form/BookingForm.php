@@ -37,7 +37,7 @@ class BookingForm extends BaseBookingForm {
   public function validateBooking(sfValidatorBase $validator, array $values, array $arguments) {
     $this->isNew = empty($values['bookingId']) ? true : false;
 
-    $this->vallidateBookingDuration($values);
+    $this->validateBookingDuration($values);
     $this->validateBookingProject($values);
 
     if (!$this->isNew) {
@@ -223,7 +223,7 @@ class BookingForm extends BaseBookingForm {
    *
    * @param array $values
    */
-  protected function vallidateBookingDuration(array &$values) {
+  protected function validateBookingDuration(array &$values) {
     if (empty($values['hours']) && empty($values['minutes'])) {
       if (empty($values['startTime'])) {
         $startTime = $this->getBookingService()
