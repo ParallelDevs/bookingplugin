@@ -73,7 +73,7 @@ class BusinessBookingPluginService extends BaseService {
    *
    * @return array
    */
-  public function getCompanyBusinessLimitHoursForCalendar() {
+  public static function getCompanyBusinessLimitHoursForCalendar() {
     $hours = array();
     $workShifts = self::getWorkShiftService()->getWorkShiftList();
     $iterWorkShift = $workShifts->getIterator();
