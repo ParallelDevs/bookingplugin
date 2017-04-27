@@ -15,7 +15,7 @@
  * @property time $startTime
  * @property time $endTime
  * @property string $bookingColor
- * @property clob $availableOn
+ * @property string $availableOn
  * @property BookableResource $BookableResource
  * @property Customer $Customer
  * @property Project $Project
@@ -30,7 +30,7 @@
  * @method time             getStartTime()               Returns the current record's "startTime" value
  * @method time             getEndTime()                 Returns the current record's "endTime" value
  * @method string           getBookingColor()            Returns the current record's "bookingColor" value
- * @method clob             getAvailableOn()             Returns the current record's "availableOn" value
+ * @method string           getAvailableOn()             Returns the current record's "availableOn" value
  * @method BookableResource getBookableResource()        Returns the current record's "BookableResource" value
  * @method Customer         getCustomer()                Returns the current record's "Customer" value
  * @method Project          getProject()                 Returns the current record's "Project" value
@@ -103,9 +103,10 @@ abstract class BaseBooking extends sfDoctrineRecord
              'notnull' => true,
              'length' => 8,
              ));
-        $this->hasColumn('available_on as availableOn', 'clob', null, array(
-             'type' => 'clob',
+        $this->hasColumn('available_on as availableOn', 'string', 16, array(
+             'type' => 'string',
              'notnull' => true,
+             'length' => 16,
              ));
     }
 
