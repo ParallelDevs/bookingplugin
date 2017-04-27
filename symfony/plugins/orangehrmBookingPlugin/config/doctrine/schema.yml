@@ -65,7 +65,7 @@ Booking:
       notnull: true     
     available_on:
       name: available_on as availableOn
-      type: clob
+      type: string(16)
       notnull: true
   relations:
     BookableResource:
