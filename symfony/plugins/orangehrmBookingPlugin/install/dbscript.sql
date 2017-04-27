@@ -22,7 +22,7 @@ CREATE TABLE `ohrm_booking` (
     `start_time` TIME NULL DEFAULT NULL,
     `end_time` TIME NULL DEFAULT NULL,
     `booking_color` VARCHAR(8) NOT NULL,
-    `available_on` LONGTEXT NOT NULL,
+    `available_on` VARCHAR(16) NOT NULL,
     PRIMARY KEY(`booking_id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
