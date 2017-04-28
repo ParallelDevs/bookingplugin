@@ -11,6 +11,7 @@ var calendarOptions = {
     minTime: '00:00:00',
     maxTime: '23:59:59',
     businessHours: true,
+    lazyFetching: false,
     header: {
         left: 'prev,next today',
         center: 'title',
