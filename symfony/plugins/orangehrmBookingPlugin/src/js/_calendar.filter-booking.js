@@ -8,7 +8,6 @@ function filterBookings() {
         calendarOptions.views.timelineFilter.duration.days = diffDays;
         $("#calendar").fullCalendar('destroy');
         $("#calendar").fullCalendar(calendarOptions);
-        $('#calendar').fullCalendar('refetchEvents');
         $("#calendar").fullCalendar('changeView', 'timelineFilter', startDate);
     }
 }
