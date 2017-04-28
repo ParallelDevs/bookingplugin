@@ -29,7 +29,7 @@ var calendarOptions = {
     events: {
         url: '',
         data: {
-            mode: 'timeline',
+            mode: 'admin',
         },
         type: 'POST',
         error: eventErrorHandler,
