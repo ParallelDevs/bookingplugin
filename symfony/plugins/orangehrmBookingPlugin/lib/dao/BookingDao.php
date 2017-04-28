@@ -14,9 +14,10 @@ class BookingDao extends BaseDao {
   protected static $searchMapping = array(
     'bookingId' => 'b.booking_id',
     'bookableId' => 'b.bookable_id',
-    'start' => 'b.start_at',
-    'end' => 'b.end_at',    
+    'start' => 'b.start_date',
+    'end' => 'b.end_date',
     'months' => 'b.available_on',
+    'rangeEnd' => 'b.end_date',
   );
 
   /**
@@ -239,7 +240,7 @@ class BookingDao extends BaseDao {
           case 'end':
             $conditions[] = array('operator' => 'AND', 'condition' => " $field <= ? ");
             $bindParams[] = $searchBy;
-            break;          
+            break;
           case 'months':
             $months = explode(',', $searchBy);
             $conds = [];
@@ -249,6 +250,10 @@ class BookingDao extends BaseDao {
             }
             $conditions[] = array('operator' => 'AND', 'condition' => " ( " . implode(" OR ", $conds) . " ) ");
             break;
+          case 'rangeEnd':
+            $conditions[]= array('operator'=>'AND','condition'=>" $field BETWEEN ? AND ? ");
+            $bindParams[] = $searchBy['start'];
+            $bindParams[] = $searchBy['end'];
           default :
             break;
         }
