@@ -16,10 +16,12 @@ class getBookingsAction extends baseBookingAction {
     $start = $request->hasParameter('start') ? $request->getParameter('start') : date('Y-m-d');
     $end = $request->hasParameter('end') ? $request->getParameter('end') : date('Y-m-d');
     $bookableId = $request->hasParameter('bookableId') ? $request->getParameter('bookableId') : '';
-    $mode = $request->hasParameter('mode') ? $request->getParameter('mode') : '';
+    $mode = $request->hasParameter('mode') ? $request->getParameter('mode') : 'guest';
 
-    $searchMonths = Booking::calculateAvailibity($start, $end);
-    $this->setFilters(array('months' => $searchMonths, 'bookableId' => $bookableId));
+    $this->setFilters(array(
+      'rangeEnd' => array('start' => $start, 'end' => $end),
+      'bookableId' => $bookableId,
+    ));
 
     $parameterHolder = new BookingSearchParameterHolder();
     $parameterHolder->setOrderField('bookingId');
@@ -31,7 +33,7 @@ class getBookingsAction extends baseBookingAction {
 
     $bookings = $this->getBookingService()->searchBookingsList($parameterHolder);
 
-    if ('timeline' !== $mode) {
+    if ('admin' !== $mode) {
       foreach ($bookings as &$booking) {
         $booking['editable'] = false;
       }
