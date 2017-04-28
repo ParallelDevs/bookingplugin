@@ -30,7 +30,7 @@ var calendarOptions = {
         url: '',
         data: {
             bookableId: 0,
-            mode: 'agenda',
+            mode: 'resource',
         },
         type: 'POST',
         error: eventErrorHandler,
