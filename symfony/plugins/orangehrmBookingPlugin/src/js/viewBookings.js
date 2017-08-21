@@ -6,12 +6,12 @@
 //=include _calendar.options-admin.js
 
 $(function () {
-    calendarOptions.firstDay = firstDayOfWeek;
-    calendarOptions.minTime = calendarMinTime;
-    calendarOptions.maxTime = calendarMaxTime;
-    calendarOptions.resourceLabelText = bookableResourceTitle;
-    calendarOptions.resources.url = bookableResourcesUrl;
-    calendarOptions.events.url = bookingResourcesUrl;
+  calendarOptions.firstDay = firstDayOfWeek;
+  calendarOptions.minTime = calendarMinTime;
+  calendarOptions.maxTime = calendarMaxTime;
+  calendarOptions.resourceLabelText = bookableResourceTitle;
+  calendarOptions.resources.url = bookableResourcesUrl;
+  calendarOptions.events.url = bookingResourcesUrl;
 
-    $("#calendar").fullCalendar(calendarOptions);
+  $("#calendar").fullCalendar(calendarOptions);
 });
