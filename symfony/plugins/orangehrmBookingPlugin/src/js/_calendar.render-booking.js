@@ -19,6 +19,8 @@ function eventRenderHandler (event, element, view) {
         case "timelineMonth":
         case "timelineWeek":
         case "timelineFilter":
+        case "month":
+        case "basicWeek":
           element.find(".fc-time").text(event.duration + 'h p/d');
           element.find(".fc-title").remove();
           break;
