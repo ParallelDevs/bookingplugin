@@ -200,4 +200,12 @@ class BaseBookingForm extends sfForm {
     return $options;
   }
 
+  /**
+   * 
+   * @return bool
+   */
+  public function isBookableSelectable() {
+    return $this->bookableSelectable;
+  }
+
 }

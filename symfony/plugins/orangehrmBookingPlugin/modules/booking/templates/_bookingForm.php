@@ -11,8 +11,11 @@
             </li>
             <li class="booking-bookable">
                 <?= $form['bookableId']->renderLabel() ?>
-                <?= $form['bookableId']->render() ?>
-                <?= $form['bookableName']->render() ?>
+                <?php if ($form->isBookableSelectable()): ?>
+                  <?= $form['bookableId']->render() ?>
+                <?php else: ?>                
+                  <?= $form['bookableName']->render() ?>
+                <?php endif; ?>
             </li>
             <li class="booking-date">
                 <?= $form['startDate']->renderLabel() ?>

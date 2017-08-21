@@ -168,9 +168,9 @@ class BookingForm extends BaseBookingForm {
       $values['endDate'] = $week['endDate'];
       $values['availableOn'] = $availableOn;
 
-      if (isset($values['bookingId']) && !empty($values['bookingId'])) {
+      if (!empty($values['bookingId'])) {
         $booking = $this->loadBooking($values['bookingId']);
-        unset($values['bookingId']);
+        $values['bookingId'] = '';
       }
       else {
         $booking = new Booking();
@@ -196,8 +196,6 @@ class BookingForm extends BaseBookingForm {
     }
     return $booking;
   }
-
-  
 
   /**
    *
