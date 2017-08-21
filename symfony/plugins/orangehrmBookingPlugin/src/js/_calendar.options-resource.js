@@ -16,9 +16,9 @@ var calendarOptions = {
   header: {
     left: 'prev,next today',
     center: 'title',
-    right: 'month,basicWeek,'
+    right: 'timelineMonth,timelineWeek'
   },
-  defaultView: 'month',
+  defaultView: 'timelineMonth',
   resources: {
     url: '',
     data: {
@@ -42,7 +42,7 @@ var calendarOptions = {
   eventMouseout: eventMouseoutHandler,
   selectAllow: false,
   views: {
-    basicWeek: {
+    timelineWeek: {
       slotDuration: {
         days: 1
       }
@@ -60,7 +60,7 @@ var calendarOptions = {
 };
 
 $(document).ready(function () {
-  $("#calendar").on('click', ".fc-month-button, .fc-basicWeek-button", function () {
+  $("#calendar").on('click', ".fc-timelineMonth-button, .fc-timelineWeek-button", function () {
     $("#searchStartDate").val('')
             .change();
     $("#searchEndDate").val('')
