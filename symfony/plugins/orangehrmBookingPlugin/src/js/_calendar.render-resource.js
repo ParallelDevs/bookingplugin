@@ -3,8 +3,8 @@ function resourceErrorHandler () {
 }
 
 function resourceRenderHandler (resourceObj, labelTds, bodyTds) {  
-  $(".fc-resource-area.fc-widget-header").empty();
-  $(".fc-resource-area.fc-widget-content").empty();
+  $(".fc-resource-area.fc-widget-header").hide();
+  $(".fc-resource-area.fc-widget-content").hide();
   $(".fc-col-resizer").remove();
 }
 

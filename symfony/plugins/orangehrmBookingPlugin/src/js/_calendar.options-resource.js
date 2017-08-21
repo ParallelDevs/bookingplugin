@@ -12,7 +12,7 @@ var calendarOptions = {
   maxTime: '23:59:59',
   businessHours: true,
   lazyFetching: false,
-  resourceAreaWidth: '0',
+  resourceAreaWidth: '0%',  
   header: {
     left: 'prev,next today',
     center: 'title',
@@ -60,7 +60,7 @@ var calendarOptions = {
 };
 
 $(document).ready(function () {
-  $("#calendar").on('click', ".fc-timelineMonth-button, .fc-timelineWeek-button", function () {
+  $("#calendar").on('click', ".fc-month-button, .fc-basicWeek-button", function () {
     $("#searchStartDate").val('')
             .change();
     $("#searchEndDate").val('')
