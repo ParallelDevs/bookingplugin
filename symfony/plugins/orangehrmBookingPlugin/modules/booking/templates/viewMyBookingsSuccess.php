@@ -29,6 +29,7 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewMyBookings.js')
             <label for="searchEndDate"><?= __("To") ?></label>
             <input type="text" id="searchEndDate" name="searchEndDate"/>
             <button id="" class="btn filter"><?= __("Filter") ?></button>
+            <button id="" class="btn clear"><?= __("Reset") ?></button>
         </div>
 
         <div id='calendar'></div>

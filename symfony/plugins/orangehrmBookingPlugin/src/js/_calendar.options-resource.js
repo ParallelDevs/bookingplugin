@@ -5,19 +5,20 @@ var calendarOptions = {
   selectHelper: false,
   editable: false,
   eventResourceEditable: false,
-  aspectRatio: 5.0,
+  aspectRatio: 3.0,
   firstDay: 1,
   slotEventOverlap: false,
   minTime: '00:00:00',
   maxTime: '23:59:59',
   businessHours: true,
   lazyFetching: false,
+  resourceAreaWidth: '0',
   header: {
     left: 'prev,next today',
     center: 'title',
-    right: 'timelineMonth,timelineWeek'
+    right: 'month,basicWeek,'
   },
-  defaultView: 'timelineMonth',
+  defaultView: 'month',
   resources: {
     url: '',
     data: {
@@ -41,7 +42,7 @@ var calendarOptions = {
   eventMouseout: eventMouseoutHandler,
   selectAllow: false,
   views: {
-    timelineWeek: {
+    basicWeek: {
       slotDuration: {
         days: 1
       }
@@ -59,12 +60,17 @@ var calendarOptions = {
 };
 
 $(document).ready(function () {
-  $("#calendar").on('click', ".fc-month-button, .fc-basicWeek-button, .fc-basicDay-button", function () {
+  $("#calendar").on('click', ".fc-timelineMonth-button, .fc-timelineWeek-button", function () {
     $("#searchStartDate").val('')
             .change();
     $("#searchEndDate").val('')
             .change();
+    $('.btn.clear').addClass('disabled')
+            .attr('disabled', 'disabled');
   });
 
   $(".btn.filter").click(filterBookings);
+  $(".btn.clear").click(clearFilter);
+  $('.btn.clear').addClass('disabled')
+          .attr('disabled', 'disabled');
 });

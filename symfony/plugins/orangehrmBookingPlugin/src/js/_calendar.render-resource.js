@@ -1,11 +1,10 @@
 function resourceErrorHandler () {
 
 }
-function resourceRenderHandler (resourceObj, labelTds, bodyTds) {
-  $(".fc-resource-area.fc-widget-header").addClass("booking-resource-header")
-          .addClass("hidden");
-  $(".fc-resource-area.fc-widget-content").addClass("booking-resource-content")
-          .addClass("hidden");
+
+function resourceRenderHandler (resourceObj, labelTds, bodyTds) {  
+  $(".fc-resource-area.fc-widget-header").empty();
+  $(".fc-resource-area.fc-widget-content").empty();
   $(".fc-col-resizer").remove();
 }
 
