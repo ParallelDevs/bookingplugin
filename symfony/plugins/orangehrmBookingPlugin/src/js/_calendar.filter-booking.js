@@ -32,10 +32,12 @@ function changeSearchStartDate () {
     var currentView = $("#calendar").fullCalendar('getView');
     switch(currentView.name){
       case "timelineMonth":
+      case "month":
         endDate = startDate.add(1, 'month')
                 .format("YYYY-MM-DD");
         break;
       case "timelineWeek":
+      case "basicWeek":
         endDate = startDate.add(1, 'week')
                 .format("YYYY-MM-DD");
         break;
