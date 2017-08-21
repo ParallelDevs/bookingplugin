@@ -55,24 +55,8 @@ class BookingForm extends BaseBookingForm {
    */
   public function getBooking() {
     $posts = $this->getValues();
-
-    try {
-      $booking = !$this->isNew ? $this->getBookingService()->getBooking($posts['bookingId']) : new Booking();
-    }
-    catch (Exception $e) {
-      $this->isNew = true;
-      $booking = new Booking();
-      sfContext::getInstance()->getLogger()->err($e->getMessage());
-    }
-
-    if (!$this->isNew) {
-      $this->fillBooking($booking, $posts);
-      return $booking;
-    }
-    else {
-      $result = $this->loadBookingCollection($posts);
-      return $result;
-    }
+    $result = $this->loadBookingCollection($posts);
+    return $result;
   }
 
   /**
@@ -81,12 +65,7 @@ class BookingForm extends BaseBookingForm {
    */
   public function save() {
     $booking = $this->getBooking();
-    if ($booking instanceof Booking) {
-      $this->saveSingle($booking);
-    }
-    else if (is_array($booking)) {
-      $this->saveMultiple($booking);
-    }
+    $this->saveBookingCollection($booking);
     return true;
   }
 
@@ -189,7 +168,13 @@ class BookingForm extends BaseBookingForm {
       $values['endDate'] = $week['endDate'];
       $values['availableOn'] = $availableOn;
 
-      $booking = new Booking();
+      if (isset($values['bookingId']) && !empty($values['bookingId'])) {
+        $booking = $this->loadBooking($values['bookingId']);
+        unset($values['bookingId']);
+      }
+      else {
+        $booking = new Booking();
+      }
       $this->fillBooking($booking, $values);
       array_push($collection, $booking);
     }
@@ -197,22 +182,28 @@ class BookingForm extends BaseBookingForm {
   }
 
   /**
-   *
-   * @param Booking $booking
-   * @return type
+   * 
+   * @param type $id
+   * @return \Booking
    */
-  protected function saveSingle(Booking $booking) {
-    $service = $this->getBookingService();
-    $savedBooking = $service->saveBooking($booking);
-    $bookingId = $savedBooking->getBookingId();
-    return $bookingId;
+  protected function loadBooking($id) {
+    try {
+      $booking = $this->getBookingService()->getBooking($id);
+    }
+    catch (Exception $e) {
+      $booking = new Booking();
+      sfContext::getInstance()->getLogger()->err($e->getMessage());
+    }
+    return $booking;
   }
+
+  
 
   /**
    *
    * @param type $collection
    */
-  protected function saveMultiple($collection) {
+  protected function saveBookingCollection($collection) {
     $service = $this->getBookingService();
     foreach ($collection as $booking) {
       $service->saveBooking($booking);
