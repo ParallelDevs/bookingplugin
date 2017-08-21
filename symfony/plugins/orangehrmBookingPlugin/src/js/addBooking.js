@@ -30,6 +30,7 @@ function setBookableWorkShift (data) {
 
   jQuery('#minStartTime').val(momentMinTime.format('HH:mm:ss'));
   jQuery('#maxEndTime').val(momentMaxTime.format('HH:mm:ss'));
+  jQuery('#workingDays').val(workingDays.join());
 }
 
 function ajaxSaveBooking () {
