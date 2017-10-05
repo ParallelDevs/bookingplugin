@@ -13,6 +13,7 @@ var calendarOptions = {
   maxTime: '23:59:59',
   businessHours: true,
   lazyFetching: false,
+  themeSystem: 'standard',
   header: {
     left: 'prev,next today',
     center: 'title',
