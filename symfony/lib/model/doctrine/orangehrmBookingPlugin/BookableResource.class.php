@@ -46,7 +46,11 @@ class BookableResource extends PluginBookableResource {
    */
   public function getWorkShifts() {
     $employee = $this->getEmployee();
-    return BusinessBookingPluginService::getEmployeeBusinessHoursForCalendar($employee);
+    $businessHours= BusinessBookingPluginService::getEmployeeBusinessHoursForCalendar($employee);
+    if(empty($businessHours)){
+      $businessHours = BusinessBookingPluginService::getDefaultEmployeeBusinessHoursForCalendar();
+    }
+    return $businessHours;
   }
 
   /**
