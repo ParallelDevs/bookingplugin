@@ -107,6 +107,27 @@ class BusinessBookingPluginService extends BaseService {
   }
 
   /**
+   * 
+   * @return array
+   */
+  public static function getDefaultEmployeeBusinessHoursForCalendar() {
+    $businessHours = array();
+    $workWeeks = self::getWorkWeekService()->getWorkWeekList();
+    $iterWorkWeek = $workWeeks->getIterator();
+
+    foreach ($iterWorkWeek as $workWeek) {
+      $item = array(
+        'dow' => self::getWorkDays($workWeek),
+        'start' => '09:00',
+        'end' => '18:00',
+      );
+      array_push($businessHours, $item);
+    }
+
+    return $businessHours;
+  }
+
+  /**
    *
    * @param Employee $employee
    * @return array
