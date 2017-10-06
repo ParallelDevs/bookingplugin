@@ -19,6 +19,7 @@ class getBookingsAction extends baseBookingAction {
     $mode = $request->hasParameter('mode') ? $request->getParameter('mode') : 'guest';
 
     $this->setFilters(array(
+      'rangeStart' => array('start' => $start, 'end' => $end),
       'rangeEnd' => array('start' => $start, 'end' => $end),
       'bookableId' => $bookableId,
     ));

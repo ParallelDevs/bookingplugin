@@ -17,6 +17,7 @@ class BookingDao extends BaseDao {
     'start' => 'b.start_date',
     'end' => 'b.end_date',
     'months' => 'b.available_on',
+    'rangeStart' => 'b.start_date',
     'rangeEnd' => 'b.end_date',
   );
 
@@ -250,8 +251,9 @@ class BookingDao extends BaseDao {
             }
             $conditions[] = array('operator' => 'AND', 'condition' => " ( " . implode(" OR ", $conds) . " ) ");
             break;
+          case 'rangeStart':
           case 'rangeEnd':
-            $conditions[]= array('operator'=>'AND','condition'=>" $field BETWEEN ? AND ? ");
+            $conditions[] = array('operator' => 'OR', 'condition' => " $field BETWEEN ? AND ? ");
             $bindParams[] = $searchBy['start'];
             $bindParams[] = $searchBy['end'];
           default :
