@@ -77,7 +77,10 @@ if (isset($_POST['accept_install'])) {
 						<p class="logs">--result--</p>
 				</div>
 				<p>In case of error, contact your site administrator.</p>
-				<p>If not, you have installed Booking Plugin in your OrangeHRM site, now you can go to your site <a href="index.php">index</a></p>
+				<p>If not, you have installed Booking Plugin in your OrangeHRM site.</p>
+        <p>Please log out and login again for refreshing the navigation menu.</p>
+        <p> <a href="index.php">Index</a>.</p>
+          
 CODE;
 
 	$content = str_replace('--result--', $msg, $template);
