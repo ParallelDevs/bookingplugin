@@ -19,12 +19,13 @@ class viewMyBookingsAction extends baseBookingAction {
       if ($bookableResource instanceof BookableResource) {
         $this->bookableId = $bookableResource->getBookableId();
       }
+      else {
+        $this->bookableId = '';
+      }
     }
     catch (Exception $e) {
       $this->bookableId = '';
-      print_r($e);
     }
-
 
     $limitHours = BusinessBookingPluginService::getCompanyBusinessLimitHoursForCalendar();
     $firstDay = BusinessBookingPluginService::getCompanyFirstBusinessDay();
