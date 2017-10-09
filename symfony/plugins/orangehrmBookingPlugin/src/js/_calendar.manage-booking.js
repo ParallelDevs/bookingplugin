@@ -7,6 +7,7 @@ var minStartTime = '';
 var maxEndTime = '';
 var holidayEvent = null;
 var scheduledTime = 0;
+var workingTime = 0;
 
 function loadVarsFromEvent (event) {
   var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
@@ -18,6 +19,7 @@ function loadVarsFromEvent (event) {
   minStartTime = resource.businessHours[0].start;
   maxEndTime = resource.businessHours[0].end;
   workingDays = resource.businessHours[0].dow;
+  getResourceWorkingTime(resource);
 }
 
 function revertCalendar (revertFunc) {
@@ -27,7 +29,8 @@ function revertCalendar (revertFunc) {
     refreshBookings();
   }
   holidayEvent = null;
-
+  scheduledTime = 0;
+  workingTime = 0;
 }
 
 function addBookingConfirmNonBusinessDays (start, end, resourceId) {
@@ -137,6 +140,7 @@ function selectHandler (start, end, jsEvent, view, resource) {
   maxEndTime = resource.businessHours[0].end;
   workingDays = resource.businessHours[0].dow;
   startDate = start.format('YYYY-MM-DD');
+  getResourceWorkingTime(resource);
 
   var selectedEndDate = end.subtract(1, 'days');
   if (selectedEndDate.isBefore(startDate)) {
@@ -179,3 +183,12 @@ function dayClickHandler (date, jsEvent, view, resourceObj) {
   scheduledTime = time;
 }
 
+function getResourceWorkingTime (resourceObj) {
+  var start = moment(resourceObj.businessHours[0].start, "HH:mm");
+  var end = moment(resourceObj.businessHours[0].end, "HH:mm");
+  var d = moment.duration(end.diff(start));
+  var hours = d.asHours();
+  var minutes = d.asMinutes() - (hours * 60);
+  minutes /= 60.0;
+  workingTime = hours * 1.0 + minutes;
+}
