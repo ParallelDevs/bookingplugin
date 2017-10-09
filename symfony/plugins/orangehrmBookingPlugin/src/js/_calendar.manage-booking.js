@@ -39,6 +39,7 @@ function addBookingConfirmNonBusinessDays (start, end, resourceId) {
   var endInBusinessDays = jQuery.inArray(end.day(), resource.businessHours[0].dow) >= 0 ? true : false;
   var startInHoliday = (holidayEvent && start.isSame(holidayEvent.start, 'day')) ? true : false;
   var endInHoliday = (holidayEvent && end.isSame(holidayEvent.start, 'day')) ? true : false;
+  var overScheduled = (scheduledTime >= workingTime) ? true : false;
   var msgConfirm = '';
 
   if (!startInBusinessDays) {
@@ -47,9 +48,11 @@ function addBookingConfirmNonBusinessDays (start, end, resourceId) {
     msgConfirm = confirmEndBookingNonBusiness;
   } else if (startInHoliday || endInHoliday) {
     msgConfirm = confirmBookingHoliday;
+  } else if (overScheduled) {
+    msgConfirm = confirmOverScheduling;
   }
 
-  if (!startInHoliday && !endInHoliday && startInBusinessDays && endInBusinessDays) {
+  if (!startInHoliday && !endInHoliday && startInBusinessDays && endInBusinessDays && !overScheduled) {
     ajaxLoadNewBooking();
   } else {
     if (confirm(msgConfirm)) {

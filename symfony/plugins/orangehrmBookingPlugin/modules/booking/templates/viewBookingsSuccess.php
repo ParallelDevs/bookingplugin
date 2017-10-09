@@ -19,6 +19,7 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
   var confirmEndBookingNonBusiness = '<?= __("Are you sure you want to end a booking in a non business day?") ?>';
   var confirmBookingHoliday = '<?= __("Are you sure you want a booking during a holiday?") ?>';
   var confirmDeleteBooking = '<?= __("Are you sure you want to delete this booking? This action cannot be undone.") ?>';
+  var confirmOverScheduling = '<?= __("The resource has been scheduled for a full work day. Are you sure you want to add more bookings to this resource?") ?>';
   var bookableResourcesUrl = '<?= url_for("@bookables_json") ?>';
   var bookingResourcesUrl = '<?= url_for("@bookings_json") ?>';
   var customerProjectUrl = '<?= url_for("@customer_projects"); ?>';
