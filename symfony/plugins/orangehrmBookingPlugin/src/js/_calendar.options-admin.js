@@ -46,6 +46,7 @@ var calendarOptions = {
   select: selectHandler,
   selectAllow: selectAllowHandler,
   selectOverlap: selectOverlapHandler,
+  dayClick: dayClickHandler,
   views: {
     timelineWeek: {
       slotDuration: {
@@ -71,7 +72,7 @@ $(document).ready(function () {
     $("#searchEndDate").val('')
             .change();
     $('.btn.clear').addClass('disabled')
-          .attr('disabled', 'disabled');
+            .attr('disabled', 'disabled');
   });
 
   $(".btn.filter").click(filterBookings);

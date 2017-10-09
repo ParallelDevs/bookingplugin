@@ -99,6 +99,7 @@ function successBookingForm (data) {
 function refreshBookings () {
   $('#calendar').fullCalendar('refetchEvents');
   holidayEvent = null;
+  scheduledTime = 0;
 }
 
 jQuery(document).ready(function () {

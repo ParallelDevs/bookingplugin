@@ -6,6 +6,7 @@ var endDate = '';
 var minStartTime = '';
 var maxEndTime = '';
 var holidayEvent = null;
+var scheduledTime = 0;
 
 function loadVarsFromEvent (event) {
   var resource = $('#calendar').fullCalendar('getResourceById', event.resourceId);
@@ -161,5 +162,20 @@ function selectOverlapHandler (event) {
     holidayEvent = null;
   }
   return true;
+}
+
+function dayClickHandler (date, jsEvent, view, resourceObj) {
+  var time = 0;
+  $('#calendar').fullCalendar('getResourceEvents', resourceObj).filter(function (event) {
+    if (event.resourceId === resourceObj.id && moment(date.format()).isBetween(event.start, event.end, 'day', '[]')) {
+      var duration = Number(event.duration);
+      if (!isNaN(duration)) {
+        time += duration;
+      }
+      return true;
+    }
+    return false;
+  });
+  scheduledTime = time;
 }
 
