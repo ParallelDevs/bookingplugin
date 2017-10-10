@@ -45,16 +45,26 @@ SET @booking_module_id := (SELECT LAST_INSERT_ID());
 
 -- Screens
 INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
-('Configure Booking', @booking_module_id, 'configureBooking');
-SET @configure_screen_id := (SELECT LAST_INSERT_ID());
+('Configure Booking', @booking_module_id, 'configureBooking'),
+('Bookable Resources', @booking_module_id, 'viewBookableResources'),
+('Add Bookable Resource', @booking_module_id, 'addBookableResource'),
+('Bookings', @booking_module_id, 'viewBookings'),
+('Add Booking', @booking_module_id, 'addBooking'),
+('My Schedule', @booking_module_id, 'viewMyBookings');
 
 -- Menus
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
-('Booking', NULL, NULL, 1, 1100, NULL, 1);
-SET @booking_menu_id := (SELECT LAST_INSERT_ID());
+('Booking', NULL, NULL, 1, 1100, NULL, 1),
+('My Schedule', @view_my_booking_screen_id, NULL, 1, 1100, NULL, 1);
+
+SET @booking_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Booking');
 
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
-('Configuration', @configure_screen_id, @booking_menu_id, 2, 100, NULL, 1);
+('Configuration', @configure_screen_id, @booking_menu_id, 2, 100, NULL, 1),
+('Bookable Resources', @view_bookable_rs_screen_id, @booking_menu_id, 2, 200, NULL, 1),
+('Add Bookable Resource', @add_bookable_rs_screen_id, @booking_menu_id, 2, 300, NULL, 1),
+('Bookings', @view_bookings_screen_id, @booking_menu_id, 2, 400, NULL, 1),
+('Add Booking', @add_booking_screen_id, @booking_menu_id, 2, 500, NULL, 1);
 
 -- Permissions
 INSERT INTO `ohrm_data_group` (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
