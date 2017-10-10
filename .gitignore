@@ -3,7 +3,7 @@
 
 # Whitelist some files
 !.gitignore
-!booking_install.php
+!booking_install.*
 
 # Whitelist symfony models
 !symfony/
