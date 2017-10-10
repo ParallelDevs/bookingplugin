@@ -56,7 +56,7 @@ SET @booking_menu_id := (SELECT LAST_INSERT_ID());
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 ('Configuration', @configure_screen_id, @booking_menu_id, 2, 100, NULL, 1);
 
--- Roles
+-- Permissions
 INSERT INTO `ohrm_data_group` (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
 ('booking_configuration', 'Booking - Configuration', 1, 1, 1, NULL);
 SET @booking_data_group := (SELECT LAST_INSERT_ID());
@@ -66,8 +66,10 @@ INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`)
 (@booking_data_group, @configure_screen_id, 2),
 (@booking_data_group, @configure_screen_id, 3);
 
+-- Roles
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin'); 
 INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
-(1, @booking_data_group, 1, 1, 1, NULL, 0);
+(@admin_role_id, @booking_data_group, 1, 1, 1, NULL, 0);
 
 INSERT INTO ohrm_user_role_screen (`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES  
-(1, @configure_screen_id, 1, 1, 1, 0);
+(@admin_role_id, @configure_screen_id, 1, 1, 1, 0);
