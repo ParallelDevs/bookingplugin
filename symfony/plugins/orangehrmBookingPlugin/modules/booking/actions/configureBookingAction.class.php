@@ -44,10 +44,22 @@ class configureBookingAction extends baseBookingAction {
    * @param type $request
    */
   public function execute($request) {
-    $this->setForm(new ConfigBookingForm(array(), array(), false));
+    $this->bookingConfigurationPermissions = $this->getDataGroupPermissions('booking_configuration');
+    if ($this->bookingConfigurationPermissions->canRead()) {
+      $this->setForm(new ConfigBookingForm(array(), array(), false));
 
-    if ($request->isMethod('post')) {
+      if ($request->isMethod('post')) {
+        $this->processPost($request);
+      }
+    }
+  }
 
+  /**
+   * 
+   * @param type $request
+   */
+  private function processPost(&$request) {
+    if ($this->bookingConfigurationPermissions->canCreate() || $this->bookingConfigurationPermissions->canUpdate()) {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
       if ($this->form->isValid()) {
 
