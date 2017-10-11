@@ -24,6 +24,7 @@ class viewBookableResourceAction extends baseBookingAction {
   public function execute($request) {
     $this->bookablePermissions = $this->getDataGroupPermissions('booking_resources');
     if ($this->bookablePermissions->canRead()) {
+      $request->setParameter('initialActionName', 'viewBookableResources');
       $bookableId = $request->getParameter('bookableId');
 
       $params = array(
