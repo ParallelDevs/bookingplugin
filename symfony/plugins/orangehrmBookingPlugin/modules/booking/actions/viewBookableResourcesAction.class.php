@@ -17,8 +17,8 @@ class viewBookableResourcesAction extends baseBookingAction {
    * @param type $request
    */
   public function execute($request) {
-    $bookablePermissions = $this->getDataGroupPermissions('booking_resources');
-    if ($bookablePermissions->canRead()) {
+    $this->bookablePermissions = $this->getDataGroupPermissions('booking_resources');
+    if ($this->bookablePermissions->canRead()) {
       if ($this->getUser()->hasFlash('templateMessage')) {
         list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
       }
