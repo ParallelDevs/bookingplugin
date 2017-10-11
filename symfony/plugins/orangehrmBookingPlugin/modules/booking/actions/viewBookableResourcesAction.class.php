@@ -8,19 +8,44 @@
 class viewBookableResourcesAction extends baseBookingAction {
 
   protected $configurationList;
+  protected $noOfRecords;
+  protected $offset;
+  protected $pageNumber;
 
   /**
    *
    * @param type $request
    */
   public function execute($request) {
-    if ($this->getUser()->hasFlash('templateMessage')) {
-      list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-    }
+    $bookablePermissions = $this->getDataGroupPermissions('booking_resources');
+    if ($bookablePermissions->canRead()) {
+      if ($this->getUser()->hasFlash('templateMessage')) {
+        list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+      }
+      $this->processPaging($request);
+      $this->processFilters($request);
 
+      $accessibleEmployees = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('Employee');
+      if (count($accessibleEmployees) > 0) {
+        $parameterHolder = $this->getBookableSearchParameter();
+        $list = $this->getBookableService()->searchBookableResourceList($parameterHolder);
+      }
+      else {
+        $count = 0;
+        $list = array();
+      }
+
+      $this->setListComponent($list, $count, $this->noOfRecords, $this->pageNumber);
+    }
+  }
+
+  /**
+   * 
+   * @param type $request
+   */
+  protected function processPaging(&$request) {
     $empNumber = $request->getParameter('empNumber');
     $isPaging = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
-
 
     if ($request->hasParameter('reset')) {
       $this->setFilters(array());
@@ -28,14 +53,20 @@ class viewBookableResourcesAction extends baseBookingAction {
       $this->setPage(1);
     }
 
-    $pageNumber = $isPaging;
+    $this->pageNumber = $isPaging;
     if (!empty($empNumber) && $this->getUser()->hasAttribute('pageNumber')) {
-      $pageNumber = $this->getUser()->getAttribute('pageNumber');
+      $this->pageNumber = $this->getUser()->getAttribute('pageNumber');
     }
 
-    $noOfRecords = sfConfig::get('app_items_per_page');
-    $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
+    $this->noOfRecords = sfConfig::get('app_items_per_page');
+    $this->offset = ($this->pageNumber >= 1) ? (($this->pageNumber - 1) * $this->noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $this->noOfRecords;
+  }
 
+  /**
+   * 
+   * @param type $request
+   */
+  protected function processFilters(&$request) {
     $this->form = new SearchBookableResourceForm($this->getFilters());
 
     if ($request->isMethod('post')) {
@@ -64,34 +95,25 @@ class viewBookableResourcesAction extends baseBookingAction {
       $this->setSortParameter($sortParam);
       $this->setPage(1);
     }
+  }
 
+  /**
+   * 
+   * @return \BookableSearchParameterHolder
+   */
+  protected function getBookableSearchParameter() {
     $sort = $this->getSortParameter();
-    $sortField = $sort["field"];
-    $sortOrder = $sort["order"];
     $filters = $this->getFilters();
-
     if (isset($filters['employee_list'])) {
       $filters['empId'] = $filters['employee_list']['empId'];
     }
-
-    $accessibleEmployees = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('Employee');
-    if (count($accessibleEmployees) > 0) {
-      $parameterHolder = new BookableSearchParameterHolder();
-      $parameterHolder->setOrderField($sortField);
-      $parameterHolder->setOrderBy($sortOrder);
-      $parameterHolder->setLimit($noOfRecords);
-      $parameterHolder->setOffset($offset);
-      $parameterHolder->setFilters($filters);
-
-      $list = $this->getBookableService()->searchBookableResourceList($parameterHolder);
-    }
-    else {
-      $count = 0;
-      $list = array();
-    }
-
-
-    $this->setListComponent($list, $count, $noOfRecords, $pageNumber);
+    $parameterHolder = new BookableSearchParameterHolder();
+    $parameterHolder->setOrderField($sort["field"]);
+    $parameterHolder->setOrderBy($sort["order"]);
+    $parameterHolder->setLimit($this->noOfRecords);
+    $parameterHolder->setOffset($this->offset);
+    $parameterHolder->setFilters($filters);
+    return $parameterHolder;
   }
 
   /**
