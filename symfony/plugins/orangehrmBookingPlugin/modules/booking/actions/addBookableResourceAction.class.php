@@ -22,26 +22,38 @@ class addBookableResourceAction extends baseBookingAction {
    * @param type $request
    */
   public function execute($request) {
-    $postArray = array();
-    if ($request->isMethod('post')) {
-      $postArray = $request->getPostParameters();
-      unset($postArray['_csrf_token']);
-      $_SESSION['addBookablePost'] = $postArray;
+    $this->bookablePermissions = $this->getDataGroupPermissions('booking_resources');
+    if ($this->bookablePermissions->canRead()) {
+      $postArray = array();
+      if ($request->isMethod('post')) {
+        $postArray = $request->getPostParameters();
+        unset($postArray['_csrf_token']);
+        $_SESSION['addBookablePost'] = $postArray;
+      }
+
+      if (isset($_SESSION['addBookablePost'])) {
+        $postArray = $_SESSION['addBookablePost'];
+      }
+
+      $this->setForm(new BookableResourceForm(array(), array(), true));
+
+      if ($this->getUser()->hasFlash('templateMessage')) {
+        unset($_SESSION['addBookablePost']);
+        list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+      }
+
+      if ($request->isMethod('post')) {
+        $this->processPost($request);
+      }
     }
+  }
 
-    if (isset($_SESSION['addBookablePost'])) {
-      $postArray = $_SESSION['addBookablePost'];
-    }
-
-    $this->setForm(new BookableResourceForm(array(), array(), true));
-
-    if ($this->getUser()->hasFlash('templateMessage')) {
-      unset($_SESSION['addBookablePost']);
-      list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-    }
-
-
-    if ($request->isMethod('post')) {
+  /**
+   * 
+   * @param type $request
+   */
+  private function processPost(&$request) {
+    if ($this->bookablePermissions->canCreate() || $this->bookablePermissions->canUpdate()) {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
       $posts = $this->form->getValues();
 
