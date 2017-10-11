@@ -8,6 +8,7 @@
 abstract class baseBookingAction extends sfAction {
   protected $bookablePermissions;
   protected $bookingPermissions;
+  protected $bookingConfigurationPermissions;
   private $bookableService;
   private $bookingService;
   private $employeeService;
