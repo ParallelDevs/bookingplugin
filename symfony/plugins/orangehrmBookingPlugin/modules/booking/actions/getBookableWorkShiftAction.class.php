@@ -38,7 +38,7 @@ class getBookableWorkShiftAction extends baseBookingAction {
    * 
    * @param type $request
    */
-  protected function processWorkShift($request) {
+  private function processWorkShift($request) {
     $bookableId = $request->getParameter('bookableId');
 
     try {
@@ -62,7 +62,7 @@ class getBookableWorkShiftAction extends baseBookingAction {
    * @param type $key2
    * @param type $data
    */
-  protected function verifyValue($key1, $key2, &$data) {
+  private function verifyValue($key1, $key2, &$data) {
     if (array_key_exists($key1, $this->result)) {
       if (strcasecmp($this->result[$key1], $data[$key2]) > 0) {
         $this->result[$key1] = $data[$key2];

@@ -43,7 +43,7 @@ class viewBookableResourcesAction extends baseBookingAction {
    * 
    * @param type $request
    */
-  protected function processPaging(&$request) {
+  private function processPaging(&$request) {
     $empNumber = $request->getParameter('empNumber');
     $isPaging = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
 
@@ -66,7 +66,7 @@ class viewBookableResourcesAction extends baseBookingAction {
    * 
    * @param type $request
    */
-  protected function processFilters(&$request) {
+  private function processFilters(&$request) {
     $this->form = new SearchBookableResourceForm($this->getFilters());
 
     if ($request->isMethod('post')) {
@@ -101,7 +101,7 @@ class viewBookableResourcesAction extends baseBookingAction {
    * 
    * @return \BookableSearchParameterHolder
    */
-  protected function getBookableSearchParameter() {
+  private function getBookableSearchParameter() {
     $sort = $this->getSortParameter();
     $filters = $this->getFilters();
     if (isset($filters['employee_list'])) {

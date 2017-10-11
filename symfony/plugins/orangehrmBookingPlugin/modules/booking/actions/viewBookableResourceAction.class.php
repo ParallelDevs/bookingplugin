@@ -43,7 +43,7 @@ class viewBookableResourceAction extends baseBookingAction {
    * 
    * @param type $request
    */
-  protected function processPost(&$request) {
+  private function processPost(&$request) {
     if ($this->bookablePermissions->canCreate() || $this->bookablePermissions->canUpdate()) {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
 
