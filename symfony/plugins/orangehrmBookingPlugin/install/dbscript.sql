@@ -48,6 +48,7 @@ INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
 ('Configure Booking', @booking_module_id, 'configureBooking'),
 ('Bookable Resources', @booking_module_id, 'viewBookableResources'),
 ('Add Bookable Resource', @booking_module_id, 'addBookableResource'),
+('Bookable Resource', @booking_module_id, 'viewBookableResource'),
 ('Bookings', @booking_module_id, 'viewBookings'),
 ('Add Booking', @booking_module_id, 'addBooking'),
 ('My Schedule', @booking_module_id, 'viewMyBookings');
@@ -62,6 +63,7 @@ INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `or
 SET @booking_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Booking');
 SET @configure_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Configure Booking');
 SET @view_bookable_rs_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Bookable Resources');
+SET @view_bookable_detail_rs_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Bookable Resource');
 SET @add_bookable_rs_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Add Bookable Resource');
 SET @view_bookings_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Bookings');
 SET @add_booking_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Add Booking');
@@ -76,7 +78,7 @@ INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `or
 -- Permissions
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
 ('booking_configuration', 'Booking - Configuration', 1, 1, 1, NULL),
-('booking_resources', 'Booking - List of Bookable Resources', 1, 0, 0, NULL),
+('booking_resources', 'Booking - Bookable Resources', 1, 1, 1, NULL),
 ('booking_bookings', 'Booking - Bookings', 1, 1, 1, NULL),
 ('booking_my_booking', 'Booking - My Bookings', 1, 0, 0, NULL);
 
@@ -95,6 +97,9 @@ INSERT INTO ohrm_data_group_screen (`data_group_id`, `screen_id`, `permission`) 
 (@data_group_booking_resources, @add_bookable_rs_screen_id, 1),
 (@data_group_booking_resources, @add_bookable_rs_screen_id, 2),
 (@data_group_booking_resources, @add_bookable_rs_screen_id, 3),
+(@data_group_booking_resources, @view_bookable_detail_rs_screen_id, 1),
+(@data_group_booking_resources, @view_bookable_detail_rs_screen_id, 2),
+(@data_group_booking_resources, @view_bookable_detail_rs_screen_id, 3),
 (@data_group_booking_bookings, @view_bookings_screen_id, 1),
 (@data_group_booking_bookings, @view_bookings_screen_id, 2),
 (@data_group_booking_bookings, @view_bookings_screen_id, 3),
@@ -115,6 +120,7 @@ INSERT INTO ohrm_user_role_screen (`user_role_id`, `screen_id`, `can_read`, `can
 (@admin_role_id, @configure_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @view_bookable_rs_screen_id, 1, 0, 0, 0),
 (@admin_role_id, @add_bookable_rs_screen_id, 1, 1, 1, 0),
+(@admin_role_id, @view_bookable_detail_rs_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @view_bookings_screen_id, 1, 1, 1, 1),
 (@admin_role_id, @add_booking_screen_id, 1, 1, 1, 0);
 
