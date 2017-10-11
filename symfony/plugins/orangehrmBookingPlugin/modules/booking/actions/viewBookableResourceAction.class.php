@@ -22,21 +22,33 @@ class viewBookableResourceAction extends baseBookingAction {
    * @param type $request
    */
   public function execute($request) {
+    $this->bookablePermissions = $this->getDataGroupPermissions('booking_resources');
+    if ($this->bookablePermissions->canRead()) {
+      $bookableId = $request->getParameter('bookableId');
 
-    $bookableId = $request->getParameter('bookableId');
+      $params = array(
+        'bookableId' => $bookableId,
+      );
 
-    $params = array(
-      'bookableId' => $bookableId,
-    );
+      $this->setForm(new BookableResourceForm(array(), $params, true));
 
-    $this->setForm(new BookableResourceForm(array(), $params, true));
+      if ($request->isMethod('post')) {
+        $this->processPost($request);
+      }
+    }
+  }
 
-    if ($request->isMethod('post')) {
+  /**
+   * 
+   * @param type $request
+   */
+  protected function processPost(&$request) {
+    if ($this->bookablePermissions->canCreate() || $this->bookablePermissions->canUpdate()) {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
 
       if ($this->form->isValid()) {
         try {
-          $bookableId = $this->form->save();
+          $this->form->save();
           $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
           $this->redirect("booking/viewBookableResources");
         }
