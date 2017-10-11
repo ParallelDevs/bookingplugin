@@ -112,6 +112,10 @@ abstract class baseBookingAction extends sfAction {
     $this->projectService = $projectService;
   }
 
+  public function getDataGroupPermissions($dataGroups) {
+    return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), false, array());
+  }
+
   /**
    *
    * @return type
