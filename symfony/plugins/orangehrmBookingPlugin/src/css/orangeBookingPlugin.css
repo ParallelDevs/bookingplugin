@@ -120,20 +120,24 @@
   right: 10px; }
 
 .fc-nonbusiness {
-  opacity: 0.75; }
+  opacity: .75; }
   .fc-nonbusiness.holiday {
-    opacity: 0.65; }
+    opacity: .65; }
 
 .fc-highlighted {
   border-width: 2px;
   font-weight: bolder;
   font-size: 1em; }
 
-.fc-timeline-event.booking .fc-title::before {
-  content: none !important; }
+.fc-timeline-event.booking {
+  opacity: .8; }
+  .fc-timeline-event.booking.fc-highlighted {
+    opacity: 1; }
+  .fc-timeline-event.booking .fc-title::before {
+    content: none !important; }
 
 .booking-resource-inactive {
-  opacity: 0.75;
+  opacity: .75;
   background: #d7d7d7; }
 
 .booking-resource-active, .booking-resource-inactive {
