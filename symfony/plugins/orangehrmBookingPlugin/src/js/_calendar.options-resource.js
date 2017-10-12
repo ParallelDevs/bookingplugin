@@ -31,8 +31,7 @@ var calendarOptions = {
   events: {
     url: '',
     data: {
-      bookableId: 0,
-      mode: 'resource',
+      bookableId: 0      
     },
     type: 'POST',
     error: eventErrorHandler,
