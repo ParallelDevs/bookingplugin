@@ -136,6 +136,9 @@
   .fc-timeline-event.booking .fc-title::before {
     content: none !important; }
 
+.fc-button {
+  text-transform: capitalize; }
+
 .booking-resource-inactive {
   opacity: .75;
   background: #d7d7d7; }
