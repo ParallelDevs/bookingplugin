@@ -23,8 +23,30 @@ class getBookingFormAction extends baseBookingAction {
    * @return type
    */
   public function execute($request) {
+    $this->bookingPermissions = $this->getDataGroupPermissions('booking_bookings');
+    if ($this->bookingPermissions->canCreate() || $this->bookingPermissions->canUpdate()) {
+      $params = $this->getBookingFormParams($request);
+
+      $this->setForm(new BookingForm(array(), $params, true));
+
+      $partialParams = array(
+        'form' => $this->form,
+        'actionForm' => '',
+        'buttons' => array(
+        )
+      );
+      return $this->renderPartial('modalBookingForm', $partialParams);
+    }
+  }
+
+  /**
+   * 
+   * @param type $request
+   * @return type
+   */
+  private function getBookingFormParams(&$request) {
     $bookableId = $request->getParameter('bookableId');
-    $params = array(
+    $params = [
       'bookingId' => $request->getParameter('bookingId'),
       'bookableId' => $bookableId,
       'bookableName' => $request->getParameter('bookableName'),
@@ -33,18 +55,9 @@ class getBookingFormAction extends baseBookingAction {
       'bookableSelectable' => empty($bookableId) ? true : false,
       'minStartTime' => $request->getParameter('minStartTime'),
       'maxEndTime' => $request->getParameter('maxEndTime'),
-      'workingDays'=>$request->getParameter('workingDays'),
-    );
-
-    $this->setForm(new BookingForm(array(), $params, true));
-
-    $partialParams = array(
-      'form' => $this->form,
-      'actionForm' => '',
-      'buttons' => array(
-      )
-    );
-    return $this->renderPartial('modalBookingForm', $partialParams);
+      'workingDays' => $request->getParameter('workingDays'),
+    ];
+    return $params;
   }
 
 }

@@ -12,18 +12,33 @@ class getBookingsAction extends baseBookingAction {
    * @param type $request
    */
   public function execute($request) {
+    $this->bookingPermissions = $this->getDataGroupPermissions('booking_bookings');
+    if ($this->bookingPermissions->canRead()) {
 
-    $start = $request->hasParameter('start') ? $request->getParameter('start') : date('Y-m-d');
-    $end = $request->hasParameter('end') ? $request->getParameter('end') : date('Y-m-d');
-    $bookableId = $request->hasParameter('bookableId') ? $request->getParameter('bookableId') : '';
-    $mode = $request->hasParameter('mode') ? $request->getParameter('mode') : 'guest';
+      $start = $request->hasParameter('start') ? $request->getParameter('start') : date('Y-m-d');
+      $end = $request->hasParameter('end') ? $request->getParameter('end') : date('Y-m-d');
+      $bookableId = $request->hasParameter('bookableId') ? $request->getParameter('bookableId') : '';
 
-    $this->setFilters(array(
-      'rangeStart' => array('start' => $start, 'end' => $end),
-      'rangeEnd' => array('start' => $start, 'end' => $end),
-      'bookableId' => $bookableId,
-    ));
+      $this->setFilters(array(
+        'rangeStart' => array('start' => $start, 'end' => $end),
+        'rangeEnd' => array('start' => $start, 'end' => $end),
+        'bookableId' => $bookableId,
+      ));
+      $parameterHolder = $this->getSearchParameter();
+      $bookings = $this->getBookingService()->searchBookingsList($parameterHolder);
 
+      $this->checkPermissions($bookings);
+
+      $holidays = BusinessBookingPluginService::getHolidaysAsCalendarEvents($start, $end);
+      $this->result = array_merge($bookings, $holidays);
+    }
+  }
+
+  /**
+   *
+   * @return \BookingSearchParameterHolder
+   */
+  private function getSearchParameter() {
     $parameterHolder = new BookingSearchParameterHolder();
     $parameterHolder->setOrderField('bookingId');
     $parameterHolder->setOrderBy('ASC');
@@ -31,17 +46,19 @@ class getBookingsAction extends baseBookingAction {
     $parameterHolder->setOffset(0);
     $parameterHolder->setFilters($this->getFilters());
     $parameterHolder->setReturnType(BookingSearchParameterHolder::RETURN_TYPE_CALENDAR_EVENT);
+    return $parameterHolder;
+  }
 
-    $bookings = $this->getBookingService()->searchBookingsList($parameterHolder);
-
-    if ('admin' !== $mode) {
+  /**
+   *
+   * @param type $bookings
+   */
+  private function checkPermissions(&$bookings) {
+    if (!$this->bookingPermissions->canCreate() && !$this->bookingPermissions->canUpdate()) {
       foreach ($bookings as &$booking) {
         $booking['editable'] = false;
       }
     }
-
-    $holidays = BusinessBookingPluginService::getHolidaysAsCalendarEvents($start, $end);
-    $this->result = array_merge($bookings, $holidays);
   }
 
 }
