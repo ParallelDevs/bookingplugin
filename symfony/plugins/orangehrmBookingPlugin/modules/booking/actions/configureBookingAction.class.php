@@ -49,7 +49,7 @@ class configureBookingAction extends baseBookingAction {
       $this->setForm(new ConfigBookingForm(array(), array(), false));
 
       if ($request->isMethod('post')) {
-        $this->processPost($request);
+        $this->saveConfiguration($request);
       }
     }
   }
@@ -58,7 +58,7 @@ class configureBookingAction extends baseBookingAction {
    * 
    * @param type $request
    */
-  private function processPost(&$request) {
+  private function saveConfiguration(&$request) {
     if ($this->bookingConfigurationPermissions->canCreate() || $this->bookingConfigurationPermissions->canUpdate()) {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
       if ($this->form->isValid()) {

@@ -6,6 +6,7 @@
  * @author amora
  */
 abstract class baseBookingAction extends sfAction {
+
   protected $bookablePermissions;
   protected $bookingPermissions;
   protected $bookingConfigurationPermissions;
@@ -219,6 +220,14 @@ abstract class baseBookingAction extends sfAction {
     }
 
     return $value;
+  }
+
+  /**
+   *
+   * @return type
+   */
+  protected function getSearchParameterHolder() {
+    return null;
   }
 
 }

@@ -24,7 +24,7 @@ class getBookingsAction extends baseBookingAction {
         'rangeEnd' => array('start' => $start, 'end' => $end),
         'bookableId' => $bookableId,
       ));
-      $parameterHolder = $this->getSearchParameter();
+      $parameterHolder = $this->getSearchParameterHolder();
       $bookings = $this->getBookingService()->searchBookingsList($parameterHolder);
 
       $this->checkPermissions($bookings);
@@ -35,10 +35,10 @@ class getBookingsAction extends baseBookingAction {
   }
 
   /**
-   *
+   * 
    * @return \BookingSearchParameterHolder
    */
-  private function getSearchParameter() {
+  protected function getSearchParameterHolder() {
     $parameterHolder = new BookingSearchParameterHolder();
     $parameterHolder->setOrderField('bookingId');
     $parameterHolder->setOrderBy('ASC');

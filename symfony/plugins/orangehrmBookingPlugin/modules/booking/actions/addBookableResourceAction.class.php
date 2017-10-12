@@ -43,7 +43,7 @@ class addBookableResourceAction extends baseBookingAction {
       }
 
       if ($request->isMethod('post')) {
-        $this->processPost($request);
+        $this->saveBookableResource($request);
       }
     }
   }
@@ -52,7 +52,7 @@ class addBookableResourceAction extends baseBookingAction {
    * 
    * @param type $request
    */
-  private function processPost(&$request) {
+  private function saveBookableResource(&$request) {
     if ($this->bookablePermissions->canCreate() || $this->bookablePermissions->canUpdate()) {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
       $posts = $this->form->getValues();

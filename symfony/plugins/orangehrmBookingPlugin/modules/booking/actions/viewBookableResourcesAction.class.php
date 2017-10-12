@@ -27,7 +27,7 @@ class viewBookableResourcesAction extends baseBookingAction {
 
       $accessibleEmployees = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('Employee');
       if (count($accessibleEmployees) > 0) {
-        $parameterHolder = $this->getBookableSearchParameter();
+        $parameterHolder = $this->getSearchParameterHolder();
         $list = $this->getBookableService()->searchBookableResourceList($parameterHolder);
       }
       else {
@@ -101,7 +101,7 @@ class viewBookableResourcesAction extends baseBookingAction {
    * 
    * @return \BookableSearchParameterHolder
    */
-  private function getBookableSearchParameter() {
+  protected function getSearchParameterHolder() {
     $sort = $this->getSortParameter();
     $filters = $this->getFilters();
     if (isset($filters['employee_list'])) {
