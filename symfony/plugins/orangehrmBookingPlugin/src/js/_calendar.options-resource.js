@@ -5,7 +5,7 @@ var calendarOptions = {
   selectHelper: false,
   editable: false,
   eventResourceEditable: false,
-  aspectRatio: 3.0,
+  aspectRatio: 5.0,
   firstDay: 1,
   slotEventOverlap: false,
   minTime: '00:00:00',
