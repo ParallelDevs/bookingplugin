@@ -100,6 +100,7 @@ INSERT INTO ohrm_data_group_screen (`data_group_id`, `screen_id`, `permission`) 
 (@data_group_booking_resources, @view_bookable_detail_rs_screen_id, 1),
 (@data_group_booking_resources, @view_bookable_detail_rs_screen_id, 2),
 (@data_group_booking_resources, @view_bookable_detail_rs_screen_id, 3),
+(@data_group_booking_resources, @data_group_booking_my_bookings, 1),
 (@data_group_booking_bookings, @view_bookings_screen_id, 1),
 (@data_group_booking_bookings, @view_bookings_screen_id, 2),
 (@data_group_booking_bookings, @view_bookings_screen_id, 3),
@@ -129,6 +130,8 @@ SET @view_my_booking_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'My S
 SET @data_group_booking_my_bookings := (SELECT `id` FROM ohrm_data_group WHERE `name` = 'booking_my_booking');
 
 INSERT INTO ohrm_user_role_data_group (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
+(@ess_role_id, @data_group_booking_resources, 1, 0, 0, 0, 0),
+(@ess_role_id, @data_group_booking_bookings, 1, 0, 0, 0, 0),
 (@ess_role_id, @data_group_booking_my_bookings, 1, 0, 0, 0, 0);
 
 INSERT INTO ohrm_user_role_screen (`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES  
