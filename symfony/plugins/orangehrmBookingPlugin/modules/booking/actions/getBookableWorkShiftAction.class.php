@@ -17,7 +17,7 @@ class getBookableWorkShiftAction extends baseBookingAction {
       $start = $request->hasParameter('start') ? $request->getParameter('start') : date('Y-m-d');
       $end = $request->hasParameter('end') ? $request->getParameter('end') : date('Y-m-d');
       if ($request->hasParameter('bookableId')) {
-        $this->result = array();
+        $this->result = [];
         $this->processWorkShift($request);
       }
       else {
@@ -69,7 +69,7 @@ class getBookableWorkShiftAction extends baseBookingAction {
       }
     }
     else {
-      $this->result['minTime'] = $data[$key2];
+      $this->result[$key1] = $data[$key2];
     }
   }
 
