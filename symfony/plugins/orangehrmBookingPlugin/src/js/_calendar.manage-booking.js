@@ -19,7 +19,7 @@ function loadVarsFromEvent (event) {
   minStartTime = resource.businessHours[0].start;
   maxEndTime = resource.businessHours[0].end;
   workingDays = resource.businessHours[0].dow;
-  getResourceWorkingTime(resource);
+  workingTime = getResourceWorkingTime(event.resourceId);
 }
 
 function revertCalendar (revertFunc) {
@@ -143,7 +143,7 @@ function selectHandler (start, end, jsEvent, view, resource) {
   maxEndTime = resource.businessHours[0].end;
   workingDays = resource.businessHours[0].dow;
   startDate = start.format('YYYY-MM-DD');
-  getResourceWorkingTime(resource);
+  workingTime = getResourceWorkingTime(resource.id);
 
   var selectedEndDate = end.subtract(1, 'days');
   if (selectedEndDate.isBefore(startDate)) {
@@ -172,9 +172,14 @@ function selectOverlapHandler (event) {
 }
 
 function dayClickHandler (date, jsEvent, view, resourceObj) {
+  scheduledTime = getResourceScheduledTime (resourceObj.id, date.format('YYYY-MM-DD'));
+}
+
+function getResourceScheduledTime (resourceId, date) {
+  var resourceObj = $('#calendar').fullCalendar('getResourceById', resourceId);
   var time = 0;
   $('#calendar').fullCalendar('getResourceEvents', resourceObj).filter(function (event) {
-    if (event.resourceId === resourceObj.id && moment(date.format()).isBetween(event.start, event.end, 'day', '[]')) {
+    if (event.resourceId === resourceId && moment(date, 'YYYY-MM-DD').isBetween(event.start, event.end, 'day', '[]')) {
       var duration = Number(event.duration);
       if (!isNaN(duration)) {
         time += duration;
@@ -183,15 +188,16 @@ function dayClickHandler (date, jsEvent, view, resourceObj) {
     }
     return false;
   });
-  scheduledTime = time;
+  return time;
 }
 
-function getResourceWorkingTime (resourceObj) {
+function getResourceWorkingTime (resourceId) {
+  var resourceObj = $('#calendar').fullCalendar('getResourceById', resourceId);
   var start = moment(resourceObj.businessHours[0].start, "HH:mm");
   var end = moment(resourceObj.businessHours[0].end, "HH:mm");
   var d = moment.duration(end.diff(start));
   var hours = d.asHours();
   var minutes = d.asMinutes() - (hours * 60);
   minutes /= 60.0;
-  workingTime = hours * 1.0 + minutes;
+  return hours * 1.0 + minutes;
 }
