@@ -28,10 +28,7 @@ var calendarOptions = {
     error: resourceErrorHandler,
   },
   events: {
-    url: '',
-    data: {
-      mode: 'admin',
-    },
+    url: '',    
     type: 'POST',
     error: eventErrorHandler,
   },
