@@ -17,8 +17,7 @@ class BookingDao extends BaseDao {
     'start' => 'b.start_date',
     'end' => 'b.end_date',
     'months' => 'b.available_on',
-    'rangeStart' => 'b.start_date',
-    'rangeEnd' => 'b.end_date',
+    'range' => array('b.start_date', 'b.end_date'),
   );
 
   /**
@@ -113,7 +112,7 @@ class BookingDao extends BaseDao {
   }
 
   /**
-   * 
+   *
    * @param type $projectId
    * @return type
    * @throws DaoException
@@ -134,7 +133,7 @@ class BookingDao extends BaseDao {
   }
 
   /**
-   * 
+   *
    * @param type $color
    * @return type
    * @throws DaoException
@@ -155,7 +154,7 @@ class BookingDao extends BaseDao {
   }
 
   /**
-   * 
+   *
    * @param type $id
    * @return boolean
    * @throws DaoException
@@ -231,7 +230,7 @@ class BookingDao extends BaseDao {
             $bindParams[] = $searchBy;
             break;
           case 'bookableId':
-            $conditions[] = array('operator' => 'AND', 'condition' => " $field LIKE ? ");
+            $conditions[] = array('operator' => 'AND', 'condition' => " $field = ? ");
             $bindParams[] = $searchBy;
             break;
           case 'start' :
@@ -251,11 +250,14 @@ class BookingDao extends BaseDao {
             }
             $conditions[] = array('operator' => 'AND', 'condition' => " ( " . implode(" OR ", $conds) . " ) ");
             break;
-          case 'rangeStart':
-          case 'rangeEnd':
-            $conditions[] = array('operator' => 'OR', 'condition' => " $field BETWEEN ? AND ? ");
-            $bindParams[] = $searchBy['start'];
-            $bindParams[] = $searchBy['end'];
+          case 'range'://array('b.start_date','b.end_date')
+            $conds = [];
+            foreach ($field as $subfield) {
+              $conds[] = " $subfield BETWEEN ? AND ? ";
+              $bindParams[] = $searchBy['start'];
+              $bindParams[] = $searchBy['end'];
+            }
+            $conditions[] = array('operator' => 'AND', 'condition' => " ( " . implode(" OR ", $conds) . " ) ");
           default :
             break;
         }

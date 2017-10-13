@@ -20,8 +20,7 @@ class getBookingsAction extends baseBookingAction {
       $bookableId = $request->hasParameter('bookableId') ? $request->getParameter('bookableId') : '';
 
       $this->setFilters(array(
-        'rangeStart' => array('start' => $start, 'end' => $end),
-        'rangeEnd' => array('start' => $start, 'end' => $end),
+        'range' => array('start' => $start, 'end' => $end),        
         'bookableId' => $bookableId,
       ));
       $parameterHolder = $this->getSearchParameterHolder();
