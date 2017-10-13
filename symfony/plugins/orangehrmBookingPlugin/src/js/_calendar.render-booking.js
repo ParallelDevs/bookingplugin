@@ -48,3 +48,7 @@ function eventMouseoverHandler (event, jsEvent, view) {
 function eventMouseoutHandler (event, jsEvent, view) {
   $(this).removeClass('fc-highlighted');
 }
+
+function eventDestroyHandler (event, element, view) {
+  $(element).qtip('destroy', true);
+}  
