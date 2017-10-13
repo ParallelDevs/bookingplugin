@@ -4,13 +4,21 @@ function eventErrorHandler () {
 
 function eventRenderHandler (event, element, view) {
   if (event.isHoliday) {
-    element.tipTip({
+    element.qtip({
       content: holidayLabel + ' ' + event.title
     });
     element.addClass('fc-nonbusiness booking-holiday');
   } else {
-    element.tipTip({
-      content: event.customerName + ' - ' + event.title
+    var days = event.end.diff(event.start, 'days');
+    var totalDuration = event.duration;
+    days += 1;
+    totalDuration *= days;
+
+    element.qtip({
+      content: {
+        text: 'Total: ' + totalDuration + 'h',
+        title: event.customerName + ' - ' + event.title
+      }
     });
     element.addClass('booking');
 
@@ -21,7 +29,8 @@ function eventRenderHandler (event, element, view) {
         case "timelineFilter":
         case "month":
         case "basicWeek":
-          element.find(".fc-time").text(event.duration + 'h p/d');
+          var duration = Number(event.duration);
+          element.find(".fc-time").text(duration + 'h p/d');
           element.find(".fc-title").remove();
           break;
         default:
