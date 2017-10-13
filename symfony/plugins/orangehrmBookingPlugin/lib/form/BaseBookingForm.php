@@ -134,7 +134,7 @@ class BaseBookingForm extends sfForm {
       'bookableName' => __('Resource'),
       'customerId' => __('Customer'),
       'projectId' => __('Project'),
-      'duration' => __('Duration'),
+      'duration' => __('Hours per day'),
       'hours' => __('Hours'),
       'startDate' => __('From'),
       'endDate' => __('To'),
