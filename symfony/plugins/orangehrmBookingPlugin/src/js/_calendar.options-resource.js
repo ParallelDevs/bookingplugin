@@ -5,7 +5,7 @@ var calendarOptions = {
   selectHelper: false,
   editable: false,
   eventResourceEditable: false,
-  aspectRatio: 5.0,
+  aspectRatio: 2.25,
   firstDay: 1,
   slotEventOverlap: false,
   minTime: '00:00:00',
@@ -17,9 +17,9 @@ var calendarOptions = {
   header: {
     left: 'prev,next today',
     center: 'title',
-    right: 'timelineMonth,timelineWeek'
+    right: 'month,timelineWeek'
   },
-  defaultView: 'timelineMonth',
+  defaultView: 'month',
   resources: {
     url: '',
     data: {
@@ -31,7 +31,7 @@ var calendarOptions = {
   events: {
     url: '',
     data: {
-      bookableId: 0      
+      bookableId: 0
     },
     type: 'POST',
     error: eventErrorHandler,
@@ -40,6 +40,7 @@ var calendarOptions = {
   eventRender: eventRenderHandler,
   eventMouseover: eventMouseoverHandler,
   eventMouseout: eventMouseoutHandler,
+  eventDestroy: eventDestroyHandler,
   selectAllow: false,
   views: {
     timelineWeek: {
