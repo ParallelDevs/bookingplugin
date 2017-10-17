@@ -4,7 +4,7 @@ function eventErrorHandler () {
 
 function eventRenderHandler (event, element, view) {
   if (event.isHoliday) {
-    element.qtip({
+    element.tipTip({
       content: holidayLabel + ' ' + event.title
     });
     element.addClass('fc-nonbusiness booking-holiday');
@@ -13,13 +13,13 @@ function eventRenderHandler (event, element, view) {
     var totalDuration = event.duration;
     days += 1;
     totalDuration *= days;
+    var tooltip = '<div class="booking-tooltip-title">' + event.customerName + ' - ' + event.title + '</div>';
+    tooltip += '<div class="booking-tooltip-content">Total: ' + totalDuration + 'h' + '</div>';
 
-    element.qtip({
-      content: {
-        text: 'Total: ' + totalDuration + 'h',
-        title: event.customerName + ' - ' + event.title
-      }
+    element.tipTip({
+      content: tooltip
     });
+
     element.addClass('booking');
 
     if (view) {
@@ -48,7 +48,3 @@ function eventMouseoverHandler (event, jsEvent, view) {
 function eventMouseoutHandler (event, jsEvent, view) {
   $(this).removeClass('fc-highlighted');
 }
-
-function eventDestroyHandler (event, element, view) {
-  $(element).qtip('destroy', true);
-}  

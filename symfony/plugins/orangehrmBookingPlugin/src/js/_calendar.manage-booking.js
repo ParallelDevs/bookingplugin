@@ -172,7 +172,7 @@ function selectOverlapHandler (event) {
 }
 
 function dayClickHandler (date, jsEvent, view, resourceObj) {
-  scheduledTime = getResourceScheduledTime (resourceObj.id, date.format('YYYY-MM-DD'));
+  scheduledTime = getResourceScheduledTime(resourceObj.id, date.format('YYYY-MM-DD'));
 }
 
 function getResourceScheduledTime (resourceId, date) {

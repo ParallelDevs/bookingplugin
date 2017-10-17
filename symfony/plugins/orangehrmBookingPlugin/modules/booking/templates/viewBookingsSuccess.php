@@ -4,7 +4,6 @@ use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/moment.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/fullcalendar.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/scheduler.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/jquery.datetimepicker.full.min.js'));
-use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/jquery.qtip.min.js'));
 use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/viewBookings.js'));
 ?>
 

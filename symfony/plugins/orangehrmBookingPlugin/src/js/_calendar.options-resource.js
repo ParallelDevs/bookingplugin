@@ -40,7 +40,6 @@ var calendarOptions = {
   eventRender: eventRenderHandler,
   eventMouseover: eventMouseoverHandler,
   eventMouseout: eventMouseoutHandler,
-  eventDestroy: eventDestroyHandler,
   selectAllow: false,
   views: {
     timelineWeek: {
