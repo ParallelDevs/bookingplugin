@@ -1,0 +1,13 @@
+.booking-tooltip {
+  &-title,
+  &-content {
+    width: 100%;
+    font-size: 13px;
+    color: $color-light-gray;
+  }
+
+  &-title {
+    margin-bottom: 4px;
+  }
+}
+

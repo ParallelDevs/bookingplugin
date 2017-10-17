@@ -154,3 +154,11 @@
 
 .booking-resource-header *, .booking-resource-content * {
   text-transform: capitalize; }
+
+.booking-tooltip-title, .booking-tooltip-content {
+  width: 100%;
+  font-size: 13px;
+  color: #ddd; }
+
+.booking-tooltip-title {
+  margin-bottom: 4px; }
