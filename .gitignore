@@ -6,6 +6,8 @@
 !booking_install.*
 
 # Whitelist symfony plugins
+!symfony/
+symfony/*
 !symfony/plugins
 symfony/plugins/*
 !symfony/plugins/orangehrmBookingPlugin
