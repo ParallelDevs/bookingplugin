@@ -5,17 +5,6 @@
 !.gitignore
 !booking_install.*
 
-# Whitelist symfony models
-!symfony/
-symfony/*
-!symfony/lib
-symfony/lib/*
-!symfony/lib/model
-symfony/lib/model/*
-!symfony/lib/model/doctrine
-symfony/lib/model/doctrine/*
-!symfony/lib/model/doctrine/orangehrmBookingPlugin
-
 # Whitelist symfony plugins
 !symfony/plugins
 symfony/plugins/*
