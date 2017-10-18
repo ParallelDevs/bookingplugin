@@ -38,23 +38,26 @@ ALTER TABLE `ohrm_booking`
 INSERT INTO hs_hr_config (`key`, `value`) VALUES
 ('booking.company_breaks_time', 0);
 
+-- Plugin Roles
+INSERT INTO ohrm_user_role (`name`, `display_name`, `is_assignable`, `is_predefined`) VALUES
+('Customer','Customer', 1, 1);
+
 -- Plugin setup
 INSERT INTO ohrm_module (`name`, `status`) VALUES
 ('booking', 1);
-SET @booking_module_id := (SELECT LAST_INSERT_ID());
 
 -- Screens
+SET @booking_module_id := (SELECT `id` FROM ohrm_module WHERE `name` = 'booking');
 INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
 ('Configure Booking', @booking_module_id, 'configureBooking'),
 ('Bookable Resources', @booking_module_id, 'viewBookableResources'),
 ('Add Bookable Resource', @booking_module_id, 'addBookableResource'),
 ('Bookable Resource', @booking_module_id, 'viewBookableResource'),
 ('Bookings', @booking_module_id, 'viewBookings'),
-('Add Booking', @booking_module_id, 'addBooking'),
 ('My Schedule', @booking_module_id, 'viewMyBookings');
 
 -- Menus
-SET @view_my_booking_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'My Schedule');
+SET @view_my_booking_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'My Schedule');
 
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 ('Booking', NULL, NULL, 1, 1100, NULL, 1),
@@ -62,18 +65,16 @@ INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `or
 
 SET @booking_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Booking');
 SET @configure_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Configure Booking');
-SET @view_bookable_rs_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Bookable Resources');
-SET @view_bookable_detail_rs_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Bookable Resource');
-SET @add_bookable_rs_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Add Bookable Resource');
-SET @view_bookings_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Bookings');
-SET @add_booking_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'Add Booking');
+SET @view_bookable_rs_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Bookable Resources');
+SET @view_bookable_detail_rs_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Bookable Resource');
+SET @add_bookable_rs_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Add Bookable Resource');
+SET @view_bookings_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Bookings');
 
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 ('Configuration', @configure_screen_id, @booking_menu_id, 2, 100, NULL, 1),
 ('Bookable Resources', @view_bookable_rs_screen_id, @booking_menu_id, 2, 200, NULL, 1),
 ('Add Bookable Resource', @add_bookable_rs_screen_id, @booking_menu_id, 2, 300, NULL, 1),
-('Bookings', @view_bookings_screen_id, @booking_menu_id, 2, 400, NULL, 1),
-('Add Booking', @add_booking_screen_id, @booking_menu_id, 2, 500, NULL, 1);
+('Bookings', @view_bookings_screen_id, @booking_menu_id, 2, 400, NULL, 1);
 
 -- Permissions
 INSERT INTO ohrm_data_group (`name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
@@ -86,8 +87,12 @@ SET @data_group_booking_configure := (SELECT `id` FROM ohrm_data_group WHERE `na
 SET @data_group_booking_resources := (SELECT `id` FROM ohrm_data_group WHERE `name` = 'booking_resources');
 SET @data_group_booking_bookings := (SELECT `id` FROM ohrm_data_group WHERE `name` = 'booking_bookings');
 SET @data_group_booking_my_bookings := (SELECT `id` FROM ohrm_data_group WHERE `name` = 'booking_my_booking');
-
-SET @view_my_booking_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'My Schedule');
+SET @configure_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Configure Booking');
+SET @view_bookable_rs_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Bookable Resources');
+SET @view_bookable_detail_rs_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Bookable Resource');
+SET @add_bookable_rs_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Add Bookable Resource');
+SET @view_bookings_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Bookings');
+SET @view_my_booking_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'My Schedule');
 
 INSERT INTO ohrm_data_group_screen (`data_group_id`, `screen_id`, `permission`) VALUES
 (@data_group_booking_configure, @configure_screen_id, 1),
@@ -100,39 +105,34 @@ INSERT INTO ohrm_data_group_screen (`data_group_id`, `screen_id`, `permission`) 
 (@data_group_booking_resources, @view_bookable_detail_rs_screen_id, 1),
 (@data_group_booking_resources, @view_bookable_detail_rs_screen_id, 2),
 (@data_group_booking_resources, @view_bookable_detail_rs_screen_id, 3),
-(@data_group_booking_resources, @data_group_booking_my_bookings, 1),
+(@data_group_booking_resources, @view_my_booking_screen_id, 1),
 (@data_group_booking_bookings, @view_bookings_screen_id, 1),
 (@data_group_booking_bookings, @view_bookings_screen_id, 2),
 (@data_group_booking_bookings, @view_bookings_screen_id, 3),
-(@data_group_booking_bookings, @add_booking_screen_id, 1),
-(@data_group_booking_bookings, @add_booking_screen_id, 2),
-(@data_group_booking_bookings, @add_booking_screen_id, 3),
 (@data_group_booking_my_bookings, @view_my_booking_screen_id, 1);
 
--- Roles
+-- Roles setup
 SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
+SET @data_group_booking_configure := (SELECT `id` FROM ohrm_data_group WHERE `name` = 'booking_configuration');
+SET @data_group_booking_resources := (SELECT `id` FROM ohrm_data_group WHERE `name` = 'booking_resources');
+SET @data_group_booking_bookings := (SELECT `id` FROM ohrm_data_group WHERE `name` = 'booking_bookings');
 
 INSERT INTO ohrm_user_role_data_group (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
 (@admin_role_id, @data_group_booking_configure, 1, 1, 1, 1, 0),
 (@admin_role_id, @data_group_booking_resources, 1, 1, 1, 1, 0),
 (@admin_role_id, @data_group_booking_bookings, 1, 1, 1, 1, 0);
 
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
+SET @configure_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Configure Booking');
+SET @view_bookable_rs_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Bookable Resources');
+SET @view_bookable_detail_rs_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Bookable Resource');
+SET @add_bookable_rs_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Add Bookable Resource');
+SET @view_bookings_screen_id := (SELECT `id` FROM ohrm_screen WHERE `name` = 'Bookings');
+
 INSERT INTO ohrm_user_role_screen (`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES  
 (@admin_role_id, @configure_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @view_bookable_rs_screen_id, 1, 0, 0, 0),
 (@admin_role_id, @add_bookable_rs_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @view_bookable_detail_rs_screen_id, 1, 1, 1, 0),
-(@admin_role_id, @view_bookings_screen_id, 1, 1, 1, 1),
-(@admin_role_id, @add_booking_screen_id, 1, 1, 1, 0);
+(@admin_role_id, @view_bookings_screen_id, 1, 1, 1, 1);
 
-SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS');
-SET @view_my_booking_screen_id := (SELECT id FROM ohrm_screen WHERE name = 'My Schedule');
-SET @data_group_booking_my_bookings := (SELECT `id` FROM ohrm_data_group WHERE `name` = 'booking_my_booking');
-
-INSERT INTO ohrm_user_role_data_group (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
-(@ess_role_id, @data_group_booking_resources, 1, 0, 0, 0, 0),
-(@ess_role_id, @data_group_booking_bookings, 1, 0, 0, 0, 0),
-(@ess_role_id, @data_group_booking_my_bookings, 1, 0, 0, 0, 0);
-
-INSERT INTO ohrm_user_role_screen (`user_role_id`, `screen_id`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES  
-(@ess_role_id, @view_my_booking_screen_id, 1, 0, 0, 0);
