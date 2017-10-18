@@ -38,10 +38,6 @@ ALTER TABLE `ohrm_booking`
 INSERT INTO hs_hr_config (`key`, `value`) VALUES
 ('booking.company_breaks_time', 0);
 
--- Plugin Roles
-INSERT INTO ohrm_user_role (`name`, `display_name`, `is_assignable`, `is_predefined`) VALUES
-('Customer','Customer', 1, 1);
-
 -- Plugin setup
 INSERT INTO ohrm_module (`name`, `status`) VALUES
 ('booking', 1);
