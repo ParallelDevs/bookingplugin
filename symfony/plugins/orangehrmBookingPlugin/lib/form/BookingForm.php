@@ -108,31 +108,6 @@ class BookingForm extends BaseBookingForm {
 
   /**
    *
-   * @return array
-   */
-  protected function getDefaultValues() {
-    $defaults = array(
-      'bookingId' => $this->booking->getBookingId(),
-      'startDate' => $this->booking->getStartDate(),
-      'endDate' => $this->booking->getEndDate(),
-      'customerId' => $this->booking->getCustomerId(),
-      'projectId' => $this->booking->getProjectId(),
-      'hours' => $this->booking->getHours(),
-      'minutes' => $this->booking->getMinutes(),
-      'startTime' => $this->booking->getStartTime(),
-      'endTime' => $this->booking->getEndTime(),
-      'bookingColor' => $this->booking->getBookingColor(),
-      'bookableId' => $this->booking->getBookableId(),
-      'bookableName' => $this->bookableName,
-      'minStartTime' => $this->minStartTime,
-      'maxEndTime' => $this->maxEndTime,
-      'workingDays' => $this->workingDays,
-    );
-    return $defaults;
-  }
-
-  /**
-   *
    * @param type $booking
    * @param type $values
    */
@@ -182,7 +157,7 @@ class BookingForm extends BaseBookingForm {
   }
 
   /**
-   * 
+   *
    * @param type $id
    * @return \Booking
    */
