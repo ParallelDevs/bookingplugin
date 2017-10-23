@@ -14,6 +14,7 @@
 class ConfigBookingService extends BaseService {
 
   const COMPANY_BREAKS_TIME = 'booking.company_breaks_time';
+  const COMPANY_NOTIFICATION_EMAIL = 'booking.notification_email';
 
   private $configDao;
 
@@ -51,6 +52,18 @@ class ConfigBookingService extends BaseService {
    */
   public function setCompanyBreaksTime($breaksTime) {
     return $this->getConfigDao()->setValue(self::COMPANY_BREAKS_TIME, $breaksTime);
+  }
+
+  /**
+   * 
+   * @return type
+   */
+  public function getNotificationEmail() {
+    return $this->getConfigDao()->getValue(self::COMPANY_NOTIFICATION_EMAIL);
+  }
+
+  public function setNotificationEmail($email = '') {
+    return $this->getConfigDao()->setValue(self::COMPANY_NOTIFICATION_EMAIL, $email);
   }
 
 }
