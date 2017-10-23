@@ -1,5 +1,5 @@
 var calendarOptions = {
-  schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+  schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
   now: moment().startOf('day'),
   defaultDate: moment().format('YYYY-MM-DD'),
   firstDay: 1,

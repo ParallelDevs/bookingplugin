@@ -1,5 +1,5 @@
 var calendarOptions = {
-  schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+  schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
   now: moment().startOf('day'),
   selectable: false,
   selectHelper: false,
