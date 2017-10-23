@@ -44,7 +44,8 @@ To view this booking, please login to OrangeHRM.
 
 Thank you.
 
-This is an automated notification.');
+This is an automated notification.'),
+('booking.notification_subject','Booking Notification - Booking for %projectName%');
 
 -- Plugin setup
 INSERT INTO ohrm_module (`name`, `status`) VALUES
