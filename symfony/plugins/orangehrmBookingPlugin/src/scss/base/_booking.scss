@@ -1,0 +1,34 @@
+.fc {
+  &-nonbusiness {
+    opacity: .75;
+    &.holiday {
+      opacity: .65;
+    }
+  }
+
+  &-highlighted {
+    border-width: 2px;
+    font-weight: bolder;
+    font-size: 1em;
+  }
+
+  &-timeline-event {
+    &.booking {
+      opacity: .8;
+
+      &.fc-highlighted {
+        opacity: 1;
+      }
+
+      & .fc-title {
+        &::before {
+          content: none !important;
+        }
+      }
+    }
+  }
+  
+  &-button {
+    text-transform: capitalize;
+  }
+}

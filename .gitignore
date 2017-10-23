@@ -1,0 +1,13 @@
+# Blacklist files/folders in same directory as the .gitignore file
+/*
+
+# Whitelist some files
+!.gitignore
+!booking_install.*
+
+# Whitelist symfony plugins
+!symfony/
+symfony/*
+!symfony/plugins
+symfony/plugins/*
+!symfony/plugins/orangehrmBookingPlugin

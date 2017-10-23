@@ -1,0 +1,1 @@
+$(document).ready(function(){$(".editable").each(function(){$(this).attr("disabled","disabled")}),$("#btnSave").click(function(){if($("#btnSave").attr("value")==edit)return $(".editable").each(function(){$(this).removeAttr("disabled")}),void $("#btnSave").attr("value",save);$("#btnSave").attr("value")==save&&$("#frmBookable").submit()})});

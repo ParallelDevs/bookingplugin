@@ -1,0 +1,3 @@
+# ignore nodejs folder
+node_modules
+*.css.map

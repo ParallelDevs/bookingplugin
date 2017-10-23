@@ -1,0 +1,164 @@
+/*!
+ * OrangehrmBookingPlugin v1.0.0 Stylesheet * 
+ * (c) 2017 ParallelDevs.com
+ */
+#script-warning, #loading {
+  display: none; }
+
+.form-booking-plugin label {
+  position: relative; }
+
+#loading {
+  position: absolute; }
+
+#script-warning {
+  text-align: center; }
+
+#calendar {
+  width: auto; }
+
+.form-booking-plugin label {
+  top: 8px; }
+
+.form-booking-plugin input {
+  margin-right: 10px; }
+
+.form-booking-plugin .hidden-fields {
+  display: none; }
+
+.form-booking-plugin .input-date {
+  width: 100px; }
+
+.form-booking-plugin .input-time {
+  width: 80px; }
+
+.form-booking-plugin .input-hours, .form-booking-plugin .input-minutes {
+  width: 50px; }
+
+.form-booking-plugin .error-field {
+  color: #aa4935;
+  border-color: #aa4935;
+  border-width: thin; }
+
+.form-booking-plugin .text-read-only {
+  background: transparent; }
+
+.form-booking-plugin .booking-date label:last-of-type {
+  width: auto;
+  min-width: 50px; }
+
+.form-booking-plugin .booking-date .validation-error:nth-of-type(1) {
+  left: 150px; }
+
+.form-booking-plugin .booking-date .validation-error:nth-of-type(2) {
+  left: 325px; }
+
+.form-booking-plugin .booking-duration .time-label {
+  float: left;
+  margin-right: 10px;
+  font-size: 1.5em;
+  position: relative;
+  top: 3px; }
+
+.form-booking-plugin .booking-duration input {
+  margin-right: 0; }
+
+.form-booking-plugin .booking-duration .validation-error {
+  left: 240px; }
+  .form-booking-plugin .booking-duration .validation-error:nth-of-type(1) {
+    left: 150px; }
+
+.form-booking-plugin .btn {
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  background-color: #0162b3;
+  color: #eee;
+  padding: 5px 10px;
+  text-decoration: none; }
+
+.booking.modal .form-booking-plugin ol li {
+  margin: 3px 0 22px 0; }
+
+.booking.modal .form-booking-plugin .input-date {
+  width: 90px;
+  display: inline-block;
+  margin-right: 5px; }
+  .booking.modal .form-booking-plugin .input-date:last-of-type {
+    margin-right: auto; }
+
+.booking.modal .form-booking-plugin .booking-date label:last-of-type {
+  min-width: 16px;
+  margin-right: 5px; }
+
+.booking.modal .form-booking-plugin .booking-duration .time-label {
+  top: 5px; }
+
+.booking.modal .form-booking-plugin .validation-error {
+  width: 100%;
+  left: 115px; }
+  .booking.modal .form-booking-plugin .validation-error.endDate, .booking.modal .form-booking-plugin .validation-error.minutes {
+    top: 31px; }
+
+#calendar {
+  max-width: 100%;
+  margin: 50px auto; }
+
+#script-warning {
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  padding: 0 10px;
+  line-height: 40px;
+  font-weight: bold;
+  font-size: 12px;
+  color: #ff0000; }
+
+#loading {
+  top: 10px;
+  right: 10px; }
+
+.fc-nonbusiness {
+  opacity: .75; }
+  .fc-nonbusiness.holiday {
+    opacity: .65; }
+
+.fc-highlighted {
+  border-width: 2px;
+  font-weight: bolder;
+  font-size: 1em; }
+
+.fc-timeline-event.booking {
+  opacity: .8; }
+  .fc-timeline-event.booking.fc-highlighted {
+    opacity: 1; }
+  .fc-timeline-event.booking .fc-title::before {
+    content: none !important; }
+
+.fc-button {
+  text-transform: capitalize; }
+
+.booking-resource-inactive {
+  opacity: .75;
+  background: #d7d7d7; }
+
+.booking-resource-active, .booking-resource-inactive {
+  font-weight: normal; }
+
+.booking-resource-header {
+  font-size: 1.05em; }
+
+.booking-resource-header.hidden, .booking-resource-content.hidden {
+  display: none; }
+
+.booking-resource-header *, .booking-resource-content * {
+  text-transform: capitalize; }
+
+.booking-tooltip-title, .booking-tooltip-content {
+  width: 100%;
+  font-size: 13px;
+  color: #ddd; }
+
+.booking-tooltip-title {
+  margin-bottom: 4px; }

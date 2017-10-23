@@ -1,0 +1,3 @@
+all:
+  orangehrmBookingPlugin:
+    version: '1.0'

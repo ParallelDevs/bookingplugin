@@ -1,0 +1,9 @@
+Booking:
+  pluginName: orangehrmBookingPlugin
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data  
+  assets: []
+  jsInitMethods: []
