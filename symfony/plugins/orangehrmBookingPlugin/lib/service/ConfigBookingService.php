@@ -62,6 +62,11 @@ class ConfigBookingService extends BaseService {
     return $this->getConfigDao()->getValue(self::COMPANY_NOTIFICATION_EMAIL);
   }
 
+  /**
+   * 
+   * @param type $email
+   * @return type
+   */
   public function setNotificationEmail($email = '') {
     return $this->getConfigDao()->setValue(self::COMPANY_NOTIFICATION_EMAIL, $email);
   }
