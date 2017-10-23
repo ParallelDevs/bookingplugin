@@ -65,9 +65,12 @@ class configureBookingAction extends baseBookingAction {
 
         $breaks = $this->form->getValue('breaksTime');
         $notificationEmail = $this->form->getValue('notificationEmail');
+        $notificationSubject = $this->form->getValue('notificationSubject');
+        
         try {
           $this->getConfigBookingService()->setCompanyBreaksTime($breaks);
           $this->getConfigBookingService()->setNotificationEmail($notificationEmail);
+          $this->getConfigBookingService()->setNotificationSubject($notificationSubject);
           $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
           $this->redirect('booking/configureBooking');
         }
