@@ -36,6 +36,7 @@ class saveBookingAction extends baseBookingAction {
         $this->form->save();
         $response['success'] = true;
         $response['errors'] = array();
+        $this->sendNotification();
       }
       catch (Exception $e) {
         $response['success'] = false;
@@ -51,6 +52,21 @@ class saveBookingAction extends baseBookingAction {
           'message' => $error->getMessage(),
         );
       }
+    }
+  }
+
+  /**
+   * 
+   */
+  private function sendNotification() {
+    $notify = $this->form->getValue('notify');
+
+    if (!empty($notify)) {
+      $eventData = array(
+        'bookableId' => $this->form->getValue('bookableId'),
+        'projectId' => $this->form->getValue('projectId'),
+      );
+      $this->getDispatcher()->notify(new sfEvent($this, BookingEvents::BOOKING_SAVE, $eventData));
     }
   }
 
