@@ -36,7 +36,15 @@ ALTER TABLE `ohrm_booking`
 
 -- Plugin settings
 INSERT INTO hs_hr_config (`key`, `value`) VALUES
-('booking.company_breaks_time', 0);
+('booking.company_breaks_time', 0),
+('booking.notification_email', 'Hi %employeeFirstName%,
+
+You have been booked for the project %projectName%.
+To view this booking, please login to OrangeHRM.
+
+Thank you.
+
+This is an automated notification.');
 
 -- Plugin setup
 INSERT INTO ohrm_module (`name`, `status`) VALUES
