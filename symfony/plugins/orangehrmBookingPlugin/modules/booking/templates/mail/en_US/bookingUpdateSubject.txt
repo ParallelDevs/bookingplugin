@@ -1,0 +1,1 @@
+Booking Notification - Changed Booking for %projectName%

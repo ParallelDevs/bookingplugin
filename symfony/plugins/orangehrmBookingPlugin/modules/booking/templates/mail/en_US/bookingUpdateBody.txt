@@ -1,0 +1,8 @@
+Hi %employeeFirstName%,
+
+Your booking for the project %projectName% has been changed.
+To view this booking, please login to OrangeHRM.
+
+Thank you.
+
+This is an automated notification.
