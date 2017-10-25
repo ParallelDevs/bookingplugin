@@ -70,9 +70,7 @@ function ajaxDeleteBooking () {
   $.ajax({
     type: "POST",
     url: deleteBookingUrl,
-    data: {
-      "bookingId": bookingId
-    },
+    data: $('.form-booking-plugin').serialize(),
     cache: false,
     success: successBookingForm,
     dataType: "json",
