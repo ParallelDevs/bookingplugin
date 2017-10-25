@@ -14,9 +14,11 @@ class orangehrmBookingPluginConfiguration extends sfPluginConfiguration {
     if (is_array($enabledModules)) {
       sfConfig::set('sf_enabled_modules', array_merge(sfConfig::get('sf_enabled_modules'), array('booking')));
     }
-    
+
     if (!self::$eventsBound) {
-      $this->dispatcher->connect(BookingEvents::BOOKING_SAVE, array(new BookingMailer(), 'listen'));
+      $this->dispatcher->connect(BookingEvents::BOOKING_ADD, array(new BookingMailer(), 'listen'));
+      $this->dispatcher->connect(BookingEvents::BOOKING_UPDATE, array(new BookingMailer(), 'listen'));
+      $this->dispatcher->connect(BookingEvents::BOOKING_DELETE, array(new BookingMailer(), 'listen'));
       self::$eventsBound = true;
     }
   }

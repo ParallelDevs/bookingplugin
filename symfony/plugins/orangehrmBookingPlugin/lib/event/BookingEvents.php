@@ -12,5 +12,9 @@
  * @author pdev
  */
 class BookingEvents {
-  const BOOKING_SAVE = 'booking.save';  
+
+  const BOOKING_ADD = 'booking.add';
+  const BOOKING_UPDATE = 'booking.update';
+  const BOOKING_DELETE = 'booking.delete';
+
 }
