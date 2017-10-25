@@ -60,13 +60,16 @@ class saveBookingAction extends baseBookingAction {
    */
   private function sendNotification() {
     $notify = $this->form->getValue('notify');
+    $bookingId = $this->form->getValue('bookingId');
 
     if (!empty($notify)) {
+      $eventType = empty($bookingId) ? BookingEvents::BOOKING_ADD : BookingEvents::BOOKING_UPDATE;
       $eventData = array(
         'bookableId' => $this->form->getValue('bookableId'),
         'projectId' => $this->form->getValue('projectId'),
+        'actionType' => $eventType,
       );
-      $this->getDispatcher()->notify(new sfEvent($this, BookingEvents::BOOKING_SAVE, $eventData));
+      $this->getDispatcher()->notify(new sfEvent($this, $eventType, $eventData));
     }
   }
 
