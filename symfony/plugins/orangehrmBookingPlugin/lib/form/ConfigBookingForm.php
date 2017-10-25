@@ -7,10 +7,7 @@
  */
 class ConfigBookingForm extends sfForm {
 
-  private $configBookingService;
-  private $breaksTime;
-  private $notificationEmail;
-  private $notificationSubject;
+  private $configBookingService;  
 
   /**
    *
@@ -34,21 +31,15 @@ class ConfigBookingForm extends sfForm {
 
   public function configure() {
     $this->setWidgets(array(
-      'breaksTime' => new sfWidgetFormInputText(array(), array('placeholder' => __('Breaks Time in Hours'))),
-      'notificationSubject' => new sfWidgetFormInputText(array(), array('placeholder' => __('Notification Subject'))),
-      'notificationEmail' => new sfWidgetFormTextarea(array(), array())
+      'breaksTime' => new sfWidgetFormInputText(array(), array('placeholder' => __('Breaks Time in Hours'))),      
     ));
     
     $this->setDefaults(array(
-      'breaksTime' => $this->getConfigBookingService()->getCompanyBreaksTime(),
-      'notificationEmail' => $this->getConfigBookingService()->getNotificationEmail(),
-      'notificationSubject' => $this->getConfigBookingService()->getNotificationSubject(),
+      'breaksTime' => $this->getConfigBookingService()->getCompanyBreaksTime(),      
     ));
 
     $this->setValidators(array(
-      'breaksTime' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
-      'notificationEmail' => new sfValidatorString(array('required' => true)),
-      'notificationSubject' => new sfValidatorString(array('required' => true)),
+      'breaksTime' => new sfValidatorNumber(array('required' => true, 'min' => 0)),      
     ));
 
     $formExtension = PluginFormMergeManager::instance();
@@ -63,9 +54,7 @@ class ConfigBookingForm extends sfForm {
   protected function getFormLabels() {
 
     $labels = array(
-      'breaksTime' => __('Breaks Time'),
-      'notificationSubject' => __('Notification Subject'),
-      'notificationEmail' => __('Notification Email'),
+      'breaksTime' => __('Breaks Time'),      
     );
     return $labels;
   }
