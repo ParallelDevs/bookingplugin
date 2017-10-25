@@ -36,18 +36,29 @@ ALTER TABLE `ohrm_booking`
 
 -- Plugin settings
 INSERT INTO hs_hr_config (`key`, `value`) VALUES
-('booking.company_breaks_time', 0),
-('booking.notification_email', 'Hi %employeeFirstName%,
-
-You have been booked for the project %projectName%.
-To view this booking, please login to OrangeHRM.
-
-Thank you.
-
-This is an automated notification.'),
-('booking.notification_subject','Booking Notification - Booking for %projectName%');
+('booking.company_breaks_time', 0);
 
 -- Plugin setup
+
+INSERT INTO ohrm_email (`name`) VALUES
+('booking.add'),
+('booking.update'),
+('booking.delete');
+
+SET @booking_email_add_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'booking.add');
+SET @booking_email_update_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'booking.update');
+SET @booking_email_delete_id := (SELECT `id` FROM ohrm_email WHERE `name` = 'booking.delete');
+
+INSERT INTO ohrm_email_processor (`email_id`, `class_name`) VALUES 
+(@booking_email_add_id, 'BookingMailProcessor'),
+(@booking_email_update_id, 'BookingMailProcessor'),
+(@booking_email_delete_id, 'BookingMailProcessor');
+
+INSERT INTO ohrm_email_template (`email_id`, `locale`, `performer_role`, `recipient_role`, `subject`, `body`) VALUES
+(@booking_email_add_id, 'en_US', NULL, 'ess','orangehrmBookingPlugin/modules/booking/templates/mail/en_US/bookingAddSubject.txt', 'orangehrmBookingPlugin/modules/booking/templates/mail/en_US/bookingAddBody.txt'),
+(@booking_email_update_id, 'en_US', NULL, 'ess','orangehrmBookingPlugin/modules/booking/templates/mail/en_US/bookingUpdateSubject.txt', 'orangehrmBookingPlugin/modules/booking/templates/mail/en_US/bookingUpdateBody.txt'),
+(@booking_email_delete_id, 'en_US', NULL, 'ess','orangehrmBookingPlugin/modules/booking/templates/mail/en_US/bookingDeleteSubject.txt', 'orangehrmBookingPlugin/modules/booking/templates/mail/en_US/bookingDeleteBody.txt');
+
 INSERT INTO ohrm_module (`name`, `status`) VALUES
 ('booking', 1);
 
