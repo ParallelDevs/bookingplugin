@@ -16,6 +16,7 @@ abstract class baseBookingAction extends sfAction {
   private $customerService;
   private $projectService;
   private $configBookingService;
+  private $licenseBookingService;
 
   /**
    *
@@ -134,6 +135,25 @@ abstract class baseBookingAction extends sfAction {
    */
   public function setProjectService(ProjectService $projectService) {
     $this->projectService = $projectService;
+  }
+
+  /**
+   * 
+   * @return type
+   */
+  public function getLicenseBookingService() {
+    if (!$this->licenseBookingService instanceof LicenseBookingService) {
+      $this->licenseBookingService = new LicenseBookingService();
+    }
+    return $this->licenseBookingService;
+  }
+
+  /**
+   * 
+   * @param LicenseBookingService $licenseService
+   */
+  public function setLicenseBookingService(LicenseBookingService $licenseService) {
+    $this->licenseBookingService = $licenseService;
   }
 
   /**
