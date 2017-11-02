@@ -38,6 +38,11 @@ ALTER TABLE `ohrm_booking`
 INSERT INTO hs_hr_config (`key`, `value`) VALUES
 ('booking.company_breaks_time', 0);
 
+INSERT INTO hs_hr_config (`key`, `value`) VALUES
+('booking.license_email', ''),
+('booking.license_key', ''),
+('booking.license_secret', '');
+
 -- Plugin setup
 
 INSERT INTO ohrm_email (`name`) VALUES
