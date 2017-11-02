@@ -14,8 +14,9 @@
 class ConfigBookingService extends BaseService {
 
   const COMPANY_BREAKS_TIME = 'booking.company_breaks_time';
-  const COMPANY_NOTIFICATION_EMAIL = 'booking.notification_email';
-  const COMPANY_NOTIFICATION_SUBJECT = 'booking.notification_subject';
+  const LICENSE_EMAIL = 'booking.license_email';
+  const LICENSE_KEY = 'booking.license_key';
+  const LICENSE_SECRET = 'booking.license_secret';
 
   private $configDao;
 
@@ -56,37 +57,54 @@ class ConfigBookingService extends BaseService {
   }
 
   /**
-   * 
+   *
    * @return type
    */
-  public function getNotificationEmail() {
-    return $this->getConfigDao()->getValue(self::COMPANY_NOTIFICATION_EMAIL);
+  public function getLicenseEmail() {
+    return $this->getConfigDao()->getValue(self::LICENSE_EMAIL);
   }
 
   /**
-   * 
+   *
    * @param type $email
    * @return type
    */
-  public function setNotificationEmail($email = '') {
-    return $this->getConfigDao()->setValue(self::COMPANY_NOTIFICATION_EMAIL, $email);
+  public function setLicenseEmail($email = '') {
+    return $this->getConfigDao()->setValue(self::LICENSE_EMAIL, $email);
   }
 
   /**
-   * 
+   *
    * @return type
    */
-  public function getNotificationSubject() {
-    return $this->getConfigDao()->getValue(self::COMPANY_NOTIFICATION_SUBJECT);
+  public function getLicenseKey() {
+    return $this->getConfigDao()->getValue(self::LICENSE_KEY);
   }
 
   /**
-   * 
-   * @param type $subject
+   *
+   * @param type $license_key
    * @return type
    */
-  public function setNotificationSubject($subject) {
-    return $this->getConfigDao()->setValue(self::COMPANY_NOTIFICATION_SUBJECT, $subject);
+  public function setLicenseKey($license_key = '') {
+    return $this->getConfigDao()->setValue(self::LICENSE_KEY, $license_key);
+  }
+
+  /**
+   *
+   * @return type
+   */
+  public function getLicenseSecret() {
+    return $this->getConfigDao()->getValue(self::LICENSE_SECRET);
+  }
+
+  /**
+   *
+   * @param type $secret
+   * @return type
+   */
+  public function setLicenseSecret($secret = '') {
+    return $this->getConfigDao()->setValue(self::LICENSE_SECRET, $secret);
   }
 
 }
