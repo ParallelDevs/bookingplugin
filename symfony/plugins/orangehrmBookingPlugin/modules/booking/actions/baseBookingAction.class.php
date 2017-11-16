@@ -10,13 +10,13 @@ abstract class baseBookingAction extends sfAction {
   protected $bookablePermissions;
   protected $bookingPermissions;
   protected $bookingConfigurationPermissions;
-  private $bookableService;
-  private $bookingService;
-  private $employeeService;
-  private $customerService;
-  private $projectService;
-  private $configBookingService;
-  private $licenseBookingService;
+  protected $bookableService;
+  protected $bookingService;
+  protected $employeeService;
+  protected $customerService;
+  protected $projectService;
+  protected $configBookingService;
+  protected $licenseBookingService;
 
   /**
    *
