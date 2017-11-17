@@ -5,7 +5,7 @@
  *
  * @author amora
  */
-class getBookingFormAction extends baseBookingAction {
+class getBookingFormAction extends baseBookingUIAction {
 
   /**
    *

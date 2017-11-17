@@ -17,6 +17,7 @@ abstract class baseBookingAction extends sfAction {
   protected $projectService;
   protected $configBookingService;
   protected $licenseBookingService;
+  protected $licenseIsValid = false;
 
   /**
    *
@@ -138,7 +139,7 @@ abstract class baseBookingAction extends sfAction {
   }
 
   /**
-   * 
+   *
    * @return type
    */
   public function getLicenseBookingService() {
@@ -149,7 +150,7 @@ abstract class baseBookingAction extends sfAction {
   }
 
   /**
-   * 
+   *
    * @param LicenseBookingService $licenseService
    */
   public function setLicenseBookingService(LicenseBookingService $licenseService) {
@@ -157,7 +158,7 @@ abstract class baseBookingAction extends sfAction {
   }
 
   /**
-   * 
+   *
    * @param type $dataGroups
    * @return type
    */
@@ -166,7 +167,7 @@ abstract class baseBookingAction extends sfAction {
   }
 
   /**
-   * 
+   *
    * @return type
    */
   public function getDispatcher() {
@@ -282,6 +283,17 @@ abstract class baseBookingAction extends sfAction {
    */
   protected function getSearchParameterHolder() {
     return null;
+  }
+
+  /**
+   *
+   */
+  protected function checkLicense() {
+    $email = $this->getConfigBookingService()->getLicenseEmail();
+    $key = $this->getConfigBookingService()->getLicenseKey();
+    $secret = $this->getConfigBookingService()->getLicenseSecret();
+    $response = $this->getLicenseBookingService()->checkLicense($email, $key, $secret);
+    $this->licenseIsValid = ('active' !== $response->status) ? false : true;
   }
 
 }
