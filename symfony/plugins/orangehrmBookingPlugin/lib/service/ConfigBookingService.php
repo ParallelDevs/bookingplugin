@@ -107,4 +107,15 @@ class ConfigBookingService extends BaseService {
     return $this->getConfigDao()->setValue(self::LICENSE_SECRET, $secret);
   }
 
+  /**
+   *
+   * @return type
+   */
+  public function isLicenseSet() {
+    $licenseEmail = $this->getLicenseEmail();
+    $licenseKey = $this->getLicenseKey();
+    $licenseSecret = $this->getLicenseSecret();
+    return !empty($licenseEmail) && !empty($licenseKey) && !empty($licenseSecret) ? true : false;
+  }
+
 }
