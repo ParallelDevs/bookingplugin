@@ -49,7 +49,7 @@ class LicenseBookingService extends BaseService {
   }
 
   /**
-   * 
+   *
    * @param type $licenseKey
    * @param type $licenseSecret
    * @return type
