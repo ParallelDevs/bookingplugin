@@ -32,8 +32,7 @@ class LicenseBookingForm extends sfForm {
   public function configure() {
     $actions = array(
       'activate' => 'Activate',
-      'check' => 'Check',
-      'delete' => 'Delete',
+      'check' => 'Check',      
     );
 
     $this->setWidgets(array(
@@ -57,8 +56,7 @@ class LicenseBookingForm extends sfForm {
       'licenseAction' => new sfValidatorChoice(array(
         'choices' => array(
           'activate',
-          'check',
-          'delete',
+          'check',          
         ),
           )),
     ));
