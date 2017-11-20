@@ -1,3 +1,7 @@
 all:
   orangehrmBookingPlugin:
     version: '1.0'
+    activation:
+      name: OrangeHRM Booking
+      url: ''
+      request_key: ''
