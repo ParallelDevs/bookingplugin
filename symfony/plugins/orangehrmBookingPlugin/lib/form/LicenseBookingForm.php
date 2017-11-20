@@ -30,9 +30,20 @@ class LicenseBookingForm extends sfForm {
   }
 
   public function configure() {
+    $actions = array(
+      'activate' => 'Activate',
+      'check' => 'Check',
+      'delete' => 'Delete',
+    );
+
     $this->setWidgets(array(
       'email' => new sfWidgetFormInputText(array(), array('placeholder' => __('Email'))),
       'licenseKey' => new sfWidgetFormInputText(array(), array('placeholder' => __('License Key'))),
+      'licenseAction' => new sfWidgetFormChoice(array(
+        'expanded' => true,
+        'choices' => $actions,
+        'default' => 'activate',
+          )),
     ));
 
     $this->setDefaults(array(
@@ -43,6 +54,13 @@ class LicenseBookingForm extends sfForm {
     $this->setValidators(array(
       'email' => new sfValidatorEmail(array('required' => true)),
       'licenseKey' => new sfValidatorString(array('required' => true)),
+      'licenseAction' => new sfValidatorChoice(array(
+        'choices' => array(
+          'activate',
+          'check',
+          'delete',
+        ),
+          )),
     ));
 
     $formExtension = PluginFormMergeManager::instance();
@@ -59,6 +77,7 @@ class LicenseBookingForm extends sfForm {
     $labels = array(
       'email' => __('Email'),
       'licenseKey' => __('License Key'),
+      'licenseAction' => __('Action'),
     );
     return $labels;
   }
