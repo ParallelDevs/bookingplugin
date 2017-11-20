@@ -72,26 +72,27 @@ class LicenseBookingService extends BaseService {
   }
 
   protected function sendApiRequest($data, $url) {
+    $postData = http_build_query($data);
     try {
       $ch = curl_init();
       curl_setopt($ch, CURLOPT_URL, $url);
       curl_setopt($ch, CURLOPT_POST, 1);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
-      $rawResponse = curl_exec($ch);
+      $response = curl_exec($ch);
       curl_close($ch);
 
-      $responseObj = json_decode($rawResponse);
-      if ($responseObj === false) {
-        $responseObj = json_decode('{}');
+      $responseJson = json_decode($response);
+      if ($responseJson === false) {
+        $response = json_encode(new stdClass());
       }
     }
     catch (Exception $e) {
-      $responseObj = json_decode('{}');
+      $response = json_encode(new stdClass());
     }
-    return $responseObj;
+    return $response;
   }
 
 }
