@@ -21,7 +21,7 @@ class licenseBookingAction extends baseBookingAction {
    * 
    * @param type $request
    */
-  public function execute($request) {    
+  public function execute($request) {
     $this->setForm(new LicenseBookingForm());
 
     if ($request->isMethod('post')) {
@@ -39,15 +39,19 @@ class licenseBookingAction extends baseBookingAction {
   private function activatePlugin($request) {
     $email = $this->form->getValue('email');
     $licenseKey = $this->form->getValue('licenseKey');
-    $licenseData = $this->getLicenseBookingService()->activateLicense($email,$licenseKey);
-    
+    $response = $this->getLicenseBookingService()->activateLicense($email, $licenseKey);
+    $licenseData = json_decode($response);
+
+    $this->getConfigBookingService()->setLicenseEmail($email);
+    $this->getConfigBookingService()->setLicenseKey($licenseKey);
+
     if ($licenseData->result == 'success') {
-      $this->getConfigBookingService()->setLicenseEmail($email);
-      $this->getConfigBookingService()->setLicenseKey($licenseKey);
       $this->getConfigBookingService()->setLicenseSecret($licenseData->secret);
       $this->getUser()->setFlash('success', __($licenseData->message));
       $this->redirect('booking/configureBooking');
-    }else {
+    }
+    else {
+      $this->getConfigBookingService()->setLicenseSecret('');
       $this->getUser()->setFlash('error', __($licenseData->message));
     }
   }
