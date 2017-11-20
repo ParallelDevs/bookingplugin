@@ -289,11 +289,50 @@ abstract class baseBookingAction extends sfAction {
    *
    */
   protected function checkLicense() {
+    $this->licenseIsValid = false;
+    $cacheDir = sfConfig::get('sf_cache_dir');
+    $cacheDir .= '/' . sfContext::getInstance()->getConfiguration()->getApplication();
+    $cacheDir .= '/' . sfContext::getInstance()->getConfiguration()->getEnvironment();
+    $fileCache = new sfFileCache(array(
+      'cache_dir' => $cacheDir,
+    ));
+
+    if ($fileCache->has('booking-license')) {
+      $result = $fileCache->get('booking-license', '{}');
+      $license = json_decode($result);
+
+      $this->licenseIsValid = (is_object($license) &&
+          isset($license->status) &&
+          'active' !== $license->status) ? false : true;
+    }
+
+    if (!$this->licenseIsValid) {
+      $license = $this->checkRemoteLicense();
+      $this->licenseIsValid = (is_object($license) &&
+          isset($license->status) &&
+          'active' !== $license->status) ? false : true;
+
+      $data = (array(
+        'status' => $this->licenseIsValid ? 'active' : '',
+        'response' => $license,
+      ));
+      $data = json_encode($data);
+      $duration = $this->licenseIsValid ? 86400: 180;
+      $fileCache->set('booking-license', $data, $duration);
+    }
+  }
+
+  /**
+   * 
+   * @return type
+   */
+  protected function checkRemoteLicense() {
     $email = $this->getConfigBookingService()->getLicenseEmail();
     $key = $this->getConfigBookingService()->getLicenseKey();
     $secret = $this->getConfigBookingService()->getLicenseSecret();
     $response = $this->getLicenseBookingService()->checkLicense($email, $key, $secret);
-    $this->licenseIsValid = ('active' !== $response->status) ? false : true;
+    $license = json_decode($response);
+    return $license;
   }
 
 }
