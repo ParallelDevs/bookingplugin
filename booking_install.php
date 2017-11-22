@@ -7,7 +7,7 @@
  */
 function install_booking_plugin($root_dir, $key = '', $email = '', $domain = '') {
   chdir("$root_dir/symfony");
-  $command = "php ./symfony orangehrmBookingPlugin:activate-plugin ";
+  $command = "php ./symfony orangehrmBooking:activate ";
   $command .= " --key=$key --email=$email --domain=$domain 2>&1";
   $output = array();
   $status = 0;
