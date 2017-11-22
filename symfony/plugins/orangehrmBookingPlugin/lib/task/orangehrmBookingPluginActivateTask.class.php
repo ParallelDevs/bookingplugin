@@ -5,6 +5,9 @@ class orangehrmBookingPluginActivateTask extends sfBaseTask {
   const LICENSE_EMAIL = 'booking.license_email';
   const LICENSE_KEY = 'booking.license_key';
   const LICENSE_SECRET = 'booking.license_secret';
+  const MESSAGE_SIZE = self::MESSAGE_SIZE;
+  const MESSAGE_TYPE_INFO = 'INFO';
+  const MESSAGE_TYPE_ERROR = self::MESSAGE_TYPE_ERROR;
 
   private $licenseKey;
   private $licenseEmail;
@@ -22,6 +25,7 @@ class orangehrmBookingPluginActivateTask extends sfBaseTask {
     $this->licenseEmail = null;
     $this->licenseSecretHash = null;
     $this->licenseDomain = null;
+    $this->pluginName = 'orangehrmBookingPlugin';
   }
 
   /**
@@ -148,11 +152,11 @@ EOF;
       catch (Exception $e) {
         throw new sfCommandException('Error loading plugin app.yml file. ' . $e->getMessage());
         $message = "Error loading plugin $appYmlFile file. " . $e->getMessage();
-        $this->log($message, null, 'ERROR');
+        $this->log($message, null, self::MESSAGE_TYPE_ERROR);
       }
     }
     else {
-      $this->log($appYmlFile . ' not found. Plugin information cannot be determined', null, 'ERROR');
+      $this->log($appYmlFile . ' not found. Plugin information cannot be determined', null, self::MESSAGE_TYPE_ERROR);
     }
 
     return $activationData;
@@ -222,7 +226,7 @@ EOF;
     $stmt = $pdo->prepare($sql);
     $result = $stmt->execute(array(':key' => $key, ':value' => $value));
     if (!$result) {
-      $this->log("Failed to update value for $key", null, 'ERROR');
+      $this->log("Failed to update value for $key", null, self::MESSAGE_TYPE_ERROR);
     }
   }
 
@@ -232,23 +236,24 @@ EOF;
    */
   protected function installPlugin(&$licenseData) {
     $this->licenseSecretHash = $licenseData->secret;
-    $this->runTask('orangehrm:install-plugin orangehrmBookingPlugin');
+    $installer = new PluginInstaller($this);
+    $installer->installPlugin($this->pluginName);
     $this->saveLicenseSettings(self::LICENSE_EMAIL, $this->licenseEmail);
     $this->saveLicenseSettings(self::LICENSE_KEY, $this->licenseKey);
     $this->saveLicenseSettings(self::LICENSE_SECRET, $this->licenseSecretHash);
-    $this->logSection('booking', 'License was activated');
-    $this->logSection('booking', 'Cleaning cache for forcing to load plugin configuration',2048,'INFO');
+    $this->logSection('booking', 'License was activated', self::MESSAGE_SIZE, self::MESSAGE_TYPE_INFO);
+    $this->logSection('booking', 'Clearing cache for forcing to load plugin configuration', self::MESSAGE_SIZE, self::MESSAGE_TYPE_INFO);
     $this->runTask('cache:clear');
   }
 
   /**
-   * 
+   *
    * @param type $licenseData
    */
   protected function reportFailedActivation(&$licenseData) {
-    $this->logSection('orangehrm', $this->namespace . ' was not installed', 2048, 'ERROR');
-    $this->logSection('booking', 'License was not activated', 2048, 'ERROR');
-    $this->logSection('booking', $licenseData->message, 2048, 'ERROR');
+    $this->logSection('orangehrm', $this->pluginName . ' was not installed', self::MESSAGE_SIZE, self::MESSAGE_TYPE_ERROR);
+    $this->logSection('booking', 'License was not activated', self::MESSAGE_SIZE, self::MESSAGE_TYPE_ERROR);
+    $this->logSection('booking', $licenseData->message, self::MESSAGE_SIZE, self::MESSAGE_TYPE_ERROR);
   }
 
 }
