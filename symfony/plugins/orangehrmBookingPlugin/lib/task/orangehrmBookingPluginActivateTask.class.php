@@ -5,9 +5,9 @@ class orangehrmBookingPluginActivateTask extends sfBaseTask {
   const LICENSE_EMAIL = 'booking.license_email';
   const LICENSE_KEY = 'booking.license_key';
   const LICENSE_SECRET = 'booking.license_secret';
-  const MESSAGE_SIZE = self::MESSAGE_SIZE;
+  const MESSAGE_SIZE = 2048;
   const MESSAGE_TYPE_INFO = 'INFO';
-  const MESSAGE_TYPE_ERROR = self::MESSAGE_TYPE_ERROR;
+  const MESSAGE_TYPE_ERROR = 'ERROR';
 
   private $licenseKey;
   private $licenseEmail;
@@ -226,7 +226,7 @@ EOF;
     $stmt = $pdo->prepare($sql);
     $result = $stmt->execute(array(':key' => $key, ':value' => $value));
     if (!$result) {
-      $this->log("Failed to update value for $key", null, self::MESSAGE_TYPE_ERROR);
+      $this->log("Failed to update value for $key", self::MESSAGE_SIZE, self::MESSAGE_TYPE_ERROR);
     }
   }
 
