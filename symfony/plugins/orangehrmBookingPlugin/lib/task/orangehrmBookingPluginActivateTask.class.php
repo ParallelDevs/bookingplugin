@@ -1,6 +1,6 @@
 <?php
 
-class orangehrmBookingPluginTask extends sfBaseTask {
+class orangehrmBookingPluginActivateTask extends sfBaseTask {
 
   const LICENSE_EMAIL = 'booking.license_email';
   const LICENSE_KEY = 'booking.license_key';
@@ -12,7 +12,7 @@ class orangehrmBookingPluginTask extends sfBaseTask {
   private $licenseDomain;
 
   /**
-   * 
+   *
    * @param \sfEventDispatcher $dispatcher
    * @param \sfFormatter $formatter
    */
@@ -43,9 +43,9 @@ class orangehrmBookingPluginTask extends sfBaseTask {
       new sfCommandOption('domain', null, sfCommandOption::PARAMETER_REQUIRED, 'Site domain', ''),
     ));
 
-    $this->aliases = array('orangehrmBooking:Activate-plugin'); // for backwards compatibility
+    $this->aliases = array('orangehrmBooking:activate'); // for backwards compatibility
     $this->namespace = 'orangehrmBookingPlugin';
-    $this->name = 'activate-plugin';
+    $this->name = 'activate';
     $this->briefDescription = 'Activates the license for the OrangeHRM Booking plugin';
     $this->detailedDescription = <<<EOF
 The [orangehrmBooking:activate-plugin|INFO] task activates the booking plugin:
@@ -55,7 +55,7 @@ EOF;
   }
 
   /**
-   * 
+   *
    * @param type $arguments
    * @param type $options
    */
@@ -81,12 +81,8 @@ EOF;
       $this->installPlugin($licenseData);
     }
     else {
-      $this->logSection('orangehrm', $this->namespace . " was not installed");
-      $this->logSection('booking', 'License was not activated.');
-      $this->logSection('booking', $licenseData->message, null, 'ERROR');
+      $this->reportFailedActivation($licenseData);
     }
-
-    $this->runTask('cache:clear');
   }
 
   /**
@@ -144,7 +140,6 @@ EOF;
 
     if (is_file($appYmlFile) && is_readable($appYmlFile)) {
       try {
-        $this->logSection('booking', 'Reading ' . $appYmlFile);
         $appYml = sfYaml::load($appYmlFile);
         if (isset($appYml['all'][$pluginName]['activation'])) {
           $activationData = $appYml['all'][$pluginName]['activation'];
@@ -214,7 +209,7 @@ EOF;
   }
 
   /**
-   * 
+   *
    * @param type $key
    * @param type $value
    */
@@ -232,7 +227,7 @@ EOF;
   }
 
   /**
-   * 
+   *
    * @param type $licenseData
    */
   protected function installPlugin(&$licenseData) {
@@ -241,7 +236,19 @@ EOF;
     $this->saveLicenseSettings(self::LICENSE_EMAIL, $this->licenseEmail);
     $this->saveLicenseSettings(self::LICENSE_KEY, $this->licenseKey);
     $this->saveLicenseSettings(self::LICENSE_SECRET, $this->licenseSecretHash);
-    $this->logSection('booking', 'License was activated.');
+    $this->logSection('booking', 'License was activated');
+    $this->logSection('booking', 'Cleaning cache for forcing to load plugin configuration',2048,'INFO');
+    $this->runTask('cache:clear');
+  }
+
+  /**
+   * 
+   * @param type $licenseData
+   */
+  protected function reportFailedActivation(&$licenseData) {
+    $this->logSection('orangehrm', $this->namespace . ' was not installed', 2048, 'ERROR');
+    $this->logSection('booking', 'License was not activated', 2048, 'ERROR');
+    $this->logSection('booking', $licenseData->message, 2048, 'ERROR');
   }
 
 }
