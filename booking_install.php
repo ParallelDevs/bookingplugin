@@ -48,10 +48,12 @@ if (isset($_POST['accept_install'])) {
 						<h2>Installation Logs</h2>
 						<div class="logs">--result--</div>
 				</div>
-				<p>In case of error, contact your site administrator.</p>
+				<p>In case of error, first try filling out the form with your settings. If the error
+          persists, contact your system administrator.</p>
+        <p><a href="booking_install.php">Retry</a></p>
 				<p>If not, you have installed Booking Plugin in your OrangeHRM site.</p>
         <p>Please login for refreshing the navigation menu.</p>
-        <p> <a href="index.php">Index</a>.</p>
+        <p><a href="index.php">Go back to OrangeHRM</a>.</p>
           
 CODE;
 
