@@ -32,7 +32,7 @@ class BookableListConfigurationFactory extends ohrmListConfigurationFactory {
   private function getHeaderList() {
     $columns = array(
       array(
-        'name' => __('Id'),
+        'name' => __('Bookable Id'),
         'width' => '10%',
         'isSortable' => true,
         'sortField' => 'bookableId',
