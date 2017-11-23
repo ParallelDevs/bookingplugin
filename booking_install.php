@@ -21,11 +21,11 @@ function install_booking_plugin($root_dir, $key = '', $email = '', $domain = '')
  * @param type $input
  * @return string
  */
-function filter_message($messages = array()) {  
+function filter_message($messages = array()) {
   $output = '';
   foreach ($messages as $message) {
     if (!empty($message)) {
-      $output .= '<p>' . trim($message," \t\n\r\0\x0B>") . '</p>';
+      $output .= '<p>' . trim($message, " \t\n\r\0\x0B>") . '</p>';
     }
   }
   return $output;
@@ -35,12 +35,13 @@ $msg = '';
 
 if (isset($_POST['accept_install'])) {
   $root_dir = __DIR__;
-  $email = $_POST['license-email'];
-  $key = $_POST['license-key'];
-  $domain = $_POST['license-domain'];
+  $email = isset($_POST['license-email']) && !empty($_POST['license-email']) ? $_POST['license-email'] : '';
+  $key = isset($_POST['license-key']) && !empty($_POST['license-key']) ? $_POST['license-key'] : '';
+  $domain = isset($_POST['license-domain']) && !empty($_POST['license-domain']) ? $_POST['license-domain'] : $_SERVER['SERVER_NAME'];
   $shell = install_booking_plugin($root_dir, $key, $email, $domain);
   $msg .= filter_message($shell);
   $msg .= "<br/>\n";
+
   $template = <<< CODE
 <h1>Booking Plugin Installer for OrangeHRM</h1>
 
@@ -60,10 +61,11 @@ CODE;
   $content = str_replace('--result--', $msg, $template);
 }
 else {
+  $serverName = $_SERVER['SERVER_NAME'];
   $content = <<< CODE
 <h1>Welcome to Booking Plugin Installer for OrangeHRM</h1>
 				<p>You are about to install the Booking Plugin, please make sure that you have made all necessary backups of your site.</p>
-				<p>Click on the "Install" button to proceed.</p>
+        <p>Please fill out all the fields in form. Then click on the "Install" button to proceed.</p>
 				<form method='post' name="install-booking" id="install-booking" class="install-booking-form">
 						<input type="hidden" name="accept_install" value="1">
             <div>
@@ -76,7 +78,7 @@ else {
             </div>
             <div>
               <label for="license-domain">Domain</label>
-              <input type="text" name="license-domain" value="">
+              <input type="text" name="license-domain" value="$serverName">
             </div>
 						<input type="submit" value="Install" class="submit">
 				</form>
