@@ -1,104 +1,119 @@
 .form-booking-plugin {
-    & label {
-        @extend %position-relative;
-        top: 8px;
+  & label {
+    @extend %position-relative;
+    top: 8px;
+  }
+  & input {
+    margin-right: 10px;
+  }
+  & .hidden-fields {
+    display: none;
+  }
+  & .input-date {
+    width: 100px;
+  }
+  & .input-time {
+    width: 80px;
+  }
+  & .input-hours, & .input-minutes {
+    width: 50px;
+  }
+  & .error-field {
+    color: #aa4935;
+    border-color: #aa4935;
+    border-width: thin;
+  }
+  & .text-read-only {
+    background: transparent;
+  }
+  & .booking-date {
+    & label:last-of-type {
+      width: auto;
+      min-width: 50px;
+    }
+    & .validation-error {
+      &:nth-of-type(1){
+        left: 150px;
+      }
+      &:nth-of-type(2){
+        left: 325px;
+      }
+    }
+  }
+  & .booking-duration {
+    & .time-label {
+      float: left;
+      margin-right: 10px;
+      font-size: 1.5em;
+      position: relative;
+      top: 3px;
     }
     & input {
-        margin-right: 10px;
+      margin-right: 0;
     }
-    & .hidden-fields {
-        display: none;
+    & .validation-error{
+      left: 240px;
+      &:nth-of-type(1){
+        left: 150px;
+      }
     }
-    & .input-date {
-        width: 100px;
-    }
-    & .input-time {
-        width: 80px;
-    }
-    & .input-hours, & .input-minutes {
-        width: 50px;
-    }
-    & .error-field {
-        color: #aa4935;
-        border-color: #aa4935;
-        border-width: thin;
-    }
-    & .text-read-only {
-        background: transparent;
-    }
-    & .booking-date {
-        & label:last-of-type {
-            width: auto;
-            min-width: 50px;
-        }
-        & .validation-error {
-            &:nth-of-type(1){
-                left: 150px;
-            }
-            &:nth-of-type(2){
-                left: 325px;
-            }
-        }
-    }
-    & .booking-duration {
-        & .time-label {
-            float: left;
-            margin-right: 10px;
-            font-size: 1.5em;
-            position: relative;
-            top: 3px;
-        }
-        & input {
-            margin-right: 0;
-        }
-        & .validation-error{
-            left: 240px;
-            &:nth-of-type(1){
-                left: 150px;
-            }
-        }
-    }
-    & .btn {
-        @include border-radius(3px);
-        background-color: $color-blue;
-        color: $color-white;
-        padding: 5px 10px;
-        text-decoration: none;
-    }
+  }
+  & .btn {
+    @include border-radius(3px);
+    background-color: $color-blue;
+    color: $color-white;
+    padding: 5px 10px;
+    text-decoration: none;
+  }
 }
 
 .booking.modal {
-    & .form-booking-plugin {
-        & ol{
-            & li {
-                margin: 3px 0 22px 0;
-            }
-        }
-        & .input-date {
-            width: 90px;
-            display: inline-block;
-            margin-right: 5px;
-            &:last-of-type {
-                margin-right: auto;
-            }
-        }
-        & .booking-date {
-            & label:last-of-type {
-                min-width: 16px;
-                margin-right: 5px;
-            }
-        }
-        & .booking-duration {
-            & .time-label {
-                top: 5px;
-            }
-        }
-        & .validation-error {
-            width: 100%;
-            left: 115px;
-            &.endDate, &.minutes {
-                top: 31px;
-            }
-        }
+  & .form-booking-plugin {
+    & ol{
+      & li {
+        margin: 3px 0 22px 0;
+      }
     }
+    & .input-date {
+      width: 90px;
+      display: inline-block;
+      margin-right: 5px;
+      &:last-of-type {
+        margin-right: auto;
+      }
+    }
+    & .booking-date {
+      & label:last-of-type {
+        min-width: 16px;
+        margin-right: 5px;
+      }
+    }
+    & .booking-duration {
+      & .time-label {
+        top: 5px;
+      }
+    }
+    & .validation-error {
+      width: 100%;
+      left: 115px;
+      &.endDate, &.minutes {
+        top: 31px;
+      }
+    }
+  }
+}
+
+.form-license-booking {
+  .radio_list {
+    float: left;
+    
+    & input {
+      width: auto;
+    }
+    
+    & label {
+      margin-top: 4px;
+    }
+
+  }
 }
