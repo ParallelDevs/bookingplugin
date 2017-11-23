@@ -244,6 +244,7 @@ EOF;
     $this->logSection('booking', 'License was activated', self::MESSAGE_SIZE, self::MESSAGE_TYPE_INFO);
     $this->logSection('booking', 'Clearing cache for forcing to load plugin configuration', self::MESSAGE_SIZE, self::MESSAGE_TYPE_INFO);
     $this->runTask('cache:clear');
+    $this->logSection('booking', 'Congrats! '.$this->pluginName.'  has been installed and has been activated', self::MESSAGE_SIZE, self::MESSAGE_TYPE_INFO);
   }
 
   /**
