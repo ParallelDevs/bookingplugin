@@ -11,3 +11,6 @@ symfony/*
 !symfony/plugins
 symfony/plugins/*
 !symfony/plugins/orangehrmBookingPlugin
+
+# Whitelist documentation folder
+!docs/
