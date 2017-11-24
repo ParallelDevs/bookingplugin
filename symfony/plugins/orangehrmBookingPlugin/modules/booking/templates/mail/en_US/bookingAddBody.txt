@@ -1,0 +1,8 @@
+Hi %employeeFirstName%,
+
+You have been booked for the project %projectName%.
+To view this booking, please login to OrangeHRM.
+
+Thank you.
+
+This is an automated notification.

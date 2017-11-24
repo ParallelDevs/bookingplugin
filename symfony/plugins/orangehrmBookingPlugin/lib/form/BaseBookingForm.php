@@ -89,6 +89,7 @@ class BaseBookingForm extends sfForm {
       'projectId' => new sfWidgetFormDoctrineChoice($this->getProjectOptions(), array()),
       'hours' => new sfWidgetFormInputText(array(), array('class' => 'input-hours', 'placeholder' => __('Hours'))),
       'minutes' => new sfWidgetFormInputText(array(), array('class' => 'input-minutes', 'placeholder' => __('Minutes'))),
+      'notify' => new sfWidgetFormInputCheckbox(array(), array('value' => 'on')),
     );
     return $widgets;
   }
@@ -118,6 +119,7 @@ class BaseBookingForm extends sfForm {
       'minutes' => new sfValidatorInteger(array('required' => false, 'empty_value' => 0, 'min' => 0, 'max' => 59), array()),
       'startTime' => new sfValidatorTime(array('required' => false), array()),
       'endTime' => new sfValidatorTime(array('required' => false), array()),
+      'notify' => new sfValidatorString(array('required' => false))
     );
     return $validators;
   }
@@ -144,8 +146,35 @@ class BaseBookingForm extends sfForm {
       'maxEndTime' => __('Maximum End Time'),
       'bookingColor' => __('Color'),
       'workingDays' => __('Working Days'),
+      'notify' => __('Send Notification'),
     );
     return $labels;
+  }
+
+  /**
+   *
+   * @return array
+   */
+  protected function getDefaultValues() {
+    $defaults = array(
+      'bookingId' => $this->booking->getBookingId(),
+      'startDate' => $this->booking->getStartDate(),
+      'endDate' => $this->booking->getEndDate(),
+      'customerId' => $this->booking->getCustomerId(),
+      'projectId' => $this->booking->getProjectId(),
+      'hours' => $this->booking->getHours(),
+      'minutes' => $this->booking->getMinutes(),
+      'startTime' => $this->booking->getStartTime(),
+      'endTime' => $this->booking->getEndTime(),
+      'bookingColor' => $this->booking->getBookingColor(),
+      'bookableId' => $this->booking->getBookableId(),
+      'bookableName' => $this->bookableName,
+      'minStartTime' => $this->minStartTime,
+      'maxEndTime' => $this->maxEndTime,
+      'workingDays' => $this->workingDays,
+      'notify' => true,
+    );
+    return $defaults;
   }
 
   /**
@@ -201,7 +230,7 @@ class BaseBookingForm extends sfForm {
   }
 
   /**
-   * 
+   *
    * @return bool
    */
   public function isBookableSelectable() {

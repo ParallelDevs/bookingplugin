@@ -1,6 +1,6 @@
 <?php
 use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/orangeBookingPlugin.min.css'));
-use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/addBookableResource.js'));
+use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/addBookableResource.min.js'));
 
 $partialParams = array(
   'form' => $form,

@@ -1,6 +1,6 @@
 <?php 
 use_stylesheet(plugin_web_path('orangehrmBookingPlugin', 'css/orangeBookingPlugin.min.css'));
-use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/configureBooking.js'));
+use_javascript(plugin_web_path('orangehrmBookingPlugin', 'js/configureBooking.min.js'));
 ?>
 <div class="box">
     <div class="head">

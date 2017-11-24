@@ -5,7 +5,7 @@
  *
  * @author amora
  */
-class viewBookableResourcesAction extends baseBookingAction {
+class viewBookableResourcesAction extends baseBookingUIAction {
 
   protected $configurationList;
   protected $noOfRecords;

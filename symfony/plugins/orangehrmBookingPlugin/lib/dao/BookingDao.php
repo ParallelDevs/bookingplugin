@@ -186,9 +186,10 @@ class BookingDao extends BaseDao {
   private function _getBookingListQuery(&$select, &$query, array &$bindParams, &$orderBy, $sortField = null, $sortOrder = null, array $filters = null) {
     $select = ' SELECT DISTINCT b.booking_id AS bookingId, b.bookable_id AS bookableId, b.customer_id AS customerId, b.project_id AS projectId, ';
     $select .= ' b.duration as duration, b.booking_color as bookingColor, ';
-    $select .= ' b.start_date AS startDate, b.end_date AS endDate, b.start_time AS startTime, b.end_time AS endTime, b.available_on AS availableOn ';
+    $select .= ' b.start_date AS startDate, b.end_date AS endDate, b.start_time AS startTime, b.end_time AS endTime, b.available_on AS availableOn, ';
+    $select .= ' br.is_active as active, p.name as projectName, c.name as customerName ';
     $query = ' FROM ohrm_booking b ';
-    $query .= ' LEFT JOIN ohrm_bookable_resource br ON br.bookable_id = b.booking_id ';
+    $query .= ' LEFT JOIN ohrm_bookable_resource br ON br.bookable_id = b.bookable_id ';
     $query .= ' LEFT JOIN ohrm_project p ON p.project_id = b.project_id ';
     $query .= ' LEFT JOIN ohrm_customer c ON c.customer_id = b.customer_id ';
 
@@ -339,7 +340,7 @@ class BookingDao extends BaseDao {
       if (count($bindParams) > 0) {
         $msg .= ' (' . implode(',', $bindParams) . ')';
       }
-      sfContext::getInstance()->getLogger()->info($msg);
+      sfContext::getInstance()->getLogger()->info($msg);      
     }
 
     $conn = Doctrine_Manager::connection();
@@ -372,7 +373,18 @@ class BookingDao extends BaseDao {
 
     if ($result) {
       while ($row = $statement->fetch()) {
-        $booking = $this->getBookingById($row['bookingId']);
+        $booking = new Booking();
+        $booking->setBookingId($row['bookingId']);
+        $booking->setBookableId($row['bookableId']);
+        $booking->setCustomerId($row['customerId']);
+        $booking->setProjectId($row['projectId']);
+        $booking->setDuration($row['duration']);
+        $booking->setStartDate($row['startDate']);
+        $booking->setEndDate($row['endDate']);
+        $booking->setStartTime($row['startTime']);
+        $booking->setEndTime($row['endTime']);
+        $booking->setAvailableOn($row['availableOn']);
+        $booking->setBookingColor($row['bookingColor']);
         $bookings[] = $booking;
       }
     }
@@ -388,28 +400,25 @@ class BookingDao extends BaseDao {
   private function _prepareResultAsCalendarResource($statement, $result) {
     $events = array();
     if ($result) {
-      $events = $this->_getBookingAsCalendarEvent($statement);
-    }
-    return $events;
-  }
-
-  /**
-   *
-   * @param type $statement
-   */
-  private function _getBookingAsCalendarEvent(&$statement) {
-    $events = array();
-    try {
       while ($row = $statement->fetch()) {
-        $booking = $this->getBookingById($row['bookingId']);
-        $resource = $booking->getBookingAsCalendarEvent();
-        array_push($events, $resource);
+        $event = array(
+          'id' => $row['bookingId'],
+          'resourceId' => $row['bookableId'],
+          'title' => $row['projectName'],
+          'start' => '',
+          'end' => '',
+          'duration' => $row['duration'],
+          'customerId' => $row['customerId'],
+          'customerName' => $row['customerName'],
+          'projectId' => $row['projectId'],
+          'isHoliday' => false,
+          'color' => $row['bookingColor'],
+          'editable' => BookableResource::STATUS_ACTIVE == $row['active'] ? true : false,
+        );
+        $event['start']= date('c', strtotime($row['startDate'] . ' ' . $row['startTime']));
+        $event['end']= date('c', strtotime($row['endDate'] . ' ' . $row['endTime']));
+        $events[] = $event;
       }
-    }
-    catch (Exception $e) {
-      sfContext::getInstance()->getLogger()->err($e->getMessage());
-      unset($events);
-      $events = array();
     }
     return $events;
   }

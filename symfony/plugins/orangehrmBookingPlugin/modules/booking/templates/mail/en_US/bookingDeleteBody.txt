@@ -1,0 +1,8 @@
+Hi %employeeFirstName%,
+
+Your booking for the project %projectName% has been canceled.
+To view the rest of your bookings, please login to OrangeHRM.
+
+Thank you.
+
+This is an automated notification.

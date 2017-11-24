@@ -5,7 +5,7 @@
  *
  * @author amora
  */
-class viewBookableResourceAction extends baseBookingAction {
+class viewBookableResourceAction extends baseBookingUIAction {
 
   /**
    *

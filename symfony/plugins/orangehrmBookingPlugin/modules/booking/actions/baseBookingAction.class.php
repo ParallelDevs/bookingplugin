@@ -10,11 +10,38 @@ abstract class baseBookingAction extends sfAction {
   protected $bookablePermissions;
   protected $bookingPermissions;
   protected $bookingConfigurationPermissions;
-  private $bookableService;
-  private $bookingService;
-  private $employeeService;
-  private $customerService;
-  private $projectService;
+  protected $bookableService;
+  protected $bookingService;
+  protected $employeeService;
+  protected $customerService;
+  protected $projectService;
+  protected $configBookingService;
+  protected $licenseBookingService;
+  protected $licenseIsValid = false;
+
+  public function __construct($context, $moduleName, $actionName) {
+    parent::__construct($context, $moduleName, $actionName);
+  }
+
+  /**
+   *
+   * @param ConfigBookingService $configService
+   */
+  public function setConfigBookingService(ConfigBookingService $configService) {
+    $this->configBookingService = $configService;
+  }
+
+  /**
+   *
+   * @return type
+   */
+  public function getConfigBookingService() {
+    if (!$this->configBookingService instanceof ConfigBookingService) {
+      $this->configBookingService = new ConfigBookingService();
+      $this->configBookingService->setConfigDao(new ConfigDao());
+    }
+    return $this->configBookingService;
+  }
 
   /**
    *
@@ -115,8 +142,40 @@ abstract class baseBookingAction extends sfAction {
     $this->projectService = $projectService;
   }
 
+  /**
+   *
+   * @return type
+   */
+  public function getLicenseBookingService() {
+    if (!$this->licenseBookingService instanceof LicenseBookingService) {
+      $this->licenseBookingService = new LicenseBookingService();
+    }
+    return $this->licenseBookingService;
+  }
+
+  /**
+   *
+   * @param LicenseBookingService $licenseService
+   */
+  public function setLicenseBookingService(LicenseBookingService $licenseService) {
+    $this->licenseBookingService = $licenseService;
+  }
+
+  /**
+   *
+   * @param type $dataGroups
+   * @return type
+   */
   public function getDataGroupPermissions($dataGroups) {
     return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), false, array());
+  }
+
+  /**
+   *
+   * @return type
+   */
+  public function getDispatcher() {
+    return $this->getContext()->getEventDispatcher();
   }
 
   /**
@@ -228,6 +287,56 @@ abstract class baseBookingAction extends sfAction {
    */
   protected function getSearchParameterHolder() {
     return null;
+  }
+
+  /**
+   *
+   */
+  protected function checkLocalLicense() {
+    $this->licenseIsValid = false;
+    $cacheDir = sfConfig::get('sf_cache_dir');
+    $cacheDir .= '/' . sfContext::getInstance()->getConfiguration()->getApplication();
+    $cacheDir .= '/' . sfContext::getInstance()->getConfiguration()->getEnvironment();
+    $fileCache = new sfFileCache(array(
+      'cache_dir' => $cacheDir,
+    ));
+
+    if ($fileCache->has('booking-license')) {
+      $result = $fileCache->get('booking-license', '{}');
+      $license = json_decode($result);
+
+      $this->licenseIsValid = (is_object($license) &&
+          isset($license->status) &&
+          'active' === $license->status) ? true : false;
+    }
+
+    if (!$this->licenseIsValid) {
+      $license = $this->checkRemoteLicense();
+      $this->licenseIsValid = (is_object($license) &&
+          isset($license->status) &&
+          'active' === $license->status) ? true : false;
+
+      $data = (array(
+        'status' => $this->licenseIsValid ? 'active' : '',
+        'response' => $license,
+      ));
+      $data = json_encode($data);
+      $duration = $this->licenseIsValid ? 86400 : 180;
+      $fileCache->set('booking-license', $data, $duration);
+    }
+  }
+
+  /**
+   *
+   * @return type
+   */
+  protected function checkRemoteLicense() {
+    $email = $this->getConfigBookingService()->getLicenseEmail();
+    $key = $this->getConfigBookingService()->getLicenseKey();
+    $secret = $this->getConfigBookingService()->getLicenseSecret();
+    $response = $this->getLicenseBookingService()->checkLicense($email, $key, $secret);
+    $license = json_decode($response);
+    return $license;
   }
 
 }

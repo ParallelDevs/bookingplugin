@@ -5,7 +5,7 @@
  *
  * @author amora
  */
-class getCustomerProjectsAction extends baseBookingAction {
+class getCustomerProjectsAction extends baseBookingUIAction {
 
   /**
    *

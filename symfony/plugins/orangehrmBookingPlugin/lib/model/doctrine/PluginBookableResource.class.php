@@ -32,6 +32,22 @@ abstract class PluginBookableResource extends BaseBookableResource {
   }
 
   /**
+   * 
+   * @return type
+   */
+  public function getEmployeeFirstName() {
+    return $this->getEmployee()->getFirstName();
+  }
+
+  /**
+   * 
+   * @return type
+   */
+  public function getEmployeeWorkEmail() {
+    return $this->getEmployee()->getEmpWorkEmail();
+  }
+
+  /**
    *
    * @return type
    */

@@ -1,58 +1,68 @@
 configure_booking:
-   url: /booking/configureBooking
-   param: { module: booking, action: configureBooking }
-   with_wildcard_routes: false
+  url: /booking/configureBooking
+  param: { module: booking, action: configureBooking }
+  with_wildcard_routes: false
 
 bookable_list:
-   url:   /booking/viewBookableResources/*
-   param: { module: booking, action: viewBookableResources }
-   with_wildcard_routes: true
+  url:   /booking/viewBookableResources
+  param: { module: booking, action: viewBookableResources }  
+  with_wildcard_routes: false
 
 add_bookable:
-   url: /booking/addBookableResource
-   param: { module: booking, action: addBookableResource }
-   with_wildcard_routes: false
+  url: /booking/addBookableResource
+  param: { module: booking, action: addBookableResource }
+  with_wildcard_routes: false
 
 view_bookable:
-   url: /booking/viewBookableResource/*
-   param: { module: booking, action: viewBookableResource }
-   with_wildcard_routes: false
+  url: /booking/viewBookableResource/*
+  param: { module: booking, action: viewBookableResource }
+  with_wildcard_routes: true
 
 add_booking:
-   url: /booking/addBooking
-   param: { module: booking, action: addBooking }
-   with_wildcard_routes: false
+  url: /booking/addBooking
+  param: { module: booking, action: addBooking }
+  with_wildcard_routes: false
 
 bookables_json:
-   url:   /booking/bookables.json
-   param: { module: booking, action: getBookables, sf_format: json }
+  url:   /booking/bookables.json
+  param: { module: booking, action: getBookables, sf_format: json }
+  with_wildcard_routes: false
  
 bookings_json:
-   url:   /booking/bookings.json
-   param: { module: booking, action: getBookings, sf_format: json }
+  url:   /booking/bookings.json
+  param: { module: booking, action: getBookings, sf_format: json }
+  with_wildcard_routes: false
 
 customer_projects:
-   url:   /booking/customerProjects.json
-   param: { module: booking, action: getCustomerProjects, sf_format: json }
+  url:   /booking/customerProjects.json
+  param: { module: booking, action: getCustomerProjects, sf_format: json }
+  with_wildcard_routes: false
 
 bookable_workshifts:
-   url:   /booking/bookableWorkShifts.json
-   param: { module: booking, action: getBookableWorkShift, sf_format: json }
+  url:   /booking/bookableWorkShifts.json
+  param: { module: booking, action: getBookableWorkShift, sf_format: json }
+  with_wildcard_routes: false
 
 form_booking:
-   url: /booking/bookingForm
-   param: { module: booking, action: getBookingForm }
-   with_wildcard_routes: true
+  url: /booking/bookingForm
+  param: { module: booking, action: getBookingForm }
+  with_wildcard_routes: false
    
 save_booking:
-   url: /booking/saveBooking
-   param: { module: booking, action: saveBooking , sf_format: json}
+  url: /booking/saveBooking
+  param: { module: booking, action: saveBooking , sf_format: json}
+  with_wildcard_routes: false
 
 view_bookings:
-   url: /booking/viewBookings
-   param: { module: booking, action: viewBookings }
+  url: /booking/viewBookings
+  param: { module: booking, action: viewBookings }
    
 delete_booking:
-   url: /booking/deleteBooking
-   param: { module: booking, action: deleteBooking , sf_format: json}
+  url: /booking/deleteBooking
+  param: { module: booking, action: deleteBooking , sf_format: json}
+  with_wildcard_routes: false
 
+license_booking:
+  url: /booking/licenseBooking
+  param: { module: booking, action: licenseBooking}
+  with_wildcard_routes: false

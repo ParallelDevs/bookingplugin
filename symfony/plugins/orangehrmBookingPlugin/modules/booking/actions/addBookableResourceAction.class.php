@@ -5,7 +5,7 @@
  *
  * @author amora
  */
-class addBookableResourceAction extends baseBookingAction {
+class addBookableResourceAction extends baseBookingUIAction {
 
   /**
    *
@@ -18,10 +18,10 @@ class addBookableResourceAction extends baseBookingAction {
   }
 
   /**
-   * 
+   *
    * @param type $request
    */
-  public function execute($request) {
+  public function execute($request) {    
     $this->bookablePermissions = $this->getDataGroupPermissions('booking_resources');
     if ($this->bookablePermissions->canRead()) {
       $postArray = array();
@@ -49,7 +49,7 @@ class addBookableResourceAction extends baseBookingAction {
   }
 
   /**
-   * 
+   *
    * @param type $request
    */
   private function saveBookableResource(&$request) {
