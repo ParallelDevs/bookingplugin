@@ -106,14 +106,20 @@
 .form-license-booking {
   .radio_list {
     float: left;
-    
+
     & input {
       width: auto;
     }
-    
+
     & label {
       margin-top: 4px;
     }
 
+  }
+}
+
+.form-bookable-resource {
+  .read-only {
+    border: none;
   }
 }

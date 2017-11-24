@@ -1,4 +1,4 @@
-<form id="frmBookable" name="frmBookable" method="post" action="<?= $actionForm ?>" >
+<form id="frmBookable" name="frmBookable" method="post" action="<?= $actionForm ?>" class="form-bookable-resource">
     <fieldset>
         <ol>
             <?php echo $form->render(); ?>
