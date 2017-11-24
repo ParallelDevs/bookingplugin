@@ -31,8 +31,8 @@ class LicenseBookingForm extends sfForm {
 
   public function configure() {
     $actions = array(
+      'check' => 'Check',
       'activate' => 'Activate',
-      'check' => 'Check',      
     );
 
     $this->setWidgets(array(
@@ -41,7 +41,7 @@ class LicenseBookingForm extends sfForm {
       'licenseAction' => new sfWidgetFormChoice(array(
         'expanded' => true,
         'choices' => $actions,
-        'default' => 'activate',
+        'default' => 'check',
           )),
     ));
 
@@ -54,10 +54,7 @@ class LicenseBookingForm extends sfForm {
       'email' => new sfValidatorEmail(array('required' => true)),
       'licenseKey' => new sfValidatorString(array('required' => true)),
       'licenseAction' => new sfValidatorChoice(array(
-        'choices' => array(
-          'activate',
-          'check',          
-        ),
+        'choices' => array('check', 'activate',),
           )),
     ));
 
