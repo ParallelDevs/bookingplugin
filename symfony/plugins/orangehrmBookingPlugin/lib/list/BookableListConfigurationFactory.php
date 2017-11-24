@@ -77,16 +77,7 @@ class BookableListConfigurationFactory extends ohrmListConfigurationFactory {
         'textAlignmentStyle' => 'left',
         'elementProperty' => array('getter' => array('getStatus'),
         ),
-      ),
-      /*array(
-        'name' => __('Color for Bookings'),
-        'width' => '10%',
-        'isSortable' => false,
-        'elementType' => 'label',
-        'textAlignmentStyle' => 'left',
-        'elementProperty' => array('getter' => array('getBookableColor'),
-        ),
-      ),*/
+      ),      
     );
 
     return $columns;
