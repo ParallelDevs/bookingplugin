@@ -27,7 +27,9 @@ class licenseBookingAction extends baseBookingAction {
     if ($request->isMethod('post')) {
       $this->form->bind($request->getPostParameters(), $request->getFiles());
       if ($this->form->isValid()) {
-        $this->activatePlugin($request);
+        $action = $this->form->getValue('licenseAction');
+        $action .= 'License';
+        $this->{$action}();
       }
     }
   }
@@ -36,7 +38,7 @@ class licenseBookingAction extends baseBookingAction {
    * 
    * @param type $request
    */
-  private function activatePlugin($request) {
+  private function activateLicense() {
     $email = $this->form->getValue('email');
     $licenseKey = $this->form->getValue('licenseKey');
     $response = $this->getLicenseBookingService()->activateLicense($email, $licenseKey);
@@ -51,7 +53,21 @@ class licenseBookingAction extends baseBookingAction {
       $this->redirect('booking/configureBooking');
     }
     else {
-      $this->getConfigBookingService()->setLicenseSecret('');
+      $this->getUser()->setFlash('error', __($licenseData->message));
+    }
+  }
+
+  private function checkLicense() {
+    $email = $this->form->getValue('email');
+    $licenseKey = $this->form->getValue('licenseKey');
+    $licenseSecret = $this->getConfigBookingService()->getLicenseSecret();
+    $response = $this->getLicenseBookingService()->checkLicense($email, $licenseKey,$licenseSecret);
+    $licenseData = json_decode($response);
+
+    if ($licenseData->result == 'success') {
+      $this->getUser()->setFlash('success', __($licenseData->message));
+    }
+    else {
       $this->getUser()->setFlash('error', __($licenseData->message));
     }
   }
