@@ -18,10 +18,11 @@ abstract class baseBookingUIAction extends baseBookingAction {
       $this->forward('booking', 'licenseBooking');
     }
     else {
-      $this->checkLicense();
+      $this->checkLocalLicense();
     }
 
-    $this->forward404Unless($this->licenseIsValid, 'License has not been activated');
+    //$this->forward404Unless($this->licenseIsValid, 'License has not been activated');
+    $this->forwardUnless($this->licenseIsValid, 'booking', 'invalidBooking');
   }
 
 }

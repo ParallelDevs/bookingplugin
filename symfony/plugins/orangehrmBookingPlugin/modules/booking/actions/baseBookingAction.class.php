@@ -19,6 +19,10 @@ abstract class baseBookingAction extends sfAction {
   protected $licenseBookingService;
   protected $licenseIsValid = false;
 
+  public function __construct($context, $moduleName, $actionName) {
+    parent::__construct($context, $moduleName, $actionName);
+  }
+
   /**
    *
    * @param ConfigBookingService $configService
@@ -288,7 +292,7 @@ abstract class baseBookingAction extends sfAction {
   /**
    *
    */
-  protected function checkLicense() {
+  protected function checkLocalLicense() {
     $this->licenseIsValid = false;
     $cacheDir = sfConfig::get('sf_cache_dir');
     $cacheDir .= '/' . sfContext::getInstance()->getConfiguration()->getApplication();
@@ -303,27 +307,27 @@ abstract class baseBookingAction extends sfAction {
 
       $this->licenseIsValid = (is_object($license) &&
           isset($license->status) &&
-          'active' !== $license->status) ? false : true;
+          'active' === $license->status) ? true : false;
     }
 
     if (!$this->licenseIsValid) {
       $license = $this->checkRemoteLicense();
       $this->licenseIsValid = (is_object($license) &&
           isset($license->status) &&
-          'active' !== $license->status) ? false : true;
+          'active' === $license->status) ? true : false;
 
       $data = (array(
         'status' => $this->licenseIsValid ? 'active' : '',
         'response' => $license,
       ));
       $data = json_encode($data);
-      $duration = $this->licenseIsValid ? 86400: 180;
+      $duration = $this->licenseIsValid ? 86400 : 180;
       $fileCache->set('booking-license', $data, $duration);
     }
   }
 
   /**
-   * 
+   *
    * @return type
    */
   protected function checkRemoteLicense() {
